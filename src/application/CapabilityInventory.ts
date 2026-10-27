@@ -456,11 +456,10 @@ const javascriptApplicationAvailability = ({
     : null;
 };
 
-const workflowAvailabilityFor = ({
-  name,
-  kind,
-  policy,
-}: AvailabilityContext): Availability | null => {
+const workflowAvailabilityFor = (
+  context: AvailabilityContext,
+): Availability | null => {
+  const { name, kind, policy } = context;
   if (name === "start_gdb_session" || name === "start_rizin_debug_session")
     return hostRestrictedAvailability(
       policy,
@@ -666,7 +665,10 @@ const workflowAvailabilityFor = ({
           remediation:
             "Start REA with its JavaScript runtime provider available.",
         };
-  if (kind === "session") return { reason: "available", remediation: null };
+  if (kind === "session")
+    return (
+      targetAvailability(context) ?? { reason: "available", remediation: null }
+    );
   return null;
 };
 
