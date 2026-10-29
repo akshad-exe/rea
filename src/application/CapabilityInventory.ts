@@ -133,7 +133,11 @@ type AvailabilityContext = {
   readonly resourceSession: boolean;
   readonly requiresActiveTarget: boolean;
   readonly targetKind:
-    "executable" | "database" | "archive" | "artifact" | undefined;
+    | "executable"
+    | "database"
+    | "archive"
+    | "artifact"
+    | undefined;
   readonly targetFormat: string | undefined;
   readonly descriptors: ReadonlyMap<string, ProviderDescriptor>;
   readonly policy: AvailabilityPolicy;
@@ -144,7 +148,8 @@ type EnhancedContractName = Extract<
   { readonly kind: "enhanced" }
 >["name"];
 type CompositionRequirements = readonly (
-  AnalysisOperation | readonly AnalysisOperation[]
+  | AnalysisOperation
+  | readonly AnalysisOperation[]
 )[];
 type AvailabilityMode = {
   readonly name: string;
@@ -400,12 +405,25 @@ const availabilityFor = (context: AvailabilityContext): Availability => {
   )
     return { reason: "available", remediation: null };
   if (context.name === "get_navigation_context") {
+    const target = targetAvailability(context);
+    if (target !== null) {
+      return {
+        ...target,
+        defaultModeAvailable: false,
+        modes: NAVIGATION_CONTEXT_MODES.map((mode) => ({
+          name: mode.name,
+          available: false,
+          missing_operations: [...mode.requirements],
+          remediation: target.remediation,
+        })),
+      };
+    }
     const modes = availabilityForModes(
       NAVIGATION_CONTEXT_MODES,
       "current_selection",
       context.descriptors,
     );
-    return { ...modes, ...targetAvailability(context) };
+    return modes;
   }
   const javascriptApplication = javascriptApplicationAvailability(context);
   if (javascriptApplication !== null) return javascriptApplication;
@@ -795,6 +813,7 @@ const targetAvailability = ({
     targetKind !== "database" &&
     (kind === "official-proxy" ||
       kind === "enhanced" ||
+      name === "get_navigation_context" ||
       name === "inspect_address_context")
   )
     return {
