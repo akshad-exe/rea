@@ -13,7 +13,7 @@
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.
 
-### #3746 [Feature] TON / TVM reverse engineering: BOC cells, TL-B schemas, TVM bytecode and message/state graphs
+### [#3746](https://github.com/morluto/rea/issues/3746) [Feature] TON / TVM reverse engineering: BOC cells, TL-B schemas, TVM bytecode and message/state graphs
 
 *matbrgz, open, https://github.com/morluto/rea/issues/3746*
 
@@ -97,10 +97,10 @@ flowchart TD
 
 #### Related Issues & Dependencies
 
-- Complements #3621 (Unknown binary file-format inference)
-- Complements #3716 (Common Bytecode and VM Framework)
+- Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
+- Complements [#3716](https://github.com/morluto/rea/issues/3716) (Common Bytecode and VM Framework)
 
-### #3748 [Feature] Foundry and Hardhat project reverse engineering: build-info, deployments, broadcasts, libraries and contract dependency graphs
+### [#3748](https://github.com/morluto/rea/issues/3748) [Feature] Foundry and Hardhat project reverse engineering: build-info, deployments, broadcasts, libraries and contract dependency graphs
 
 *matbrgz, open, https://github.com/morluto/rea/issues/3748*
 
@@ -108,7 +108,7 @@ flowchart TD
 
 In smart contract auditing, vulnerability research, and incident response, analysts often receive local developer project folders authored in **Foundry** (`forge`) or **Hardhat**.
 
-While REA issue #2389 addresses the raw solc Standard JSON format, modern developer frameworks generate extensive multi-file build and deployment pipelines:
+While REA issue [#2389](https://github.com/morluto/rea/issues/2389) addresses the raw solc Standard JSON format, modern developer frameworks generate extensive multi-file build and deployment pipelines:
 1. **Build Info Containers (`artifacts/build-info/*.json` / `out/build-info/*.json`)**: Massive JSON files containing complete compiler input configurations, optimizer runs, EVM versions, and compiler outputs (ASTs, source files, bytecodes, method identifiers).
 2. **Foundry Broadcasts & Deployments (`broadcast/**/*.json`)**: Transaction receipts, CREATE2 parameters, salts, deployed addresses, deployer nonces, and gas usage from automated deployment scripts.
 3. **Hardhat Artifacts & Deployments (`artifacts/contracts/**/*.json`)**: Per-contract artifacts containing ABI, bytecode, deployedBytecode, linkReferences, and immutableReferences.
@@ -177,17 +177,17 @@ flowchart TD
 
 #### Related Issues & Dependencies
 
-- Complements #972 (Solidity/EVM reverse engineering)
-- Complements #2389 (EVM Standard JSON and compiler metadata)
-- Complements #3734 (EVM deployment lineage reverse engineering)
+- Complements [#972](https://github.com/morluto/rea/issues/972) (Solidity/EVM reverse engineering)
+- Complements [#2389](https://github.com/morluto/rea/issues/2389) (EVM Standard JSON and compiler metadata)
+- Complements [#3734](https://github.com/morluto/rea/issues/3734) (EVM deployment lineage reverse engineering)
 
-### #3716 [RFC/Epic] Common Bytecode and VM Framework: unified instruction decoding, CFG synthesis, SSA analysis and source decompilation
+### [#3716](https://github.com/morluto/rea/issues/3716) [RFC/Epic] Common Bytecode and VM Framework: unified instruction decoding, CFG synthesis, SSA analysis and source decompilation
 
 *matbrgz, open, https://github.com/morluto/rea/issues/3716*
 
 #### Problem Statement & Architectural Context
 
-Bytecode virtual machines (VMs) are pervasive across modern software: JVM (#1558), .NET CIL (#3607), Lua/LuaJIT (#3699), Luau (#3692), Python bytecode (#3678), ActionScript (#3614), Papyrus (#3706), GameMaker GML (#3632), QuickJS, Hermes (#3608), and Ethereum EVM.
+Bytecode virtual machines (VMs) are pervasive across modern software: JVM ([#1558](https://github.com/morluto/rea/issues/1558)), .NET CIL ([#3607](https://github.com/morluto/rea/issues/3607)), Lua/LuaJIT ([#3699](https://github.com/morluto/rea/issues/3699)), Luau ([#3692](https://github.com/morluto/rea/issues/3692)), Python bytecode ([#3678](https://github.com/morluto/rea/issues/3678)), ActionScript ([#3614](https://github.com/morluto/rea/issues/3614)), Papyrus ([#3706](https://github.com/morluto/rea/issues/3706)), GameMaker GML ([#3632](https://github.com/morluto/rea/issues/3632)), QuickJS, Hermes ([#3608](https://github.com/morluto/rea/issues/3608)), and Ethereum EVM.
 
 Currently, reverse engineering tools—including REA—often implement decompilers as bespoke, siloed monoliths for each specific VM. This leads to duplicate implementations of textbook compiler algorithms (control-flow graph construction, loop restructuring, SSA form conversion, liveness analysis, dead-code elimination, and type propagation).
 
@@ -257,16 +257,16 @@ flowchart TD
 
 #### Related Issues & Dependencies
 
-- Complements #3699 (Lua and LuaJIT bytecode reverse engineering)
-- Complements #3692 (Roblox/Luau reverse engineering)
-- Complements #3678 (Python packaged application reverse engineering)
-- Complements #3608 (React Semantic Reconstruction & Hermes unbundling)
+- Complements [#3699](https://github.com/morluto/rea/issues/3699) (Lua and LuaJIT bytecode reverse engineering)
+- Complements [#3692](https://github.com/morluto/rea/issues/3692) (Roblox/Luau reverse engineering)
+- Complements [#3678](https://github.com/morluto/rea/issues/3678) (Python packaged application reverse engineering)
+- Complements [#3608](https://github.com/morluto/rea/issues/3608) (React Semantic Reconstruction & Hermes unbundling)
 
-### #3137 research(architecture): establish demand and compatibility gates for external domain modules
+### [#3137](https://github.com/morluto/rea/issues/3137) research(architecture): establish demand and compatibility gates for external domain modules
 
 *N0zoM1z0, open, https://github.com/morluto/rea/issues/3137*
 
-Follow-up to #2016, whose original three-stage implementation and scoped verification are complete. This issue owns only the bounded continuation below. #740 owns the broader modularization roadmap; this issue owns only the demand/compatibility gate for the previously deferred external SDK.
+Follow-up to [#2016](https://github.com/morluto/rea/issues/2016), whose original three-stage implementation and scoped verification are complete. This issue owns only the bounded continuation below. [#740](https://github.com/morluto/rea/issues/740) owns the broader modularization roadmap; this issue owns only the demand/compatibility gate for the previously deferred external SDK.
 
 #### Analyst question and outcome
 
@@ -276,7 +276,7 @@ Is there a concrete domain/provider integration that the current static descript
 
 Status: demand research and compatibility design only; a generic plugin ecosystem is deferred.
 
-#2122/#2261 establish small static WASM/EVM bindings using named contracts, existing factories/CLI names, legacy injection and cleanup ownership. #2427 verifies incompatible static contract bindings through compiler assignability and duplicate SDK registration before provider use. This is not third-party dynamic ABI/version admission. Descriptor wiring alone established no token or latency reduction.
+[#2122](https://github.com/morluto/rea/pull/2122)/#2261 establish small static WASM/EVM bindings using named contracts, existing factories/CLI names, legacy injection and cleanup ownership. [#2427](https://github.com/morluto/rea/pull/2427) verifies incompatible static contract bindings through compiler assignability and duplicate SDK registration before provider use. This is not third-party dynamic ABI/version admission. Descriptor wiring alone established no token or latency reduction.
 
 #### Bounded work
 

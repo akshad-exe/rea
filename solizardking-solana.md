@@ -1,4 +1,4 @@
-# Solizardking: Solana work (PR #7339)
+# Solizardking: Solana work (PR [#7339](https://github.com/morluto/rea/pull/7339))
 
 [Master tracker](README.md).
 
@@ -18,9 +18,9 @@ Checked 2026-11-28 at head `cafa37dcd`. This covered the description, file list,
 - The description is stale: it says 42 files and 47 tests at an older commit.
 - No maintainer scope decision for the new domain is recorded in the PR.
 
-**Relation to #2003:** the PR says no related issue exists, but #2003 covers this area and is not linked.
+**Relation to [#2003](https://github.com/morluto/rea/issues/2003):** the PR says no related issue exists, but [#2003](https://github.com/morluto/rea/issues/2003) covers this area and is not linked.
 
-| #2003 asks for | In #7339 (from its guide) |
+| [#2003](https://github.com/morluto/rea/issues/2003) asks for | In [#7339](https://github.com/morluto/rea/pull/7339) (from its guide) |
 | --- | --- |
 | Offline only, no RPC | Includes optional RPC fetch |
 | Instruction names recovered from Anchor log strings | Names only when the caller supplies them |
@@ -28,10 +28,10 @@ Checked 2026-11-28 at head `cafa37dcd`. This covered the description, file list,
 | ELF facts, version, entrypoint, syscalls | Covered |
 | Engine: adapt `sbpf-inspect` WASM (proposal by trenbonole) | Own TypeScript decoder |
 
-trenbonole offered on #2003 to implement the first increment; bornsl0ppy offered to test and review.
+trenbonole offered on [#2003](https://github.com/morluto/rea/issues/2003) to implement the first increment; bornsl0ppy offered to test and review.
 
 **Other work on Solizardking's fork, not in the PR:**
-- Fork `main` (merged through fork PRs #3 and #4, Nov 25–26): Solana formal verification (Certora, Harmonic Aristotle) service, provider and skills, plus a `ree` skill and README changes.
+- Fork `main` (merged through fork PRs [#3](https://github.com/Solizardking/rea/pull/3) and [#4](https://github.com/Solizardking/rea/pull/4), Nov 25–26): Solana formal verification (Certora, Harmonic Aristotle) service, provider and skills, plus a `ree` skill and README changes.
 - `feat/solana-tag-dispatch-core` (Oct 28): 1-byte Shank/Borsh tag dispatch and a Metaplex Core loop.
 - `feat/solana-sbpf` (Oct 26): an earlier attempt touching the Ghidra, Hopper and IDA paths.
 - From branch names and commits, the latest activity is formal verification. Whether it will be sent upstream is unknown.
@@ -40,12 +40,12 @@ trenbonole offered on #2003 to implement the first increment; bornsl0ppy offered
 
 **Leave to Solizardking:**
 - Solana sBPF program analysis: `src/solana/`, `src/domain/solana/`, `src/application/solana/`, `src/contracts/solana/`, `src/ports/solana/`, the Solana CLI, composition, guide and skill files.
-- Anything on #2003 until the overlap is settled. trenbonole also offered to implement it.
+- Anything on [#2003](https://github.com/morluto/rea/issues/2003) until the overlap is settled. trenbonole also offered to implement it.
 - Formal verification and tag dispatch, which exist only on the fork.
 
-**Talk first:** #3747 (Solana transactions) has no linked PR and is a separate issue, but would likely share the Solana domain.
+**Talk first:** [#3747](https://github.com/morluto/rea/issues/3747) (Solana transactions) has no linked PR and is a separate issue, but would likely share the Solana domain.
 
-**Shared files #7339 changes** (any new domain is likely to edit these too):
+**Shared files [#7339](https://github.com/morluto/rea/pull/7339) changes** (any new domain is likely to edit these too):
 - `.agents/skills/reverse-engineer-anything/SKILL.md`
 - `.cursor-plugin/skills/reverse-engineer-anything/SKILL.md`
 - `.gitignore`
@@ -69,9 +69,9 @@ trenbonole offered on #2003 to implement the first increment; bornsl0ppy offered
 - `tests/conformance/providerCapabilityCases.ts`
 - `tests/support/providerLifecycleCoverage.ts`
 
-**Changed by both #7339 and our #12743** (at head `cafa37dcd`):
+**Changed by both [#7339](https://github.com/morluto/rea/pull/7339) and our [#12743](https://github.com/morluto/rea/pull/12743)** (at head `cafa37dcd`):
 - `.agents/skills/reverse-engineer-anything/SKILL.md`
 - `.cursor-plugin/skills/reverse-engineer-anything/SKILL.md`
 - `scripts/verify/fixed-ceiling-registry.json`
 
-Do not open a parallel Solana PR. A review comment on the #2003 overlap needs our approval before posting.
+Do not open a parallel Solana PR. A review comment on the [#2003](https://github.com/morluto/rea/issues/2003) overlap needs our approval before posting.

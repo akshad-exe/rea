@@ -16,7 +16,7 @@
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.
 
-### #3730 [Feature] Bitcoin reverse engineering: raw transactions, PSBT, Script/Tapscript, descriptors, Miniscript and UTXO-flow reconstruction
+### [#3730](https://github.com/morluto/rea/issues/3730) [Feature] Bitcoin reverse engineering: raw transactions, PSBT, Script/Tapscript, descriptors, Miniscript and UTXO-flow reconstruction
 
 *matbrgz, open, https://github.com/morluto/rea/issues/3730*
 
@@ -91,10 +91,10 @@ flowchart TD
 
 #### Related Issues & Dependencies
 
-- Complements #3621 (Unknown binary file-format inference)
-- Complements #3698 (Interactive entertainment and asset reverse engineering tracker)
+- Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
+- Complements [#3698](https://github.com/morluto/rea/issues/3698) (Interactive entertainment and asset reverse engineering tracker)
 
-### #3731 [Feature] Move VM reverse engineering: bytecode modules, abilities, resources, types and call graphs
+### [#3731](https://github.com/morluto/rea/issues/3731) [Feature] Move VM reverse engineering: bytecode modules, abilities, resources, types and call graphs
 
 *matbrgz, open, https://github.com/morluto/rea/issues/3731*
 
@@ -172,10 +172,10 @@ flowchart TD
 
 #### Related Issues & Dependencies
 
-- Complements #3621 (Unknown binary file-format inference)
-- Complements #3716 (Common Bytecode and VM Framework)
+- Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
+- Complements [#3716](https://github.com/morluto/rea/issues/3716) (Common Bytecode and VM Framework)
 
-### #3732 [Feature] Starknet reverse engineering: Cairo, Sierra/CASM, class hashes, entrypoints and storage graphs
+### [#3732](https://github.com/morluto/rea/issues/3732) [Feature] Starknet reverse engineering: Cairo, Sierra/CASM, class hashes, entrypoints and storage graphs
 
 *matbrgz, open, https://github.com/morluto/rea/issues/3732*
 
@@ -253,10 +253,10 @@ flowchart TD
 
 #### Related Issues & Dependencies
 
-- Complements #3621 (Unknown binary file-format inference)
-- Complements #3716 (Common Bytecode and VM Framework)
+- Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
+- Complements [#3716](https://github.com/morluto/rea/issues/3716) (Common Bytecode and VM Framework)
 
-### #3738 [Feature] Polkadot/Substrate reverse engineering: SCALE metadata, runtime Wasm, pallets, extrinsics and runtime-upgrade diffs
+### [#3738](https://github.com/morluto/rea/issues/3738) [Feature] Polkadot/Substrate reverse engineering: SCALE metadata, runtime Wasm, pallets, extrinsics and runtime-upgrade diffs
 
 *matbrgz, open, https://github.com/morluto/rea/issues/3738*
 
@@ -314,7 +314,7 @@ flowchart TD
    - Resolve pallet index and call index into human-readable function names and typed parameter values.
 
 4. **Runtime Wasm Introspection:**
-   - Ingest runtime WebAssembly blobs (`:code`) utilizing REA's WASM engine (#2298, #2350).
+   - Ingest runtime WebAssembly blobs (`:code`) utilizing REA's WASM engine ([#2298](https://github.com/morluto/rea/issues/2298), [#2350](https://github.com/morluto/rea/issues/2350)).
    - Trace exported Substrate runtime API functions: `Core_version`, `Metadata_metadata`, `TaggedTransactionQueue_validate_transaction`.
 
 5. **Semantic Runtime Upgrade Diffing:**
@@ -332,11 +332,11 @@ flowchart TD
 
 #### Related Issues & Dependencies
 
-- Complements #2350 (Inspect WebAssembly binaries)
-- Complements #2298 (Decompile WebAssembly modules)
-- Complements #3621 (Unknown binary file-format inference)
+- Complements [#2350](https://github.com/morluto/rea/issues/2350) (Inspect WebAssembly binaries)
+- Complements [#2298](https://github.com/morluto/rea/issues/2298) (Decompile WebAssembly modules)
+- Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
 
-### #3739 [Feature] CosmWasm and IBC reverse engineering: Wasm contracts, schemas, packet lifecycles and cross-chain state machines
+### [#3739](https://github.com/morluto/rea/issues/3739) [Feature] CosmWasm and IBC reverse engineering: Wasm contracts, schemas, packet lifecycles and cross-chain state machines
 
 *matbrgz, open, https://github.com/morluto/rea/issues/3739*
 
@@ -379,7 +379,7 @@ flowchart TD
 #### Technical Capabilities & Modules
 
 1. **CosmWasm Wasm Binary Decompilation:**
-   - Ingest CosmWasm `.wasm` binaries using REA's Wasm framework (#2298).
+   - Ingest CosmWasm `.wasm` binaries using REA's Wasm framework ([#2298](https://github.com/morluto/rea/issues/2298)).
    - Identify standard CosmWasm export signatures: `instantiate`, `execute`, `query`, `sudo`, `migrate`, `reply`.
    - Trace JSON deserialization logic (`serde_json_wasm`) to reconstruct expected message fields.
 
@@ -412,17 +412,17 @@ flowchart TD
 
 #### Related Issues & Dependencies
 
-- Complements #2350 (Inspect WebAssembly binaries)
-- Complements #2298 (Decompile WebAssembly modules)
-- Complements #3621 (Unknown binary file-format inference)
+- Complements [#2350](https://github.com/morluto/rea/issues/2350) (Inspect WebAssembly binaries)
+- Complements [#2298](https://github.com/morluto/rea/issues/2298) (Decompile WebAssembly modules)
+- Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
 
-### #3747 [Feature] Solana transaction reverse engineering: instructions, CPIs, account roles, logs and state-change graphs
+### [#3747](https://github.com/morluto/rea/issues/3747) [Feature] Solana transaction reverse engineering: instructions, CPIs, account roles, logs and state-change graphs
 
 *matbrgz, open, https://github.com/morluto/rea/issues/3747*
 
 #### Problem Statement & Context
 
-Solana executes smart contracts through high-performance SeaLevel runtime running Solana Bytecode Format (sBPF). While REA issue #2003 addresses static disassembly of standalone sBPF binaries and Anchor IDL introspection, analyzing a recorded Solana transaction on-chain requires a distinct runtime reverse engineering approach:
+Solana executes smart contracts through high-performance SeaLevel runtime running Solana Bytecode Format (sBPF). While REA issue [#2003](https://github.com/morluto/rea/issues/2003) addresses static disassembly of standalone sBPF binaries and Anchor IDL introspection, analyzing a recorded Solana transaction on-chain requires a distinct runtime reverse engineering approach:
 1. **Transaction Wire Format**: Signatures array, message header (num_required_signatures, num_readonly_signed_accounts, num_readonly_unsigned_accounts), account keys array, recent blockhash, instructions array, and Address Lookup Tables (ALT / v0 transactions).
 2. **Instruction & Inner Instruction (CPI) Hierarchy**: Top-level instructions invoking programs, which in turn spawn nested Cross-Program Invocations (CPI) recorded as inner instructions in execution metadata.
 3. **Account Metas & Roles**: Explicit account declarations (Signer, Writable, Read-Only, Program ID) determining parallel execution scheduling.
@@ -469,7 +469,7 @@ flowchart TD
    - Identify well-known programs: System Program, Token Program, Associated Token Account Program, Compute Budget Program, BPF Loader.
 
 3. **Instruction Data & Discriminator Decoding:**
-   - Ingest Anchor IDLs or known program schemas (#2003) to decode 8-byte instruction discriminators (e.g. `sha256("global:instruction_name")[..8]`).
+   - Ingest Anchor IDLs or known program schemas ([#2003](https://github.com/morluto/rea/issues/2003)) to decode 8-byte instruction discriminators (e.g. `sha256("global:instruction_name")[..8]`).
    - Decode instruction parameters (amounts, public keys, options).
 
 4. **Program Log Stream Slicing:**
@@ -494,10 +494,10 @@ flowchart TD
 
 #### Related Issues & Dependencies
 
-- Complements #2003 (Solana sBPF/Anchor reverse engineering)
-- Complements #3621 (Unknown binary file-format inference)
+- Complements [#2003](https://github.com/morluto/rea/issues/2003) (Solana sBPF/Anchor reverse engineering)
+- Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
 
-### #2003 [Feature] Offline Solana sBPF program interface recovery
+### [#2003](https://github.com/morluto/rea/issues/2003) [Feature] Offline Solana sBPF program interface recovery
 
 *trenbonole, open, https://github.com/morluto/rea/issues/2003*
 
@@ -512,7 +512,7 @@ Other — Solana sBPF program analysis
 
 #### Current limitation
 
-REA has no Solana program support. Its offline bytecode coverage is JVM/Python and, since #1051, EVM runtime bytecode through `inspect_evm_interface`. Solana programs are ELF files for the sBPF virtual machine, and native providers do not establish sBPF interface semantics.
+REA has no Solana program support. Its offline bytecode coverage is JVM/Python and, since [#1051](https://github.com/morluto/rea/pull/1051), EVM runtime bytecode through `inspect_evm_interface`. Solana programs are ELF files for the sBPF virtual machine, and native providers do not establish sBPF interface semantics.
 
 An agent holding a program today (from `solana program dump`, a build directory, or a CTF archive) has to combine a separate disassembler, an Anchor IDL fetch that fails for programs that never published one or returns a stale one, and hand-computed discriminators. Nothing ties a claimed instruction name back to the bytes that justify it.
 
@@ -523,7 +523,7 @@ An agent holding a program today (from `solana program dump`, a build directory,
 - Find the account types a program validates, including other programs' types. Example below: pump.fun's bonding-curve program checks pump AMM's `GlobalConfig` and `Pool`, which its own IDL does not list.
 - Triage audit and CTF targets: sBPF version, entrypoint, syscalls and their call sites.
 
-As in #972, Web3 and CTF are showcases. The capability is reusable artifact inspection and interface recovery.
+As in [#972](https://github.com/morluto/rea/issues/972), Web3 and CTF are showcases. The capability is reusable artifact inspection and interface recovery.
 
 #### Desired outcome and success criteria
 
@@ -552,7 +552,7 @@ A name is reported only when its discriminator occurs in the binary, so a string
 
 Malformed input and non-sBPF targets return errors distinct from provider failure.
 
-Acceptance as in #972: source-owned Anchor and native fixtures built with a pinned toolchain, a real upstream run, packaged CLI/MCP examples, final schema validation, malformed input, and cancellation, bounds and owned-process cleanup matching the EVM worker.
+Acceptance as in [#972](https://github.com/morluto/rea/issues/972): source-owned Anchor and native fixtures built with a pinned toolchain, a real upstream run, packaged CLI/MCP examples, final schema validation, malformed input, and cancellation, bounds and owned-process cleanup matching the EVM worker.
 
 #### Authority boundaries and non-goals
 
@@ -575,7 +575,7 @@ Acceptance as in #972: source-owned Anchor and native fixtures built with a pinn
 
 #### Possible direction
 
-Mirror #1051, which adapts an unchanged, pinned EVMole. The engine would be `sbpf-inspect` (https://github.com/trenbonole/sbpf-inspect, MIT OR Apache-2.0), a Rust crate on Blueshift's MIT `sbpf-disassembler`. It is shipped as a 178 KB WebAssembly module for Node, and its native and WebAssembly builds produce byte-identical reports on every program tested.
+Mirror [#1051](https://github.com/morluto/rea/pull/1051), which adapts an unchanged, pinned EVMole. The engine would be `sbpf-inspect` (https://github.com/trenbonole/sbpf-inspect, MIT OR Apache-2.0), a Rust crate on Blueshift's MIT `sbpf-disassembler`. It is shipped as a 178 KB WebAssembly module for Node, and its native and WebAssembly builds produce byte-identical reports on every program tested.
 
 The layout would follow `src/evm`:
 
@@ -616,12 +616,12 @@ sbpf-inspect pump.so > pump.report.json
 node scripts/grade-against-idl.mjs pump.report.json pump.json
 ```
 
-- #972, #1051 (EVM increment and its adapter pattern), #740 (capability modularization)
+- [#972](https://github.com/morluto/rea/issues/972), [#1051](https://github.com/morluto/rea/pull/1051) (EVM increment and its adapter pattern), [#740](https://github.com/morluto/rea/issues/740) (capability modularization)
 - Loader version mapping: [`get_sbpf_version` in anza-xyz/sbpf](https://github.com/anza-xyz/sbpf/blob/main/src/elf.rs)
 - [blueshift-gg/sbpf](https://github.com/blueshift-gg/sbpf)
 
 
-#### Comment by trenbonole (2026-10-12) on #2003
+#### Comment by trenbonole (2026-10-12) on [#2003](https://github.com/morluto/rea/issues/2003)
 
 Small update since I posted this. sbpf-inspect 0.2.0 now recovers each instruction's account list (order plus writable/signer), which the proposal above lists under unknowns.
 
@@ -640,7 +640,7 @@ I also found a gap I hadn't noticed. Older Anchor versions compile dispatch into
 This doesn't change what I'd suggest for a first increment; account lists could land as a follow-up. Still happy to do the work if the direction fits.
 
 
-#### Comment by trenbonole (2026-10-14) on #2003
+#### Comment by trenbonole (2026-10-14) on [#2003](https://github.com/morluto/rea/issues/2003)
 
 Another update since 0.2.0. A few more of the things this proposal lists under unknowns now work, so I'll note them here.
 
@@ -658,7 +658,7 @@ One cleanup worth mentioning if you ever embed it: it no longer uses a third-par
 None of this changes the first increment I suggested — it's all follow-on. Numbers and per-program tables are in the readme: https://github.com/trenbonole/sbpf-inspect. Still glad to do the work if the direction fits.
 
 
-#### Comment by bornsl0ppy (2026-10-15) on #2003
+#### Comment by bornsl0ppy (2026-10-15) on [#2003](https://github.com/morluto/rea/issues/2003)
 
 +1 from a downstream user. We'd use this through REA, mostly on native (non-Anchor) programs, so the native dispatch recovery in sbpf-inspect is the part we'd lean on. Nice work on the recent updates, @trenbonole.
 

@@ -10,7 +10,7 @@
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.
 
-### #3737 [Feature] Wallet and dApp reverse engineering: EIP-1193 providers, WalletConnect sessions, JSON-RPC requests and frontend-to-wallet graphs
+### [#3737](https://github.com/morluto/rea/issues/3737) [Feature] Wallet and dApp reverse engineering: EIP-1193 providers, WalletConnect sessions, JSON-RPC requests and frontend-to-wallet graphs
 
 *matbrgz, open, https://github.com/morluto/rea/issues/3737*
 
@@ -25,7 +25,7 @@ Decentralized applications (dApps) are web-based or mobile client applications t
 3. **WalletConnect v2 Protocol**: Cross-device relay protocol over WebSocket using pairing topics, cryptographic session handshakes, namespaces, and JSON-RPC relay envelopes.
 4. **Permit & Approval Phishing / Drainer Logic**: Malicious or aggressive dApps misleading users into signing unlimited token approvals (`permit`, `permit2`, `setApprovalForAll`) masked behind innocuous UI buttons.
 
-While REA has powerful browser, React (#3608), and JavaScript analysis tools, it lacks domain comprehension of Web3 wallet interfaces. REA needs a wallet/dApp analyzer capable of parsing dApp client bundles, intercepting or simulating EIP-1193 calls, decoding EIP-712 typed signatures, and modeling the frontend-to-wallet interaction graph.
+While REA has powerful browser, React ([#3608](https://github.com/morluto/rea/issues/3608)), and JavaScript analysis tools, it lacks domain comprehension of Web3 wallet interfaces. REA needs a wallet/dApp analyzer capable of parsing dApp client bundles, intercepting or simulating EIP-1193 calls, decoding EIP-712 typed signatures, and modeling the frontend-to-wallet interaction graph.
 
 #### Proposed Architecture
 
@@ -84,6 +84,6 @@ flowchart TD
 
 #### Related Issues & Dependencies
 
-- Complements #3608 (React Semantic Reconstruction & Decompiler Engine)
-- Complements #972 (Solidity/EVM reverse engineering)
-- Complements #117 (Full-stack reconstruction)
+- Complements [#3608](https://github.com/morluto/rea/issues/3608) (React Semantic Reconstruction & Decompiler Engine)
+- Complements [#972](https://github.com/morluto/rea/issues/972) (Solidity/EVM reverse engineering)
+- Complements [#117](https://github.com/morluto/rea/issues/117) (Full-stack reconstruction)

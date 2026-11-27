@@ -11,7 +11,7 @@
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.
 
-### #3740 [Feature] Zero-knowledge circuit reverse engineering: Circom/R1CS, PLONKish/Halo2 constraints and verifier graphs
+### [#3740](https://github.com/morluto/rea/issues/3740) [Feature] Zero-knowledge circuit reverse engineering: Circom/R1CS, PLONKish/Halo2 constraints and verifier graphs
 
 *matbrgz, open, https://github.com/morluto/rea/issues/3740*
 
@@ -82,10 +82,10 @@ flowchart TD
 
 #### Related Issues & Dependencies
 
-- Complements #972 (Solidity/EVM reverse engineering)
-- Complements #3621 (Unknown binary file-format inference)
+- Complements [#972](https://github.com/morluto/rea/issues/972) (Solidity/EVM reverse engineering)
+- Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
 
-### #3741 [Feature] zkVM reverse engineering: RISC Zero, SP1 and zkWasm guest images, receipts, journals and proof metadata
+### [#3741](https://github.com/morluto/rea/issues/3741) [Feature] zkVM reverse engineering: RISC Zero, SP1 and zkWasm guest images, receipts, journals and proof metadata
 
 *matbrgz, open, https://github.com/morluto/rea/issues/3741*
 
@@ -160,5 +160,5 @@ flowchart TD
 
 #### Related Issues & Dependencies
 
-- Complements #3621 (Unknown binary file-format inference)
-- Complements #3716 (Common Bytecode and VM Framework)
+- Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
+- Complements [#3716](https://github.com/morluto/rea/issues/3716) (Common Bytecode and VM Framework)

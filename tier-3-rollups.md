@@ -12,7 +12,7 @@
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.
 
-### #3745 [Feature] Cross-chain bridge reverse engineering: message envelopes, nonces, proofs, relayers and source-to-destination state machines
+### [#3745](https://github.com/morluto/rea/issues/3745) [Feature] Cross-chain bridge reverse engineering: message envelopes, nonces, proofs, relayers and source-to-destination state machines
 
 *matbrgz, open, https://github.com/morluto/rea/issues/3745*
 
@@ -91,11 +91,11 @@ flowchart TD
 
 #### Related Issues & Dependencies
 
-- Complements #972 (Solidity/EVM reverse engineering)
-- Complements #2391 (EVM calldata and execution trace analysis)
-- Complements #3621 (Unknown binary file-format inference)
+- Complements [#972](https://github.com/morluto/rea/issues/972) (Solidity/EVM reverse engineering)
+- Complements [#2391](https://github.com/morluto/rea/issues/2391) (EVM calldata and execution trace analysis)
+- Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
 
-### #3743 [Feature] OP Stack reverse engineering: L1 batches, deposits, withdrawals, derivation and fault-proof artifacts
+### [#3743](https://github.com/morluto/rea/issues/3743) [Feature] OP Stack reverse engineering: L1 batches, deposits, withdrawals, derivation and fault-proof artifacts
 
 *matbrgz, open, https://github.com/morluto/rea/issues/3743*
 
@@ -171,11 +171,11 @@ flowchart TD
 
 #### Related Issues & Dependencies
 
-- Complements #972 (Solidity/EVM reverse engineering)
-- Complements #2391 (EVM calldata and execution trace analysis)
-- Complements #3621 (Unknown binary file-format inference)
+- Complements [#972](https://github.com/morluto/rea/issues/972) (Solidity/EVM reverse engineering)
+- Complements [#2391](https://github.com/morluto/rea/issues/2391) (EVM calldata and execution trace analysis)
+- Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
 
-### #3744 [Feature] Arbitrum Nitro reverse engineering: Inbox batches, retryables, ArbOS calls and L1-to-L2 message reconstruction
+### [#3744](https://github.com/morluto/rea/issues/3744) [Feature] Arbitrum Nitro reverse engineering: Inbox batches, retryables, ArbOS calls and L1-to-L2 message reconstruction
 
 *matbrgz, open, https://github.com/morluto/rea/issues/3744*
 
@@ -239,7 +239,7 @@ flowchart TD
 
 5. **WAVM State Transition Audit:**
    - Parse WAVM execution state hashes generated during challenge games.
-   - Correlate WAVM instructions with underlying ArbOS WebAssembly logic (#2298).
+   - Correlate WAVM instructions with underlying ArbOS WebAssembly logic ([#2298](https://github.com/morluto/rea/issues/2298)).
 
 #### Acceptance Criteria
 
@@ -251,6 +251,6 @@ flowchart TD
 
 #### Related Issues & Dependencies
 
-- Complements #972 (Solidity/EVM reverse engineering)
-- Complements #2391 (EVM calldata and execution trace analysis)
-- Complements #2298 (Decompile WebAssembly modules)
+- Complements [#972](https://github.com/morluto/rea/issues/972) (Solidity/EVM reverse engineering)
+- Complements [#2391](https://github.com/morluto/rea/issues/2391) (EVM calldata and execution trace analysis)
+- Complements [#2298](https://github.com/morluto/rea/issues/2298) (Decompile WebAssembly modules)

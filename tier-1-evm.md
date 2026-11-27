@@ -7,8 +7,8 @@
 | [#3734](https://github.com/morluto/rea/issues/3734) | EVM deployment lineage reverse engineering: CREATE/CREATE2 initcode, constructors, factories, clones and library-link graphs | matbrgz | open | enhancement, provider: evm | 0 | none found |
 | [#3733](https://github.com/morluto/rea/issues/3733) | ERC-4337 / EIP-7702 account-abstraction reverse engineering: UserOperations, EntryPoint, paymasters, factories and delegated-code graphs | matbrgz | open | enhancement | 0 | none found |
 | [#3736](https://github.com/morluto/rea/issues/3736) | EVM pseudocode decompilation: stack-to-SSA IR, expressions and Solidity-like control/data-flow reconstruction | matbrgz | open | enhancement, area: native, area: evidence, provider: evm | 0 | none found |
-| [#2388](https://github.com/morluto/rea/issues/2388) | Solidity: inspect bytecode CBOR metadata losslessly and bind supplied metadata files | matbrgz | open | enhancement, P2: medium, area: domain, provider: evm | 1 | #2420 (closed), #2790 (merged) |
-| [#2389](https://github.com/morluto/rea/issues/2389) | Solidity: select exact solc Standard JSON contract artifacts and bytecode kinds | matbrgz | open | enhancement, P2: medium, area: domain, provider: evm | 2 | #12743 (open), #2415 (closed), #3024 (closed) |
+| [#2388](https://github.com/morluto/rea/issues/2388) | Solidity: inspect bytecode CBOR metadata losslessly and bind supplied metadata files | matbrgz | open | enhancement, P2: medium, area: domain, provider: evm | 1 | [#2420](https://github.com/morluto/rea/pull/2420) (closed), [#2790](https://github.com/morluto/rea/pull/2790) (merged) |
+| [#2389](https://github.com/morluto/rea/issues/2389) | Solidity: select exact solc Standard JSON contract artifacts and bytecode kinds | matbrgz | open | enhancement, P2: medium, area: domain, provider: evm | 2 | [#12743](https://github.com/morluto/rea/pull/12743) (open), [#2415](https://github.com/morluto/rea/pull/2415) (closed), [#3024](https://github.com/morluto/rea/pull/3024) (closed) |
 | [#2390](https://github.com/morluto/rea/issues/2390) | Solidity: map EVM byte PCs to original and generated source spans | matbrgz | open | enhancement, P2: medium, area: domain, provider: evm | 1 | none found |
 | [#2391](https://github.com/morluto/rea/issues/2391) | Solidity: decode supplied ABI calldata, logs and revert payloads with explicit ambiguity | matbrgz | open | enhancement, P2: medium, area: domain, provider: evm | 1 | none found |
 | [#2392](https://github.com/morluto/rea/issues/2392) | Solidity: inspect and compare compiler storage layouts without inferring live state | matbrgz | open | enhancement, P2: medium, area: domain, provider: evm | 1 | none found |
@@ -21,7 +21,7 @@
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.
 
-### #3734 [Feature] EVM deployment lineage reverse engineering: CREATE/CREATE2 initcode, constructors, factories, clones and library-link graphs
+### [#3734](https://github.com/morluto/rea/issues/3734) [Feature] EVM deployment lineage reverse engineering: CREATE/CREATE2 initcode, constructors, factories, clones and library-link graphs
 
 *matbrgz, open, https://github.com/morluto/rea/issues/3734*
 
@@ -97,12 +97,12 @@ flowchart TD
 
 #### Related Issues & Dependencies
 
-- Complements #972 (Solidity/EVM reverse engineering)
-- Complements #2389 (EVM Standard JSON and compiler metadata)
-- Complements #2393 (EVM storage layout and proxy detection)
-- Complements #2396 (EVM bytecode comparison and semantic diffing)
+- Complements [#972](https://github.com/morluto/rea/issues/972) (Solidity/EVM reverse engineering)
+- Complements [#2389](https://github.com/morluto/rea/issues/2389) (EVM Standard JSON and compiler metadata)
+- Complements [#2393](https://github.com/morluto/rea/issues/2393) (EVM storage layout and proxy detection)
+- Complements [#2396](https://github.com/morluto/rea/issues/2396) (EVM bytecode comparison and semantic diffing)
 
-### #3733 [Feature] ERC-4337 / EIP-7702 account-abstraction reverse engineering: UserOperations, EntryPoint, paymasters, factories and delegated-code graphs
+### [#3733](https://github.com/morluto/rea/issues/3733) [Feature] ERC-4337 / EIP-7702 account-abstraction reverse engineering: UserOperations, EntryPoint, paymasters, factories and delegated-code graphs
 
 *matbrgz, open, https://github.com/morluto/rea/issues/3733*
 
@@ -177,17 +177,17 @@ flowchart TD
 
 #### Related Issues & Dependencies
 
-- Complements #972 (Solidity/EVM reverse engineering)
-- Complements #2391 (EVM calldata and execution trace analysis)
-- Complements #2394 (EVM transaction simulation and state diffs)
+- Complements [#972](https://github.com/morluto/rea/issues/972) (Solidity/EVM reverse engineering)
+- Complements [#2391](https://github.com/morluto/rea/issues/2391) (EVM calldata and execution trace analysis)
+- Complements [#2394](https://github.com/morluto/rea/issues/2394) (EVM transaction simulation and state diffs)
 
-### #3736 [Feature] EVM pseudocode decompilation: stack-to-SSA IR, expressions and Solidity-like control/data-flow reconstruction
+### [#3736](https://github.com/morluto/rea/issues/3736) [Feature] EVM pseudocode decompilation: stack-to-SSA IR, expressions and Solidity-like control/data-flow reconstruction
 
 *matbrgz, open, https://github.com/morluto/rea/issues/3736*
 
 #### Problem Statement & Context
 
-In REA's existing EVM architecture, issue #2395 provides essential bytecode disassembly and basic block control flow graph (CFG) generation. However, analyzing raw EVM opcodes (`SWAP4`, `DUP2`, `JUMPI`, `MLOAD`, `ADD`) requires mental emulation of the 1024-element 256-bit EVM stack.
+In REA's existing EVM architecture, issue [#2395](https://github.com/morluto/rea/issues/2395) provides essential bytecode disassembly and basic block control flow graph (CFG) generation. However, analyzing raw EVM opcodes (`SWAP4`, `DUP2`, `JUMPI`, `MLOAD`, `ADD`) requires mental emulation of the 1024-element 256-bit EVM stack.
 
 To elevate REA from an opcode viewer to a true high-level reverse engineering suite, an intermediate decompilation pipeline is required:
 1. **Stack-to-SSA IR Lift**: Convert 256-bit stack operations into Static Single Assignment (SSA) virtual variables ($v_0, v_1, v_2$), tracking stack depth and resolving `SWAP` and `DUP` permutations.
@@ -259,11 +259,11 @@ flowchart TD
 
 #### Related Issues & Dependencies
 
-- Complements #972 (Solidity/EVM reverse engineering)
-- Complements #2395 (EVM disassembly and CFG generation)
-- Complements #3716 (Common Bytecode and VM Framework)
+- Complements [#972](https://github.com/morluto/rea/issues/972) (Solidity/EVM reverse engineering)
+- Complements [#2395](https://github.com/morluto/rea/issues/2395) (EVM disassembly and CFG generation)
+- Complements [#3716](https://github.com/morluto/rea/issues/3716) (Common Bytecode and VM Framework)
 
-### #2388 [Feature] Solidity: inspect bytecode CBOR metadata losslessly and bind supplied metadata files
+### [#2388](https://github.com/morluto/rea/issues/2388) [Feature] Solidity: inspect bytecode CBOR metadata losslessly and bind supplied metadata files
 
 *matbrgz, open, https://github.com/morluto/rea/issues/2388*
 
@@ -289,14 +289,14 @@ REA retains EVMole-reported terminal metadata in raw_result, but its JS binding 
 
 #### Scope and relationships
 
-Offline caller-selected artifact inspection. Existing EVM interface recovery (PR #1051), retained delivery (PR #2308) and roadmap #972 are the foundations; this feature is independently scoped and does not reopen the entire roadmap. Parent language tracker: #2383. Use self-owned compiler fixtures and preserve provider/version provenance. New provider choices, if needed, follow CONTRIBUTING.md before substantial integration work.
+Offline caller-selected artifact inspection. Existing EVM interface recovery (PR [#1051](https://github.com/morluto/rea/pull/1051)), retained delivery (PR [#2308](https://github.com/morluto/rea/pull/2308)) and roadmap [#972](https://github.com/morluto/rea/issues/972) are the foundations; this feature is independently scoped and does not reopen the entire roadmap. Parent language tracker: [#2383](https://github.com/morluto/rea/issues/2383). Use self-owned compiler fixtures and preserve provider/version provenance. New provider choices, if needed, follow CONTRIBUTING.md before substantial integration work.
 
 #### Primary references
 
 - [Solidity contract metadata](https://docs.soliditylang.org/en/latest/metadata.html)
 
 
-#### Comment by matbrgz (2026-10-12) on #2388
+#### Comment by matbrgz (2026-10-12) on [#2388](https://github.com/morluto/rea/issues/2388)
 
 #### Implementation & Triage Status Update
 
@@ -311,7 +311,7 @@ Extract and verify Solidity compiler metadata appended at the end of runtime/cre
 2. Next Step:
    - Format canonical spec under `docs/specs/evm/cbor-metadata/{spec.md,plan.md,tasks.md}` and submit the formal PR.
 
-### #2389 [Feature] Solidity: select exact solc Standard JSON contract artifacts and bytecode kinds
+### [#2389](https://github.com/morluto/rea/issues/2389) [Feature] Solidity: select exact solc Standard JSON contract artifacts and bytecode kinds
 
 *matbrgz, open, https://github.com/morluto/rea/issues/2389*
 
@@ -337,14 +337,14 @@ inspect_evm_interface accepts only explicit raw/hex carriers and leaves init/run
 
 #### Scope and relationships
 
-Offline caller-selected artifact inspection. Existing EVM interface recovery (PR #1051), retained delivery (PR #2308) and roadmap #972 are the foundations; this feature is independently scoped and does not reopen the entire roadmap. Parent language tracker: #2383. Use self-owned compiler fixtures and preserve provider/version provenance. New provider choices, if needed, follow CONTRIBUTING.md before substantial integration work.
+Offline caller-selected artifact inspection. Existing EVM interface recovery (PR [#1051](https://github.com/morluto/rea/pull/1051)), retained delivery (PR [#2308](https://github.com/morluto/rea/pull/2308)) and roadmap [#972](https://github.com/morluto/rea/issues/972) are the foundations; this feature is independently scoped and does not reopen the entire roadmap. Parent language tracker: [#2383](https://github.com/morluto/rea/issues/2383). Use self-owned compiler fixtures and preserve provider/version provenance. New provider choices, if needed, follow CONTRIBUTING.md before substantial integration work.
 
 #### Primary references
 
 - [Solidity compiler Standard JSON](https://docs.soliditylang.org/en/latest/using-the-compiler.html)
 
 
-#### Comment by matbrgz (2026-10-12) on #2389
+#### Comment by matbrgz (2026-10-12) on [#2389](https://github.com/morluto/rea/issues/2389)
 
 #### Triage & Architectural Review Notes
 
@@ -357,11 +357,11 @@ Disambiguate contract artifacts produced by `solc` Standard JSON output (`bin` c
 - **Spec Target:** `docs/specs/evm/standard-json-artifacts/`
 
 
-#### Comment by fangkangmi (2026-10-12) on #2389
+#### Comment by fangkangmi (2026-10-12) on [#2389](https://github.com/morluto/rea/issues/2389)
 
 I'd like to take this issue, working on it
 
-### #2390 [Feature] Solidity: map EVM byte PCs to original and generated source spans
+### [#2390](https://github.com/morluto/rea/issues/2390) [Feature] Solidity: map EVM byte PCs to original and generated source spans
 
 *matbrgz, open, https://github.com/morluto/rea/issues/2390*
 
@@ -387,14 +387,14 @@ EVM interface results retain byte offsets but do not interpret Solidity source m
 
 #### Scope and relationships
 
-Offline caller-selected artifact inspection. Existing EVM interface recovery (PR #1051), retained delivery (PR #2308) and roadmap #972 are the foundations; this feature is independently scoped and does not reopen the entire roadmap. Parent language tracker: #2383. Use self-owned compiler fixtures and preserve provider/version provenance. New provider choices, if needed, follow CONTRIBUTING.md before substantial integration work.
+Offline caller-selected artifact inspection. Existing EVM interface recovery (PR [#1051](https://github.com/morluto/rea/pull/1051)), retained delivery (PR [#2308](https://github.com/morluto/rea/pull/2308)) and roadmap [#972](https://github.com/morluto/rea/issues/972) are the foundations; this feature is independently scoped and does not reopen the entire roadmap. Parent language tracker: [#2383](https://github.com/morluto/rea/issues/2383). Use self-owned compiler fixtures and preserve provider/version provenance. New provider choices, if needed, follow CONTRIBUTING.md before substantial integration work.
 
 #### Primary references
 
 - [Solidity source mapping semantics](https://docs.soliditylang.org/en/latest/internals/source_mappings.html)
 
 
-#### Comment by matbrgz (2026-10-12) on #2390
+#### Comment by matbrgz (2026-10-12) on [#2390](https://github.com/morluto/rea/issues/2390)
 
 #### Triage & Architectural Review Notes
 
@@ -406,7 +406,7 @@ Map EVM program counters (PC byte offsets) back to exact source code spans (file
 2. **PC-to-Instruction Offset:** EVM instruction byte offsets deviate from instruction indices due to variable-length `PUSH<N>` data bytes. The PC mapping table must index by exact byte PC.
 3. **Spec Target:** `docs/specs/evm/source-mappings/`
 
-### #2391 [Feature] Solidity: decode supplied ABI calldata, logs and revert payloads with explicit ambiguity
+### [#2391](https://github.com/morluto/rea/issues/2391) [Feature] Solidity: decode supplied ABI calldata, logs and revert payloads with explicit ambiguity
 
 *matbrgz, open, https://github.com/morluto/rea/issues/2391*
 
@@ -432,14 +432,14 @@ REA currently infers dispatch selectors and argument/mutability strings from byt
 
 #### Scope and relationships
 
-Offline caller-selected artifact inspection. Existing EVM interface recovery (PR #1051), retained delivery (PR #2308) and roadmap #972 are the foundations; this feature is independently scoped and does not reopen the entire roadmap. Parent language tracker: #2383. Use self-owned compiler fixtures and preserve provider/version provenance. New provider choices, if needed, follow CONTRIBUTING.md before substantial integration work.
+Offline caller-selected artifact inspection. Existing EVM interface recovery (PR [#1051](https://github.com/morluto/rea/pull/1051)), retained delivery (PR [#2308](https://github.com/morluto/rea/pull/2308)) and roadmap [#972](https://github.com/morluto/rea/issues/972) are the foundations; this feature is independently scoped and does not reopen the entire roadmap. Parent language tracker: [#2383](https://github.com/morluto/rea/issues/2383). Use self-owned compiler fixtures and preserve provider/version provenance. New provider choices, if needed, follow CONTRIBUTING.md before substantial integration work.
 
 #### Primary references
 
 - [Solidity ABI specification](https://docs.soliditylang.org/en/latest/abi-spec.html)
 
 
-#### Comment by matbrgz (2026-10-12) on #2391
+#### Comment by matbrgz (2026-10-12) on [#2391](https://github.com/morluto/rea/issues/2391)
 
 #### Triage & Architectural Review Notes
 
@@ -450,7 +450,7 @@ Decode ABI calldata, emitted event topics/data, and revert reasons into structur
 1. **Ambiguity Preservation:** When a 4-byte function selector matches multiple ABI definitions, the tool must not guess. It must return all candidate matches marked with `ambiguous: true` and their respective parameter decodings.
 2. **Modern Error Support:** Must natively decode standard `Error(string)` (`0x08c379a0`), `Panic(uint256)` (`0x4e487b71`), and arbitrary custom errors from the contract's ABI. Unknown error selectors should remain raw bytes with `unmatched_custom_error` diagnostics.
 
-### #2392 [Feature] Solidity: inspect and compare compiler storage layouts without inferring live state
+### [#2392](https://github.com/morluto/rea/issues/2392) [Feature] Solidity: inspect and compare compiler storage layouts without inferring live state
 
 *matbrgz, open, https://github.com/morluto/rea/issues/2392*
 
@@ -476,14 +476,14 @@ The current EVM interface profile does not expose Solidity storage layouts. An a
 
 #### Scope and relationships
 
-Independently scoped follow-up to roadmap #972 and existing EVM interface PR #1051; parent TIOBE language tracker #2383. Initial analysis uses caller-selected local evidence and owned fixtures. New provider choices require the explicit CONTRIBUTING.md maintainer decision before substantial implementation for integration. Runtime acquisition, local execution and blockchain mutation are not implicit parts of this feature.
+Independently scoped follow-up to roadmap [#972](https://github.com/morluto/rea/issues/972) and existing EVM interface PR [#1051](https://github.com/morluto/rea/pull/1051); parent TIOBE language tracker [#2383](https://github.com/morluto/rea/issues/2383). Initial analysis uses caller-selected local evidence and owned fixtures. New provider choices require the explicit CONTRIBUTING.md maintainer decision before substantial implementation for integration. Runtime acquisition, local execution and blockchain mutation are not implicit parts of this feature.
 
 #### Primary references
 
 - [Solidity storage-layout semantics](https://docs.soliditylang.org/en/latest/internals/layout_in_storage.html)
 
 
-#### Comment by matbrgz (2026-10-12) on #2392
+#### Comment by matbrgz (2026-10-12) on [#2392](https://github.com/morluto/rea/issues/2392)
 
 #### Triage & Architectural Review Notes
 
@@ -494,7 +494,7 @@ Parse and visualize EVM contract storage layouts (`storageLayout` from solc) wit
 1. **Packing & Offsets:** Correctly model continuous 32-byte slot assignments and byte offsets (`offset: 0..31`) for packed elementary types (`uint128`, `bool`, `address`).
 2. **Dynamic Structures:** Represent mappings and dynamic arrays by their hashing derivations (`keccak256(p . s)`) as structural recipes rather than attempting runtime key enumeration.
 
-### #2393 [Feature] Solidity: inspect offline proxy patterns and supplied implementation-slot evidence
+### [#2393](https://github.com/morluto/rea/issues/2393) [Feature] Solidity: inspect offline proxy patterns and supplied implementation-slot evidence
 
 *matbrgz, open, https://github.com/morluto/rea/issues/2393*
 
@@ -520,7 +520,7 @@ Interface inference on proxy bytecode can hide the distinction between proxy dis
 
 #### Scope and relationships
 
-Independently scoped follow-up to roadmap #972 and existing EVM interface PR #1051; parent TIOBE language tracker #2383. Initial analysis uses caller-selected local evidence and owned fixtures. New provider choices require the explicit CONTRIBUTING.md maintainer decision before substantial implementation for integration. Runtime acquisition, local execution and blockchain mutation are not implicit parts of this feature.
+Independently scoped follow-up to roadmap [#972](https://github.com/morluto/rea/issues/972) and existing EVM interface PR [#1051](https://github.com/morluto/rea/pull/1051); parent TIOBE language tracker [#2383](https://github.com/morluto/rea/issues/2383). Initial analysis uses caller-selected local evidence and owned fixtures. New provider choices require the explicit CONTRIBUTING.md maintainer decision before substantial implementation for integration. Runtime acquisition, local execution and blockchain mutation are not implicit parts of this feature.
 
 #### Primary references
 
@@ -528,7 +528,7 @@ Independently scoped follow-up to roadmap #972 and existing EVM interface PR #10
 - [ERC-1967 proxy slots](https://eips.ethereum.org/EIPS/eip-1967)
 
 
-#### Comment by matbrgz (2026-10-12) on #2393
+#### Comment by matbrgz (2026-10-12) on [#2393](https://github.com/morluto/rea/issues/2393)
 
 #### Triage & Architectural Review Notes
 
@@ -542,7 +542,7 @@ Identify upgradeable proxy patterns (ERC-1967, ERC-1822 UUPS, Diamond Multi-Face
   - ERC-1967 Beacon: `0xa3f0ad74e5423aebfd80d3ef4346578335a9a72aeaee59ff6cb3582b35133d50`
 - If an implementation address cannot be resolved from supplied artifacts or recorded storage diffs, report `implementation: unknown` instead of executing remote eth_call heuristics.
 
-### #2394 [Feature] Solidity: inspect recorded EVM opcode/call traces and attribute debugging locations
+### [#2394](https://github.com/morluto/rea/issues/2394) [Feature] Solidity: inspect recorded EVM opcode/call traces and attribute debugging locations
 
 *matbrgz, open, https://github.com/morluto/rea/issues/2394*
 
@@ -568,14 +568,14 @@ Static selectors do not show which call, revert or source location ran. REA can 
 
 #### Scope and relationships
 
-Independently scoped follow-up to roadmap #972 and existing EVM interface PR #1051; parent TIOBE language tracker #2383. Initial analysis uses caller-selected local evidence and owned fixtures. New provider choices require the explicit CONTRIBUTING.md maintainer decision before substantial implementation for integration. Runtime acquisition, local execution and blockchain mutation are not implicit parts of this feature.
+Independently scoped follow-up to roadmap [#972](https://github.com/morluto/rea/issues/972) and existing EVM interface PR [#1051](https://github.com/morluto/rea/pull/1051); parent TIOBE language tracker [#2383](https://github.com/morluto/rea/issues/2383). Initial analysis uses caller-selected local evidence and owned fixtures. New provider choices require the explicit CONTRIBUTING.md maintainer decision before substantial implementation for integration. Runtime acquisition, local execution and blockchain mutation are not implicit parts of this feature.
 
 #### Primary references
 
 - [Geth built-in trace profiles](https://geth.ethereum.org/docs/developers/evm-tracing/built-in-tracers)
 
 
-#### Comment by matbrgz (2026-10-12) on #2394
+#### Comment by matbrgz (2026-10-12) on [#2394](https://github.com/morluto/rea/issues/2394)
 
 #### Triage & Architectural Review Notes
 
@@ -585,9 +585,9 @@ Reconstruct recorded execution paths (EVM opcode execution traces and call tree 
 **Boundary Contract:**
 - Consume standard debug traces (`debug_traceTransaction` / `structLogs` or Foundry/Anvil call traces).
 - Frame hierarchy must preserve child calls (`DELEGATECALL`, `STATICCALL`, `CALL`, `CREATE2`), gas consumption delta, and retained return/revert memory slices.
-- Trace step PC numbers must look up directly into the verified source mapping provider (#2390).
+- Trace step PC numbers must look up directly into the verified source mapping provider ([#2390](https://github.com/morluto/rea/issues/2390)).
 
-### #2395 [Design] Solidity: expose fork-profiled EVM disassembly and bounded control-flow evidence
+### [#2395](https://github.com/morluto/rea/issues/2395) [Design] Solidity: expose fork-profiled EVM disassembly and bounded control-flow evidence
 
 *matbrgz, open, https://github.com/morluto/rea/issues/2395*
 
@@ -613,7 +613,7 @@ REA's interface-only EVMole adapter explicitly excludes disassembly/basic-block/
 
 #### Scope and relationships
 
-Independently scoped follow-up to roadmap #972 and existing EVM interface PR #1051; parent TIOBE language tracker #2383. Initial analysis uses caller-selected local evidence and owned fixtures. New provider choices require the explicit CONTRIBUTING.md maintainer decision before substantial implementation for integration. Runtime acquisition, local execution and blockchain mutation are not implicit parts of this feature.
+Independently scoped follow-up to roadmap [#972](https://github.com/morluto/rea/issues/972) and existing EVM interface PR [#1051](https://github.com/morluto/rea/pull/1051); parent TIOBE language tracker [#2383](https://github.com/morluto/rea/issues/2383). Initial analysis uses caller-selected local evidence and owned fixtures. New provider choices require the explicit CONTRIBUTING.md maintainer decision before substantial implementation for integration. Runtime acquisition, local execution and blockchain mutation are not implicit parts of this feature.
 
 #### Primary references
 
@@ -621,7 +621,7 @@ Independently scoped follow-up to roadmap #972 and existing EVM interface PR #10
 - [EIP-1153 transient storage](https://eips.ethereum.org/EIPS/eip-1153)
 
 
-#### Comment by matbrgz (2026-10-12) on #2395
+#### Comment by matbrgz (2026-10-12) on [#2395](https://github.com/morluto/rea/issues/2395)
 
 #### Triage & Architectural Review Notes
 
@@ -635,7 +635,7 @@ Provide fork-aware EVM disassembly and bounded basic-block control flow graphs (
   - Prague / Osaka future opcodes.
 - **CFG Bounds:** Jump destinations (`JUMPDEST` `0x5b`) linked via static `PUSH<N>` analysis must enforce bounded exploration depth and block count to guard against maliciously tangled jump tables or decompiler traps.
 
-### #2396 [Feature] Solidity: compare exact bytecode with separately explained compiler patch spans
+### [#2396](https://github.com/morluto/rea/issues/2396) [Feature] Solidity: compare exact bytecode with separately explained compiler patch spans
 
 *matbrgz, open, https://github.com/morluto/rea/issues/2396*
 
@@ -661,7 +661,7 @@ Two Solidity builds can differ in metadata, library links or immutable patch val
 
 #### Scope and relationships
 
-Independently scoped follow-up to roadmap #972 and existing EVM interface PR #1051; parent TIOBE language tracker #2383. Initial analysis uses caller-selected local evidence and owned fixtures. New provider choices require the explicit CONTRIBUTING.md maintainer decision before substantial implementation for integration. Runtime acquisition, local execution and blockchain mutation are not implicit parts of this feature.
+Independently scoped follow-up to roadmap [#972](https://github.com/morluto/rea/issues/972) and existing EVM interface PR [#1051](https://github.com/morluto/rea/pull/1051); parent TIOBE language tracker [#2383](https://github.com/morluto/rea/issues/2383). Initial analysis uses caller-selected local evidence and owned fixtures. New provider choices require the explicit CONTRIBUTING.md maintainer decision before substantial implementation for integration. Runtime acquisition, local execution and blockchain mutation are not implicit parts of this feature.
 
 #### Primary references
 
@@ -669,7 +669,7 @@ Independently scoped follow-up to roadmap #972 and existing EVM interface PR #10
 - [Solidity metadata bytecode effects](https://docs.soliditylang.org/en/latest/metadata.html)
 
 
-#### Comment by matbrgz (2026-10-12) on #2396
+#### Comment by matbrgz (2026-10-12) on [#2396](https://github.com/morluto/rea/issues/2396)
 
 #### Triage & Architectural Review Notes
 
@@ -677,7 +677,7 @@ Independently scoped follow-up to roadmap #972 and existing EVM interface PR #10
 Compare deployed on-chain bytecode against locally recompiled bytecode, isolating and explaining legitimate compiler variances (link references, immutable values, metadata hashes).
 
 **Diff Taxonomy:**
-1. **CBOR Metadata Suffix (#2388):** Highlighted separately as non-executable provenance differences (compiler version, hash type).
+1. **CBOR Metadata Suffix ([#2388](https://github.com/morluto/rea/issues/2388)):** Highlighted separately as non-executable provenance differences (compiler version, hash type).
 2. **Linker Placeholders:** Explaining 20-byte library address patch spans (`__$30...$__`).
 3. **Immutable Slots:** Recognizing constructor assignments replaced into deployed code as data slots rather than code logic alterations.
 4. If code outside these allowed patch spans differs, mark the comparison as `mismatch`.
