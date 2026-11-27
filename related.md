@@ -9,6 +9,10 @@
 | [#3716](https://github.com/morluto/rea/issues/3716) | Common Bytecode and VM Framework: unified instruction decoding, CFG synthesis, SSA analysis and source decompilation | matbrgz | open | area: native, design | 0 | none found |
 | [#3137](https://github.com/morluto/rea/issues/3137) | research(architecture): establish demand and compatibility gates for external domain modules | N0zoM1z0 | open | enhancement, P1: high, area: domain, triage, roadmap, performance, design | 0 | none found |
 
+## Related pull request
+
+[#4479](https://github.com/morluto/rea/pull/4479) by yawningmonsoon: draft, documentation only (+28 lines in one skill reference). It explains how to connect EVM evidence to separately checked on-chain inclusion. It belongs with tier 1.
+
 ## Source text
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.

@@ -54,6 +54,17 @@ The tracker's tiers are a grouping. It states no delivery order, dates or assign
 
 No tier is complete.
 
+## Discussion and tools
+
+Our reading of `CONTRIBUTING.md` ("Contribution scope"), not a maintainer decision. The written rule requires an advance scope decision for a new provider, or for target execution, injection, mutation or protection recovery. Scope fit must still be settled before any merge.
+
+| Group | Items | Tools |
+| --- | --- | --- |
+| No advance decision expected: offline work on supplied EVM data (confirm briefly on the issue) | [#2388](https://github.com/morluto/rea/issues/2388), [#2390](https://github.com/morluto/rea/issues/2390), [#2391](https://github.com/morluto/rea/issues/2391), [#2392](https://github.com/morluto/rea/issues/2392), [#2396](https://github.com/morluto/rea/issues/2396) | Existing compiler output reading (needs [#12743](https://github.com/morluto/rea/pull/12743)) and EVMole; [#2391](https://github.com/morluto/rea/issues/2391) decoding library undecided |
+| Larger offline EVM work: agree the design first | [#2393](https://github.com/morluto/rea/issues/2393), [#2394](https://github.com/morluto/rea/issues/2394), [#3734](https://github.com/morluto/rea/issues/3734), [#3748](https://github.com/morluto/rea/issues/3748), [#3733](https://github.com/morluto/rea/issues/3733) | Undecided |
+| Open design questions | [#2395](https://github.com/morluto/rea/issues/2395), [#3736](https://github.com/morluto/rea/issues/3736), [#3716](https://github.com/morluto/rea/issues/3716), [#3137](https://github.com/morluto/rea/issues/3137) | Undecided |
+| New chain or domain: expect a scope decision | [#2003](https://github.com/morluto/rea/issues/2003), [#3747](https://github.com/morluto/rea/issues/3747), [#3730](https://github.com/morluto/rea/issues/3730), [#3731](https://github.com/morluto/rea/issues/3731), [#3732](https://github.com/morluto/rea/issues/3732), [#3738](https://github.com/morluto/rea/issues/3738), [#3739](https://github.com/morluto/rea/issues/3739), [#3745](https://github.com/morluto/rea/issues/3745), [#3743](https://github.com/morluto/rea/issues/3743), [#3744](https://github.com/morluto/rea/issues/3744), [#3740](https://github.com/morluto/rea/issues/3740), [#3741](https://github.com/morluto/rea/issues/3741), [#3737](https://github.com/morluto/rea/issues/3737), [#3746](https://github.com/morluto/rea/issues/3746) | Undecided; `sbpf-inspect` is proposed for [#2003](https://github.com/morluto/rea/issues/2003) |
+
 ## Tracker source text
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.
