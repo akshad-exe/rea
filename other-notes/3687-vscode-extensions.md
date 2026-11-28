@@ -1,6 +1,6 @@
 # #3687 VS Code extension analysis
 
-[Issue](https://github.com/morluto/rea/issues/3687). Checked 2026-11-28 against upstream `a91d9fa2b`. Status: planned, not started, not claimed on the issue.
+[Issue](https://github.com/morluto/rea/issues/3687). Checked 2026-11-28 against upstream `a91d9fa2b`. Status: planned, not started. [Comment posted](https://github.com/morluto/rea/issues/3687#issuecomment-7233182377) 2026-11-28; waiting for a reply.
 
 ## State
 
@@ -49,9 +49,9 @@ Chat participants, tools and MCP declarations; detailed contributions; installed
 ## Before code
 
 - [#14951](https://github.com/morluto/rea/pull/14951) finished first.
-- Post the comment and wait a short while for mvanhorn or a maintainer.
+- Wait a short while for mvanhorn or a maintainer to reply to the comment.
 - Branch from `upstream/main`. No spec or plan files in the PR.
 
-## Draft comment (not posted)
+## Comment draft (a shorter version was posted)
 
 > @mvanhorn @morluto #12469 delivered package inspection as the first slice. Are you planning the next one? If not, I'd like to link declared commands (with their menus and keybindings) to `registerCommand` calls found by the existing JavaScript analysis: each command reported as registered with its source location, not found, or registered but undeclared. Static only, no extension execution. Computed command IDs would stay explicitly unresolved.
