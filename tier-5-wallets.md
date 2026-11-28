@@ -2,9 +2,9 @@
 
 [Master tracker](README.md). Status read from GitHub 2026-11-28.
 
-| Issue | Title | Author | State | Priority / labels | Comments | Linked PRs |
-| --- | --- | --- | --- | --- | --- | --- |
-| [#3737](https://github.com/morluto/rea/issues/3737) | Wallet and dApp reverse engineering: EIP-1193 providers, WalletConnect sessions, JSON-RPC requests and frontend-to-wallet graphs | matbrgz | open | enhancement, area: providers | 0 | none found |
+| Issue                                               | Title                                                                                                                            | Author  | State | Priority / labels            | Comments | Linked PRs |
+| --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------- | ----- | ---------------------------- | -------- | ---------- |
+| [#3737](https://github.com/morluto/rea/issues/3737) | Wallet and dApp reverse engineering: EIP-1193 providers, WalletConnect sessions, JSON-RPC requests and frontend-to-wallet graphs | matbrgz | open  | enhancement, area: providers | 0        | none found |
 
 ## Source text
 
@@ -12,11 +12,12 @@ Verbatim issue text and comments follow. Badge images are removed and heading le
 
 ### [#3737](https://github.com/morluto/rea/issues/3737) [Feature] Wallet and dApp reverse engineering: EIP-1193 providers, WalletConnect sessions, JSON-RPC requests and frontend-to-wallet graphs
 
-*matbrgz, open, https://github.com/morluto/rea/issues/3737*
+_matbrgz, open, https://github.com/morluto/rea/issues/3737_
 
 #### Problem Statement & Context
 
 Decentralized applications (dApps) are web-based or mobile client applications that interface with users' Web3 wallets. The bridge between the frontend application and the blockchain network is governed by standardized provider and messaging interfaces:
+
 1. **Injected EIP-1193 Providers**: Standardized JavaScript object (`window.ethereum`) implementing `request({ method, params })`, events (`connect`, `disconnect`, `chainChanged`, `accountsChanged`), and EIP-6963 multi-provider discovery (`eip6963:announceProvider`).
 2. **Standard Web3 JSON-RPC Calls**:
    - Transaction submission: `eth_sendTransaction`, `eth_sendRawTransaction`.
@@ -36,19 +37,19 @@ flowchart TD
     B --> D["EIP-712 Typed Data & Signature Decoder"]
     B --> E["WalletConnect v2 Session Inspector"]
     B --> F["Transaction Intent & Phishing Auditor"]
-    
+
     C --> C1["window.ethereum.request Invocations (eth_sendTransaction)"]
     C --> C2["EIP-6963 Multi-Injected Provider Handlers"]
-    
+
     D --> D1["EIP-712 Domain Separator & Type Hash Verification"]
     D --> D2["Permit / Permit2 Approval Payload Decoding"]
-    
+
     E --> E1["Pairing URI & Relay Protocol Handshake (wc: topic)"]
     E --> E2["Session Proposal (Namespaces, Chains, Methods)"]
-    
+
     F --> F1["High-Risk Asset Drainer Patterns (setApprovalForAll)"]
     F --> F2["Target Contract & Calldata Simulation"]
-    
+
     C & D & E & F --> G["Synthesized dApp Architecture & User Signing Flowchart"]
 ```
 

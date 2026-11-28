@@ -2,11 +2,11 @@
 
 [Master tracker](README.md). Status read from GitHub 2026-11-28.
 
-| Issue | Title | Author | State | Priority / labels | Comments | Linked PRs |
-| --- | --- | --- | --- | --- | --- | --- |
-| [#3745](https://github.com/morluto/rea/issues/3745) | Cross-chain bridge reverse engineering: message envelopes, nonces, proofs, relayers and source-to-destination state machines | matbrgz | open | enhancement, area: bridge | 0 | none found |
-| [#3743](https://github.com/morluto/rea/issues/3743) | OP Stack reverse engineering: L1 batches, deposits, withdrawals, derivation and fault-proof artifacts | matbrgz | open | enhancement, area: evidence | 0 | none found |
-| [#3744](https://github.com/morluto/rea/issues/3744) | Arbitrum Nitro reverse engineering: Inbox batches, retryables, ArbOS calls and L1-to-L2 message reconstruction | matbrgz | open | enhancement, area: evidence | 0 | none found |
+| Issue                                               | Title                                                                                                                        | Author  | State | Priority / labels           | Comments | Linked PRs |
+| --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------- | ----- | --------------------------- | -------- | ---------- |
+| [#3745](https://github.com/morluto/rea/issues/3745) | Cross-chain bridge reverse engineering: message envelopes, nonces, proofs, relayers and source-to-destination state machines | matbrgz | open  | enhancement, area: bridge   | 0        | none found |
+| [#3743](https://github.com/morluto/rea/issues/3743) | OP Stack reverse engineering: L1 batches, deposits, withdrawals, derivation and fault-proof artifacts                        | matbrgz | open  | enhancement, area: evidence | 0        | none found |
+| [#3744](https://github.com/morluto/rea/issues/3744) | Arbitrum Nitro reverse engineering: Inbox batches, retryables, ArbOS calls and L1-to-L2 message reconstruction               | matbrgz | open  | enhancement, area: evidence | 0        | none found |
 
 ## Source text
 
@@ -14,13 +14,14 @@ Verbatim issue text and comments follow. Badge images are removed and heading le
 
 ### [#3745](https://github.com/morluto/rea/issues/3745) [Feature] Cross-chain bridge reverse engineering: message envelopes, nonces, proofs, relayers and source-to-destination state machines
 
-*matbrgz, open, https://github.com/morluto/rea/issues/3745*
+_matbrgz, open, https://github.com/morluto/rea/issues/3745_
 
 #### Problem Statement & Context
 
 Cross-chain bridges (e.g. Wormhole, LayerZero, Chainlink CCIP, Axelar, canonical rollup bridges) connect isolated blockchains, enabling cross-chain token transfers, governance relaying, and arbitrary contract calls.
 
 Because cross-chain bridges move billions of dollars across asynchronous execution environments, they are the most critical attack surface in the blockchain ecosystem (historically suffering catastrophic exploits: Wormhole $320M, Nomad $190M, Ronin $620M). Reverse engineering a cross-chain transaction requires understanding multi-chain causality:
+
 1. **Message Envelopes & Serialization**: Standardized payload headers packing source chain ID, emitter contract address, destination chain ID, recipient contract address, sequential sequence/nonce, payload type, and arbitrary execution calldata.
 2. **Proof & Attestation Formats**:
    - Multi-Signature Attestations: Wormhole Verified Action Approvals (VAA) signed by 19 Guardian nodes.
@@ -40,19 +41,19 @@ flowchart TD
     B --> D["Proof & Attestation Verifier (VAA / DVN / Merkle)"]
     B --> E["Replay Protection & Nonce State Inspector"]
     B --> F["Multi-Chain Causality Graph Synthesizer"]
-    
+
     C --> C1["Protocol Detector (Wormhole, LayerZero, CCIP, Axelar)"]
     C --> C2["Payload Decoding (Token Bridge Transfer, Generic Call)"]
-    
+
     D --> D1["Signature Threshold Validation (e.g. 13/19 Guardian Signatures)"]
     D --> D2["Merkle Proof / State Root Verification"]
-    
+
     E --> E1["Sequence / Nonce Bitmask Deduplication Checks"]
     E --> E2["Destination Execution Revert vs Success Status"]
-    
+
     F --> F1["Source Event -> Relayer Packet -> Destination Call Flow"]
     F --> F2["Asset Movement (Burn/Lock on A -> Mint/Release on B)"]
-    
+
     C & D & E & F --> G["Synthesized Cross-Chain Message Blueprint & End-to-End Sequence Diagram"]
 ```
 
@@ -97,13 +98,14 @@ flowchart TD
 
 ### [#3743](https://github.com/morluto/rea/issues/3743) [Feature] OP Stack reverse engineering: L1 batches, deposits, withdrawals, derivation and fault-proof artifacts
 
-*matbrgz, open, https://github.com/morluto/rea/issues/3743*
+_matbrgz, open, https://github.com/morluto/rea/issues/3743_
 
 #### Problem Statement & Context
 
 The OP Stack (powering OP Mainnet, Base, Zora, Mode, and the Superchain ecosystem) represents the most widely deployed Optimistic Rollup framework on Ethereum.
 
 An OP Stack rollup is not an isolated blockchain; its canonical state is derived directly from Layer 1 Ethereum:
+
 1. **L1 Batch Ingestion & Channel Derivation**: Sequencer transaction batches posted to L1 batch inbox addresses (e.g., as EIP-4844 blobs or calldata). Batches are framed into channels, compressed using Zlib, and decompressed into sequential L2 execution blocks.
 2. **Deposit Transactions & System Config**: L1-to-L2 deposits initiated via `OptimismPortal` contracts, creating special `L1Attributes` transactions in each L2 block without cryptographic signatures (derived from L1 event logs).
 3. **Withdrawal Provenance & Two-Step Finalization**: L2-to-L1 withdrawals initiated via `L2ToL1MessagePasser`, requiring an on-chain Merkle proof against the `L2OutputOracle` / `DisputeGameFactory`, followed by a 7-day challenge window and finalization call.
@@ -120,20 +122,20 @@ flowchart TD
     B --> D["Deposit & SystemConfig Parser"]
     B --> E["Withdrawal Lifecycle & State Prover"]
     B --> F["Fault-Proof Dispute Game Inspector (Cannon MIPS)"]
-    
+
     C --> C1["EIP-4844 Blob / Calldata Slicing"]
     C --> C2["Channel Frame Assembly & Zlib Decompression"]
     C --> C3["Sequential L2 Transaction Batches"]
-    
+
     D --> D1["OptimismPortal Deposit Log Reconstruction"]
     D --> D2["L1Block / L1Attributes Predeployed Contract Mapping"]
-    
+
     E --> E1["L2ToL1MessagePasser Storage Withdrawal Hash"]
     E --> E2["ProveWithdrawal & FinalizeWithdrawal Transaction Tracking"]
-    
+
     F --> F1["DisputeGameFactory State Claims"]
     F --> F2["Cannon MIPS Single-Step State Witness Parsing"]
-    
+
     C & D & E & F --> G["Synthesized L1 ↔ L2 Cross-Layer Derivation Blueprint & Transaction Graph"]
 ```
 
@@ -177,11 +179,12 @@ flowchart TD
 
 ### [#3744](https://github.com/morluto/rea/issues/3744) [Feature] Arbitrum Nitro reverse engineering: Inbox batches, retryables, ArbOS calls and L1-to-L2 message reconstruction
 
-*matbrgz, open, https://github.com/morluto/rea/issues/3744*
+_matbrgz, open, https://github.com/morluto/rea/issues/3744_
 
 #### Problem Statement & Context
 
 Arbitrum Nitro is the leading Optimistic Rollup platform by total value locked (TVL), executing Ethereum Layer 2 transactions through a custom architecture powered by **ArbOS** (Arbitrum Operating System) and WebAssembly:
+
 1. **Inbox & Batch Posting**: Transactions posted by the Sequencer to the L1 `SequencerInbox` contract as compressed batches (utilizing Brotli compression).
 2. **Delayed Inbox & Force-Inclusion**: Direct user transaction submissions via the L1 `Bridge` and `DelayedInbox`, providing censorship resistance by allowing L1 to force transaction inclusion after a grace period.
 3. **Retryable Tickets (L1-to-L2 Messaging)**: Complex asynchronous messaging system: L1 transaction calls `Inbox.createRetryableTicket`, depositing gas fees into the `L2RetryableTicket` buffer; ticket auto-redeems on L2 or awaits manual redemption before the 7-day expiration.
@@ -199,20 +202,20 @@ flowchart TD
     B --> D["Retryable Ticket Lifecycle Tracker"]
     B --> E["ArbOS Precompile & Address Table Resolver"]
     B --> F["WAVM Interactive Fraud Proof Inspector"]
-    
+
     C --> C1["SequencerInbox Header Parsing"]
     C --> C2["Brotli Decompression & RLP Transaction Unpacking"]
-    
+
     D --> D1["Inbox.createRetryableTicket Parameters"]
     D --> D2["L2 Ticket Auto-Redeem vs Manual Redeem State"]
     D --> D3["Escrowed Gas Refund Accounting"]
-    
+
     E --> E1["ArbSys (sendTxToL1, getArbOSVersion)"]
     E --> E2["ArbAddressTable Compact Address De-serialization"]
-    
+
     F --> F1["Wasm Virtual Machine (WAVM) State Snapshots (#2298)"]
     F --> F2["Bisection Game Challenge Progression"]
-    
+
     C & D & E & F --> G["Synthesized Arbitrum Nitro Architecture Blueprint & L1 ↔ L2 Trace Graph"]
 ```
 

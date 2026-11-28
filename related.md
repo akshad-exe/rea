@@ -2,12 +2,12 @@
 
 [Master tracker](README.md). Status read from GitHub 2026-11-28.
 
-| Issue | Title | Author | State | Priority / labels | Comments | Linked PRs |
-| --- | --- | --- | --- | --- | --- | --- |
-| [#3746](https://github.com/morluto/rea/issues/3746) | TON / TVM reverse engineering: BOC cells, TL-B schemas, TVM bytecode and message/state graphs | matbrgz | open | enhancement | 0 | none found |
-| [#3748](https://github.com/morluto/rea/issues/3748) | Foundry and Hardhat project reverse engineering: build-info, deployments, broadcasts, libraries and contract dependency graphs | matbrgz | open | enhancement, area: domain, area: build | 0 | none found |
-| [#3716](https://github.com/morluto/rea/issues/3716) | Common Bytecode and VM Framework: unified instruction decoding, CFG synthesis, SSA analysis and source decompilation | matbrgz | open | area: native, design | 0 | none found |
-| [#3137](https://github.com/morluto/rea/issues/3137) | research(architecture): establish demand and compatibility gates for external domain modules | N0zoM1z0 | open | enhancement, P1: high, area: domain, triage, roadmap, performance, design | 0 | none found |
+| Issue                                               | Title                                                                                                                          | Author   | State | Priority / labels                                                         | Comments | Linked PRs |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------- | ----- | ------------------------------------------------------------------------- | -------- | ---------- |
+| [#3746](https://github.com/morluto/rea/issues/3746) | TON / TVM reverse engineering: BOC cells, TL-B schemas, TVM bytecode and message/state graphs                                  | matbrgz  | open  | enhancement                                                               | 0        | none found |
+| [#3748](https://github.com/morluto/rea/issues/3748) | Foundry and Hardhat project reverse engineering: build-info, deployments, broadcasts, libraries and contract dependency graphs | matbrgz  | open  | enhancement, area: domain, area: build                                    | 0        | none found |
+| [#3716](https://github.com/morluto/rea/issues/3716) | Common Bytecode and VM Framework: unified instruction decoding, CFG synthesis, SSA analysis and source decompilation           | matbrgz  | open  | area: native, design                                                      | 0        | none found |
+| [#3137](https://github.com/morluto/rea/issues/3137) | research(architecture): establish demand and compatibility gates for external domain modules                                   | N0zoM1z0 | open  | enhancement, P1: high, area: domain, triage, roadmap, performance, design | 0        | none found |
 
 ## Related pull request
 
@@ -19,11 +19,12 @@ Verbatim issue text and comments follow. Badge images are removed and heading le
 
 ### [#3746](https://github.com/morluto/rea/issues/3746) [Feature] TON / TVM reverse engineering: BOC cells, TL-B schemas, TVM bytecode and message/state graphs
 
-*matbrgz, open, https://github.com/morluto/rea/issues/3746*
+_matbrgz, open, https://github.com/morluto/rea/issues/3746_
 
 #### Problem Statement & Context
 
 The Open Network (TON) operates on an asynchronous actor-based multi-blockchain architecture centered around the **TON Virtual Machine (TVM)**:
+
 1. **Bag of Cells (BOC) Architecture**: All code, data, contracts, blocks, and messages in TON are represented as directed acyclic graphs (DAGs) of "cells". Each cell stores up to 1023 bits of arbitrary data and up to 4 references (`refs`) to other cells. Serialized as binary BOC containers with CRC32-C checksums.
 2. **TL-B (Typed Language - Binary) Schemas**: Formal binary specification language defining how high-level types (integers, coins, addresses, dictionaries, messages) serialize into cell trees.
 3. **Hashic and Merkle Cells**: Cells addressed by their cryptographic 32-byte representation hash; Merkle proofs and exotic cells (pruned branch cells) allowing verifiable sub-graph inspection.
@@ -41,19 +42,19 @@ flowchart TD
     B --> D["TL-B Schema & Cell Tree Parser"]
     B --> E["TVM Bytecode Disassembler"]
     B --> F["Actor Message & State Flow Reconstructor"]
-    
+
     C --> C1["Cell Header (Bits, Refs, Exotic Flags)"]
     C --> C2["Cell DAG Reassembly & CRC32-C Validation"]
-    
+
     D --> D1["Standard TL-B Schemas (Message, StateInit, CommonMsgInfo)"]
     D --> D2["HashmapE / Dictionary Tree Traversal (Patricia Trie)"]
-    
+
     E --> E1["Bit-Aligned Opcode Stream Decoding"]
     E --> E2["Continuation Registers (c0 return, c3 code, c4 data, c5 actions)"]
-    
+
     F --> F1["Inbound / Outbound Message Slicing (Internal, External)"]
     F --> F2["Asynchronous Contract-to-Contract Call Graph"]
-    
+
     C & D & E & F --> G["Synthesized TON Contract Blueprint, Cell Hierarchy & Message Flow"]
 ```
 
@@ -106,13 +107,14 @@ flowchart TD
 
 ### [#3748](https://github.com/morluto/rea/issues/3748) [Feature] Foundry and Hardhat project reverse engineering: build-info, deployments, broadcasts, libraries and contract dependency graphs
 
-*matbrgz, open, https://github.com/morluto/rea/issues/3748*
+_matbrgz, open, https://github.com/morluto/rea/issues/3748_
 
 #### Problem Statement & Context
 
 In smart contract auditing, vulnerability research, and incident response, analysts often receive local developer project folders authored in **Foundry** (`forge`) or **Hardhat**.
 
 While REA issue [#2389](https://github.com/morluto/rea/issues/2389) addresses the raw solc Standard JSON format, modern developer frameworks generate extensive multi-file build and deployment pipelines:
+
 1. **Build Info Containers (`artifacts/build-info/*.json` / `out/build-info/*.json`)**: Massive JSON files containing complete compiler input configurations, optimizer runs, EVM versions, and compiler outputs (ASTs, source files, bytecodes, method identifiers).
 2. **Foundry Broadcasts & Deployments (`broadcast/**/*.json`)**: Transaction receipts, CREATE2 parameters, salts, deployed addresses, deployer nonces, and gas usage from automated deployment scripts.
 3. **Hardhat Artifacts & Deployments (`artifacts/contracts/**/*.json`)**: Per-contract artifacts containing ABI, bytecode, deployedBytecode, linkReferences, and immutableReferences.
@@ -129,19 +131,19 @@ flowchart TD
     B --> D["Build-Info & Artifact Deserializer"]
     B --> E["Broadcast & Deployment Reconstructor"]
     B --> F["Inheritance & Dependency Graph Synthesizer"]
-    
+
     C --> C1["foundry.toml / hardhat.config.ts Recognition"]
     C --> C2["Solc Compiler Settings & Re-mappings"]
-    
+
     D --> D1["build-info/*.json Solc Input/Output Slicing"]
     D --> D2["LinkReferences & ImmutableReferences Extraction"]
-    
+
     E --> E1["broadcast/ Run Receipts & Transactions (CREATE/CREATE2)"]
     E --> E2["Deployed Contract Address Book (Chain ID -> Address)"]
-    
+
     F --> F1["Inheritance DAG (is Base, Initializable)"]
     F --> F2["Cross-Contract Call Topology & Interface Implementations"]
-    
+
     C & D & E & F --> G["Synthesized Project Architecture Blueprint & Verified Address Manifest"]
 ```
 
@@ -187,7 +189,7 @@ flowchart TD
 
 ### [#3716](https://github.com/morluto/rea/issues/3716) [RFC/Epic] Common Bytecode and VM Framework: unified instruction decoding, CFG synthesis, SSA analysis and source decompilation
 
-*matbrgz, open, https://github.com/morluto/rea/issues/3716*
+_matbrgz, open, https://github.com/morluto/rea/issues/3716_
 
 #### Problem Statement & Architectural Context
 
@@ -209,14 +211,14 @@ flowchart TD
     end
 
     A1 & A2 & A3 & A4 --> B["Intermediate Bytecode Representation (Bytecode IR)"]
-    
+
     subgraph Shared Analysis Engine
         B --> C["Control Flow Graph (CFG) Constructor"]
         C --> D["Dominator Tree & Natural Loop Analyzer"]
         D --> E["Static Single Assignment (SSA) & Data-Flow Engine"]
         E --> F["Structural De-Sugaring (if/else, while, for, match)"]
     end
-    
+
     subgraph Decompiler Backends
         F --> G1["Structured AST (Abstract Syntax Tree)"]
         G1 --> H1["Target Language Emitter (Lua, Python, TypeScript, Pseudocode)"]
@@ -268,7 +270,7 @@ flowchart TD
 
 ### [#3137](https://github.com/morluto/rea/issues/3137) research(architecture): establish demand and compatibility gates for external domain modules
 
-*N0zoM1z0, open, https://github.com/morluto/rea/issues/3137*
+_N0zoM1z0, open, https://github.com/morluto/rea/issues/3137_
 
 Follow-up to [#2016](https://github.com/morluto/rea/issues/2016), whose original three-stage implementation and scoped verification are complete. This issue owns only the bounded continuation below. [#740](https://github.com/morluto/rea/issues/740) owns the broader modularization roadmap; this issue owns only the demand/compatibility gate for the previously deferred external SDK.
 

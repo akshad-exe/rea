@@ -2,10 +2,10 @@
 
 [Master tracker](README.md). Status read from GitHub 2026-11-28.
 
-| Issue | Title | Author | State | Priority / labels | Comments | Linked PRs |
-| --- | --- | --- | --- | --- | --- | --- |
-| [#3740](https://github.com/morluto/rea/issues/3740) | Zero-knowledge circuit reverse engineering: Circom/R1CS, PLONKish/Halo2 constraints and verifier graphs | matbrgz | open | enhancement, area: tests | 0 | none found |
-| [#3741](https://github.com/morluto/rea/issues/3741) | zkVM reverse engineering: RISC Zero, SP1 and zkWasm guest images, receipts, journals and proof metadata | matbrgz | open | enhancement | 0 | none found |
+| Issue                                               | Title                                                                                                   | Author  | State | Priority / labels        | Comments | Linked PRs |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------- | ----- | ------------------------ | -------- | ---------- |
+| [#3740](https://github.com/morluto/rea/issues/3740) | Zero-knowledge circuit reverse engineering: Circom/R1CS, PLONKish/Halo2 constraints and verifier graphs | matbrgz | open  | enhancement, area: tests | 0        | none found |
+| [#3741](https://github.com/morluto/rea/issues/3741) | zkVM reverse engineering: RISC Zero, SP1 and zkWasm guest images, receipts, journals and proof metadata | matbrgz | open  | enhancement              | 0        | none found |
 
 ## Source text
 
@@ -13,11 +13,12 @@ Verbatim issue text and comments follow. Badge images are removed and heading le
 
 ### [#3740](https://github.com/morluto/rea/issues/3740) [Feature] Zero-knowledge circuit reverse engineering: Circom/R1CS, PLONKish/Halo2 constraints and verifier graphs
 
-*matbrgz, open, https://github.com/morluto/rea/issues/3740*
+_matbrgz, open, https://github.com/morluto/rea/issues/3740_
 
 #### Problem Statement & Context
 
 Zero-Knowledge Proofs (ZKPs) are the mathematical backbone of privacy protocols, validity rollups (zk-Rollups), and verifiable computation. ZK programs are authored in domain-specific languages (Circom, Noir, Leo) and compiled into mathematical constraint systems:
+
 1. **Rank-1 Constraint Systems (R1CS)**: Binary representation of arithmetic circuits composed of constraints of the form $\langle A, s \rangle \cdot \langle B, s \rangle - \langle C, s \rangle = 0$, where $s$ is the witness vector. Stored in binary `.r1cs` containers (magic `r1cs`, version, field size, variable counts, linear combination matrices).
 2. **PLONKish & Custom Gates (Halo2 / UltraPLONK)**: Constraint tables structured as columns (Advice, Fixed, Instance), selector polynomials, permutation arguments (copy constraints), and custom non-linear lookup gates (Plookup).
 3. **Witness & Proving Artifacts (`.wtns`, `.zkey`)**: Binary witness vectors assigning concrete values to circuit variables, and proving keys packing evaluation domain polynomials, G1/G2 elliptic curve points (BN254 / BLS12-381), and lagrange bases.
@@ -33,16 +34,16 @@ flowchart TD
     B --> C["R1CS & PLONKish Constraint Deserializer"]
     B --> D["Circuit Signal & Witness Graph Reconstructor"]
     B --> E["On-Chain Verifier Correlator (EVM Precompiles)"]
-    
+
     C --> C1[".r1cs Binary Header (Field Prime, Variables, Constraints)"]
     C --> C2["Matrix Slicing (A, B, C Linear Combinations)"]
-    
+
     D --> D1["Signal Classification (Public Inputs, Private Inputs, Outputs)"]
     D --> D2["Under-Constrained Signal & Witness Bug Detection"]
-    
+
     E --> E1["EVM Verifier Verification Key (VK Alpha, Beta, Gamma, Delta)"]
     E --> E2["ecPairing Precompile Call Mapping"]
-    
+
     C & D & E --> F["Synthesized Circuit Constraint Graph & Verifier Specification"]
 ```
 
@@ -87,11 +88,12 @@ flowchart TD
 
 ### [#3741](https://github.com/morluto/rea/issues/3741) [Feature] zkVM reverse engineering: RISC Zero, SP1 and zkWasm guest images, receipts, journals and proof metadata
 
-*matbrgz, open, https://github.com/morluto/rea/issues/3741*
+_matbrgz, open, https://github.com/morluto/rea/issues/3741_
 
 #### Problem Statement & Context
 
 Zero-Knowledge Virtual Machines (zkVMs) represent the next evolution in verifiable computation, enabling developers to write standard high-level code (Rust, C++, Go) compiled to standard ISAs (RISC-V or WebAssembly), executing inside a cryptographic prover that outputs a succinct zero-knowledge receipt:
+
 - **RISC Zero**: Executes standard 32-bit RISC-V (RV32IM) binaries inside a zk-STARK circuit, producing a `Receipt` consisting of a cryptographic seal and a public `Journal`. Programs are uniquely identified by a 32-byte cryptographic `ImageID` (Merkle root of the initial memory state).
 - **Succinct SP1**: High-performance, open-source zkVM targeting 32-bit RISC-V (RV32IM), utilizing Plonky3 and customized precompiles for hashes (Keccak, SHA-256) and elliptic curves (secp256k1, ed25519).
 - **zkWasm**: Proves execution of WebAssembly bytecode modules within an algebraic constraint framework.
@@ -107,19 +109,19 @@ flowchart TD
     B --> D["ImageID & Initial Memory State Verifier"]
     B --> E["Public Journal & State Deserializer"]
     B --> F["Cryptographic Receipt & Precompile Auditor"]
-    
+
     C --> C1["RISC-V ELF Disassembly (Instruction Stream & Syscalls)"]
     C --> C2["Guest-Host Communication (env::read, env::commit)"]
-    
+
     D --> D1["Memory Page Table Merkle Tree Simulation"]
     D --> D2["ImageID / Program Digest Calculation"]
-    
+
     E --> E1["Journal Byte Payload Decoding (Serde / BCS / Borsh)"]
     E --> E2["Public Input / Output Commitments"]
-    
+
     F --> F1["Receipt Seal Validation (STARK / SNARK Wrapper)"]
     F --> F2["Custom Precompile Usage (Keccak, Secp256k1, BigInt)"]
-    
+
     C & D & E & F --> G["Synthesized zkVM Guest Blueprint & Verified Execution Report"]
 ```
 

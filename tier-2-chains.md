@@ -2,15 +2,15 @@
 
 [Master tracker](README.md). Status read from GitHub 2026-11-28.
 
-| Issue | Title | Author | State | Priority / labels | Comments | Linked PRs |
-| --- | --- | --- | --- | --- | --- | --- |
-| [#3730](https://github.com/morluto/rea/issues/3730) | Bitcoin reverse engineering: raw transactions, PSBT, Script/Tapscript, descriptors, Miniscript and UTXO-flow reconstruction | matbrgz | open | enhancement, area: evidence | 0 | none found |
-| [#3731](https://github.com/morluto/rea/issues/3731) | Move VM reverse engineering: bytecode modules, abilities, resources, types and call graphs | matbrgz | open | enhancement | 0 | none found |
-| [#3732](https://github.com/morluto/rea/issues/3732) | Starknet reverse engineering: Cairo, Sierra/CASM, class hashes, entrypoints and storage graphs | matbrgz | open | enhancement | 0 | none found |
-| [#3738](https://github.com/morluto/rea/issues/3738) | Polkadot/Substrate reverse engineering: SCALE metadata, runtime Wasm, pallets, extrinsics and runtime-upgrade diffs | matbrgz | open | enhancement, area: setup, area: runtime | 0 | none found |
-| [#3739](https://github.com/morluto/rea/issues/3739) | CosmWasm and IBC reverse engineering: Wasm contracts, schemas, packet lifecycles and cross-chain state machines | matbrgz | open | enhancement, area: domain, area: evidence | 0 | none found |
-| [#3747](https://github.com/morluto/rea/issues/3747) | Solana transaction reverse engineering: instructions, CPIs, account roles, logs and state-change graphs | matbrgz | open | enhancement | 0 | none found |
-| [#2003](https://github.com/morluto/rea/issues/2003) | Offline Solana sBPF program interface recovery | trenbonole | open | enhancement, P3: low, area: native | 3 | none found |
+| Issue                                               | Title                                                                                                                       | Author     | State | Priority / labels                         | Comments | Linked PRs |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------- | ----- | ----------------------------------------- | -------- | ---------- |
+| [#3730](https://github.com/morluto/rea/issues/3730) | Bitcoin reverse engineering: raw transactions, PSBT, Script/Tapscript, descriptors, Miniscript and UTXO-flow reconstruction | matbrgz    | open  | enhancement, area: evidence               | 0        | none found |
+| [#3731](https://github.com/morluto/rea/issues/3731) | Move VM reverse engineering: bytecode modules, abilities, resources, types and call graphs                                  | matbrgz    | open  | enhancement                               | 0        | none found |
+| [#3732](https://github.com/morluto/rea/issues/3732) | Starknet reverse engineering: Cairo, Sierra/CASM, class hashes, entrypoints and storage graphs                              | matbrgz    | open  | enhancement                               | 0        | none found |
+| [#3738](https://github.com/morluto/rea/issues/3738) | Polkadot/Substrate reverse engineering: SCALE metadata, runtime Wasm, pallets, extrinsics and runtime-upgrade diffs         | matbrgz    | open  | enhancement, area: setup, area: runtime   | 0        | none found |
+| [#3739](https://github.com/morluto/rea/issues/3739) | CosmWasm and IBC reverse engineering: Wasm contracts, schemas, packet lifecycles and cross-chain state machines             | matbrgz    | open  | enhancement, area: domain, area: evidence | 0        | none found |
+| [#3747](https://github.com/morluto/rea/issues/3747) | Solana transaction reverse engineering: instructions, CPIs, account roles, logs and state-change graphs                     | matbrgz    | open  | enhancement                               | 0        | none found |
+| [#2003](https://github.com/morluto/rea/issues/2003) | Offline Solana sBPF program interface recovery                                                                              | trenbonole | open  | enhancement, P3: low, area: native        | 3        | none found |
 
 ## Source text
 
@@ -18,11 +18,12 @@ Verbatim issue text and comments follow. Badge images are removed and heading le
 
 ### [#3730](https://github.com/morluto/rea/issues/3730) [Feature] Bitcoin reverse engineering: raw transactions, PSBT, Script/Tapscript, descriptors, Miniscript and UTXO-flow reconstruction
 
-*matbrgz, open, https://github.com/morluto/rea/issues/3730*
+_matbrgz, open, https://github.com/morluto/rea/issues/3730_
 
 #### Problem Statement & Context
 
 Bitcoin represents the foundational UTXO (Unspent Transaction Output) blockchain architecture. Modern Bitcoin development has evolved significantly beyond legacy P2PKH/P2SH scripts into complex multi-sig policies, smart custody setups, and privacy protocols:
+
 1. **Raw Transaction & Serialization Formats**: Legacy, Segregated Witness (SegWit / BIP141), and Taproot (BIP341/342) transaction serializations, parsing inputs, outputs, locktimes, sequence numbers, and witness stacks.
 2. **Partially Signed Bitcoin Transactions (PSBT v0 & v2 / BIP174, BIP370)**: Key-value binary maps containing global, input, and output maps. Tracks BIP32 derivation paths, non-witness and witness UTXOs, sighash types, partial signatures, Taproot key/script spend trees, and MuSig2 aggregation metadata.
 3. **Script, Tapscript & Execution Engine**: Forth-like stack-based bytecode (`OP_CHECKSIG`, `OP_CHECKMULTISIG`, `OP_CHECKLOCKTIMEVERIFY`, `OP_CHECKSEQUENCEVERIFY`, `OP_CHECKSIGADD`).
@@ -40,19 +41,19 @@ flowchart TD
     B --> D["Script & Tapscript Decompiler"]
     B --> E["Descriptor & Miniscript Policy Analyzer"]
     B --> F["UTXO Flow & Lineage Reconstructor"]
-    
+
     C --> C1["SegWit & Taproot Serialization Parser"]
     C --> C2["PSBT v0 / v2 Map Entries & Signer Metadata"]
-    
+
     D --> D1["Opcode Disassembly & Stack Semantics"]
     D --> D2["Taproot Mast Tree & Script Leaf Decoding"]
-    
+
     E --> E1["Output Descriptors (wpkh, wsh, tr)"]
     E --> E2["Miniscript Policy AST & Spending Conditions"]
-    
+
     F --> F1["Input-to-Output Flow & Change Detection"]
     F --> F2["Timelock & Multisig Threshold Graphs"]
-    
+
     C & D & E & F --> G["Synthesized Bitcoin Transaction Blueprint & Spending Policy Flowchart"]
 ```
 
@@ -96,11 +97,12 @@ flowchart TD
 
 ### [#3731](https://github.com/morluto/rea/issues/3731) [Feature] Move VM reverse engineering: bytecode modules, abilities, resources, types and call graphs
 
-*matbrgz, open, https://github.com/morluto/rea/issues/3731*
+_matbrgz, open, https://github.com/morluto/rea/issues/3731_
 
 #### Problem Statement & Context
 
 The Move programming language and MoveVM represent a modern smart contract execution model designed around linear types, first-class resources, and formal verifiability. Move powers major high-throughput Layer 1 blockchains, primarily **Aptos** and **Sui**, each featuring unique architectural extensions:
+
 - **Core MoveVM Bytecode**: Bytecode modules (`.mv`) composed of 16-bit table headers, constant pools, address/module handles, struct definitions, function signatures, field handles, and register-less stack-based opcodes (`MoveLoc`, `CopyLoc`, `BorrowField`, `Pack`, `Unpack`).
 - **First-Class Resources & Abilities**: Struct abilities (`copy`, `drop`, `store`, `key`) strictly enforcing ownership semantics (resources cannot be copied or dropped unless explicitly permitted).
 - **Aptos Move**: Global storage partitioned by user account addresses (`0x1::coin::CoinStore<AptosCoin>`), resource groups, and module table changesets.
@@ -117,19 +119,19 @@ flowchart TD
     B --> D["Bytecode Disassembler & CFG Constructor"]
     B --> E["Ability & Type System Reconstructor"]
     B --> F["Chain Profile Specializer (Aptos vs Sui)"]
-    
+
     C --> C1["Magic Verification (0xA11CEB0B) & Version"]
     C --> C2["Table Stream Offsets (Structs, Functions, Signatures)"]
-    
+
     D --> D1["Opcode Disassembly (Pack, Unpack, BorrowLoc, Branch)"]
     D --> D2["Control Flow Graph & Basic Block Analysis"]
-    
+
     E --> E1["Struct Definitions & Abilities (copy, drop, store, key)"]
     E --> E2["Resource Access Patterns (moves_from, borrows_global)"]
-    
+
     F --> F1["Aptos: Account Storage & Entry Function Registry"]
     F --> F2["Sui: Object Types, Shared/Owned Flags, Linkage Tables"]
-    
+
     C & D & E & F --> G["Synthesized Move Module Interface, Resource Graph & Call Hierarchy"]
 ```
 
@@ -177,13 +179,14 @@ flowchart TD
 
 ### [#3732](https://github.com/morluto/rea/issues/3732) [Feature] Starknet reverse engineering: Cairo, Sierra/CASM, class hashes, entrypoints and storage graphs
 
-*matbrgz, open, https://github.com/morluto/rea/issues/3732*
+_matbrgz, open, https://github.com/morluto/rea/issues/3732_
 
 #### Problem Statement & Context
 
 Starknet is the leading validity rollup (zk-STARK Layer 2) on Ethereum, executing provable smart contracts compiled via the Cairo programming language.
 
 Unlike standard register or stack virtual machines, Starknet smart contracts operate through a unique two-stage intermediate compilation architecture:
+
 1. **Cairo Assembly (CASM)**: Low-level algebraic assembly executed on the Cairo CPU, operating over field elements in the Stark prime field ($P = 2^{251} + 17 \cdot 2^{192} + 1$). Instructions manipulate memory cells (`[fp + N]`, `[ap + M]`) ensuring all operations satisfy polynomial algebraic constraints.
 2. **Sierra (Safe Intermediate Execution Representation)**: An intermediate representation that guarantees every program execution is provable (preventing non-halting loops and out-of-gas reverts from evading proof generation). Sierra code consists of strongly-typed libfunc calls (`branch_align`, `array_new`, `felt252_add`, `u256_sub`).
 3. **Contract Class Artifacts (`contract_class.json`)**: Compiled contract artifacts declaring ABI, Sierra program bytecode, entrypoint selectors (External, L1 Handler, Constructor), and Cairo compiler versions.
@@ -201,20 +204,20 @@ flowchart TD
     B --> D["Sierra IR Decompiler & Libfunc Slicer"]
     B --> E["CASM CPU Assembly Disassembler"]
     B --> F["Storage Variable & Entrypoint Mapper"]
-    
+
     C --> C1["Compiler Version & Entrypoint Selectors (External, Constructor)"]
     C --> C2["Class Hash Computation (Poseidon Hash Matrix)"]
-    
+
     D --> D1["Sierra Type Registry (felt252, u128, ContractAddress)"]
     D --> D2["Libfunc Invocations & Branch Alignments"]
     D --> D3["Control Flow Graph & High-Level Statement Reconstruction"]
-    
+
     E --> E1["CASM Opcode Decoding (Assertions, Call, Jump, Ret)"]
     E --> E2["Register State ([fp], [ap]) & Prime Field Constants"]
-    
+
     F --> F1["Storage Variable Poseidon Hashes (sn_keccak / poseidon)"]
     F --> F2["L1 <-> L2 Messaging Handlers"]
-    
+
     C & D & E & F --> G["Synthesized Starknet Contract Specification & Decompiled Cairo Source"]
 ```
 
@@ -258,13 +261,14 @@ flowchart TD
 
 ### [#3738](https://github.com/morluto/rea/issues/3738) [Feature] Polkadot/Substrate reverse engineering: SCALE metadata, runtime Wasm, pallets, extrinsics and runtime-upgrade diffs
 
-*matbrgz, open, https://github.com/morluto/rea/issues/3738*
+_matbrgz, open, https://github.com/morluto/rea/issues/3738_
 
 #### Problem Statement & Context
 
 Polkadot and Substrate-based blockchains employ a unique runtime architecture: the entire blockchain state transition logic is compiled into a WebAssembly binary (`runtime.wasm`) stored directly within the on-chain storage. When a blockchain upgrade occurs, the runtime Wasm is overwritten on-chain (forkless runtime upgrade), fundamentally altering pallets, storage structures, extrinsics, and dispatch calls.
 
 Reverse engineering a Substrate chain, node snapshot, or transaction requires decoding:
+
 1. **SCALE Codec (Simple Concatenated Aggregate Little-Endian)**: Compact binary serialization format used across Substrate for types, storage entries, and network packets.
 2. **SCALE Runtime Metadata (V14 & V15)**: Self-describing type registry (`PortableRegistry`) and pallet manifests embedded in the runtime. Defines every pallet, call function (`Call`), storage entry, event, custom error, and constant.
 3. **Runtime Wasm Blob (`:code`)**: Compressed or uncompressed WebAssembly module implementing runtime API entrypoints (`Core_version`, `Metadata_metadata`, `BlockBuilder_apply_extrinsic`).
@@ -282,20 +286,20 @@ flowchart TD
     B --> D["Metadata V14 / V15 Type Registry Parser"]
     B --> E["Runtime Wasm Entrypoint Decompiler"]
     B --> F["Runtime Upgrade Diff Engine"]
-    
+
     C --> C1["Compact Integer & Variant Decoding"]
     C --> C2["PortableRegistry Type Index (Types 0..N)"]
-    
+
     D --> D1["Pallet Catalog (Pallet Index, Name, Call Enum)"]
     D --> D2["Storage Entry Key Derivation (Twox128 / Blake2)"]
     D --> D3["Extrinsic Call Decoder (PalletIdx, CallIdx, Args)"]
-    
+
     E --> E1[":code WebAssembly Module Analysis (#2298)"]
     E --> E2["Runtime API Entrypoints (Core, Metadata, BlockBuilder)"]
-    
+
     F --> F1["Metadata Version Comparison (Pre vs Post Upgrade)"]
     F --> F2["Storage Migration & Call Signature Breaking Changes"]
-    
+
     C & D & E & F --> G["Synthesized Pallet Specification, Extrinsic Tree & Upgrade Diff Report"]
 ```
 
@@ -338,11 +342,12 @@ flowchart TD
 
 ### [#3739](https://github.com/morluto/rea/issues/3739) [Feature] CosmWasm and IBC reverse engineering: Wasm contracts, schemas, packet lifecycles and cross-chain state machines
 
-*matbrgz, open, https://github.com/morluto/rea/issues/3739*
+_matbrgz, open, https://github.com/morluto/rea/issues/3739_
 
 #### Problem Statement & Context
 
 The Cosmos ecosystem and interchain network rely on two foundational smart contract and networking standards:
+
 1. **CosmWasm (WebAssembly Smart Contracts)**: Rust-compiled WebAssembly binaries (`.wasm`) tailored for the Cosmos SDK, exporting deterministic actor entrypoints: `instantiate`, `execute`, `query`, `sudo`, `migrate`, `reply`. Uses JSON message passing over raw memory pointers.
 2. **CosmWasm JSON Schemas (`schema/*.json`)**: JSON Schema definitions declaring message variants (`ExecuteMsg`, `QueryMsg`, `InstantiateMsg`), state models, and response formats generated via `cosmwasm-schema`.
 3. **Storage Namespaces**: Key-value storage partitioned by length-prefixed ASCII prefixes (e.g. `^Fconfig`, `^Gbalance<address>`).
@@ -362,17 +367,17 @@ flowchart TD
     B --> C["CosmWasm Actor Entrypoint Decompiler"]
     B --> D["Storage Key & Schema Reconstructor"]
     B --> E["IBC Protocol Packet & Channel Tracker"]
-    
+
     C --> C1["Exported Wasm Functions (instantiate, execute, query, reply)"]
     C --> C2["JSON Message Slicing & Submessage Handlers"]
-    
+
     D --> D1["Namespace Prefix Parsing (cw-storage-plus conventions)"]
     D --> D2["Reconstructed ExecuteMsg & QueryMsg Schemas"]
-    
+
     E --> E1["IBC Handshake (Client, Connection, Channel Open/Ack)"]
     E --> E2["Packet Lifecycle (Sequence, Timeout, Data, Ack)"]
     E --> E3["Cross-Chain Causality Graph (Chain A -> Chain B)"]
-    
+
     C & D & E --> F["Synthesized Contract Interface & Cross-Chain IBC Flowchart"]
 ```
 
@@ -418,11 +423,12 @@ flowchart TD
 
 ### [#3747](https://github.com/morluto/rea/issues/3747) [Feature] Solana transaction reverse engineering: instructions, CPIs, account roles, logs and state-change graphs
 
-*matbrgz, open, https://github.com/morluto/rea/issues/3747*
+_matbrgz, open, https://github.com/morluto/rea/issues/3747_
 
 #### Problem Statement & Context
 
 Solana executes smart contracts through high-performance SeaLevel runtime running Solana Bytecode Format (sBPF). While REA issue [#2003](https://github.com/morluto/rea/issues/2003) addresses static disassembly of standalone sBPF binaries and Anchor IDL introspection, analyzing a recorded Solana transaction on-chain requires a distinct runtime reverse engineering approach:
+
 1. **Transaction Wire Format**: Signatures array, message header (num_required_signatures, num_readonly_signed_accounts, num_readonly_unsigned_accounts), account keys array, recent blockhash, instructions array, and Address Lookup Tables (ALT / v0 transactions).
 2. **Instruction & Inner Instruction (CPI) Hierarchy**: Top-level instructions invoking programs, which in turn spawn nested Cross-Program Invocations (CPI) recorded as inner instructions in execution metadata.
 3. **Account Metas & Roles**: Explicit account declarations (Signer, Writable, Read-Only, Program ID) determining parallel execution scheduling.
@@ -440,19 +446,19 @@ flowchart TD
     B --> D["Instruction & CPI Call Tree Reconstructor"]
     B --> E["Program Log & Event Deserializer"]
     B --> F["Account Balance & Asset Flow Analyzer"]
-    
+
     C --> C1["Message Header & Account Keys Parsing"]
     C --> C2["v0 Address Lookup Table (ALT) Index Expansion"]
-    
+
     D --> D1["Top-Level Instructions (Program ID, Accounts, Data)"]
     D --> D2["Inner Instructions (CPI Invocation Depth 1..N)"]
-    
+
     E --> E1["Program Invoke / Success / Revert Log Parsing"]
     E --> E2["Anchor Event Log Decoding (Base64 Discriminators)"]
-    
+
     F --> F1["SOL Pre/Post Balance Diffs"]
     F --> F2["SPL Token Pre/Post Balance Diffs (Mint, Owner, Amount)"]
-    
+
     C & D & E & F --> G["Synthesized Solana Transaction Execution Tree & Asset Flow Graph"]
 ```
 
@@ -499,7 +505,7 @@ flowchart TD
 
 ### [#2003](https://github.com/morluto/rea/issues/2003) [Feature] Offline Solana sBPF program interface recovery
 
-*trenbonole, open, https://github.com/morluto/rea/issues/2003*
+_trenbonole, open, https://github.com/morluto/rea/issues/2003_
 
 #### Before submitting
 
@@ -563,15 +569,15 @@ Acceptance as in [#972](https://github.com/morluto/rea/issues/972): source-owned
 
 #### Alternatives considered
 
-| Tool | License | Fit |
-|---|---|---|
-| FuzzingLabs/sol-azy | SSPL | Cannot be bundled. A separate `solazy-mcp` server exists in FuzzingLabs' mcp-security-hub. |
-| sec3-service/IDLGuesser | GPL-3.0 | Bring-your-own at most. Its published method originated recovering instruction names from Anchor's log strings, which sbpf-inspect also uses and credits; sbpf-inspect shares no code with it. |
-| exreve/sol-bytecode-decompiler | none | No license, so not reusable. |
-| otter-sec/bn-ebpf-solana | MIT | Needs Binary Ninja, which is not a REA provider. |
-| Ghidra sBPF processor modules | LGPL-3.0 or none, mostly stale | Possible later path to decompilation through the Ghidra provider, not to interface recovery. |
-| blueshift-gg/sbpf crates | MIT | Permissive, maintained, ships a WebAssembly binding. Used below. |
-| anza-xyz/sbpf (`solana-sbpf`) | Apache-2.0 | The official VM. Compiles to wasm32 with its JIT feature off. Candidate for a later control-flow increment. |
+| Tool                           | License                        | Fit                                                                                                                                                                                            |
+| ------------------------------ | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FuzzingLabs/sol-azy            | SSPL                           | Cannot be bundled. A separate `solazy-mcp` server exists in FuzzingLabs' mcp-security-hub.                                                                                                     |
+| sec3-service/IDLGuesser        | GPL-3.0                        | Bring-your-own at most. Its published method originated recovering instruction names from Anchor's log strings, which sbpf-inspect also uses and credits; sbpf-inspect shares no code with it. |
+| exreve/sol-bytecode-decompiler | none                           | No license, so not reusable.                                                                                                                                                                   |
+| otter-sec/bn-ebpf-solana       | MIT                            | Needs Binary Ninja, which is not a REA provider.                                                                                                                                               |
+| Ghidra sBPF processor modules  | LGPL-3.0 or none, mostly stale | Possible later path to decompilation through the Ghidra provider, not to interface recovery.                                                                                                   |
+| blueshift-gg/sbpf crates       | MIT                            | Permissive, maintained, ships a WebAssembly binding. Used below.                                                                                                                               |
+| anza-xyz/sbpf (`solana-sbpf`)  | Apache-2.0                     | The official VM. Compiles to wasm32 with its JIT feature off. Candidate for a later control-flow increment.                                                                                    |
 
 #### Possible direction
 
@@ -596,12 +602,12 @@ I can implement the first increment if the direction fits.
 
 Measured with sbpf-inspect 0.1.0. Each program is graded against an answer key the engine never sees. pump.fun program data was dumped on 2026-10-08 near mainnet slot 454,696,749; the others were measured on 2026-10-12.
 
-| Program | Instructions | Account types | Wrong names | Time (WebAssembly) |
-|---|---|---|---|---|
-| pump.fun bonding curve `6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P` | 56 of 56 | 7 of 7, plus pump AMM's `GlobalConfig` and `Pool` | 0 | 64 ms |
-| pump.fun AMM `pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA` | 38 of 38 | 7 of 7 | 0 | 55 ms |
-| Bordrless companion `6ZUM1gWBH9hBBNoJoaVAGwSftyZ6CUda6vUZTW9MsJuo`, sBPF v3, graded against its public source | 27 of 27, plus 2 outgoing calls reported as `referenced` | 3 of 6 | 0 | 14 ms |
-| Closed-source launchpad `BohF4FAftBwEBoa23sUgM8Vr5HL2nAHLx5s7b1iBK56f`, deleted by its owner, graded against its own runtime logs | 23 of 23 instructions it was ever called with | 11 found, no key | 0 | 76 ms native |
+| Program                                                                                                                           | Instructions                                             | Account types                                     | Wrong names | Time (WebAssembly) |
+| --------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------- | ----------- | ------------------ |
+| pump.fun bonding curve `6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P`                                                              | 56 of 56                                                 | 7 of 7, plus pump AMM's `GlobalConfig` and `Pool` | 0           | 64 ms              |
+| pump.fun AMM `pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA`                                                                        | 38 of 38                                                 | 7 of 7                                            | 0           | 55 ms              |
+| Bordrless companion `6ZUM1gWBH9hBBNoJoaVAGwSftyZ6CUda6vUZTW9MsJuo`, sBPF v3, graded against its public source                     | 27 of 27, plus 2 outgoing calls reported as `referenced` | 3 of 6                                            | 0           | 14 ms              |
+| Closed-source launchpad `BohF4FAftBwEBoa23sUgM8Vr5HL2nAHLx5s7b1iBK56f`, deleted by its owner, graded against its own runtime logs | 23 of 23 instructions it was ever called with            | 11 found, no key                                  | 0           | 76 ms native       |
 
 Every recovered discriminator matches the published IDL byte for byte. The two extra types' discriminators match pump AMM's IDL; the bonding curve checks them in `migrate`.
 
@@ -619,7 +625,6 @@ node scripts/grade-against-idl.mjs pump.report.json pump.json
 - [#972](https://github.com/morluto/rea/issues/972), [#1051](https://github.com/morluto/rea/pull/1051) (EVM increment and its adapter pattern), [#740](https://github.com/morluto/rea/issues/740) (capability modularization)
 - Loader version mapping: [`get_sbpf_version` in anza-xyz/sbpf](https://github.com/anza-xyz/sbpf/blob/main/src/elf.rs)
 - [blueshift-gg/sbpf](https://github.com/blueshift-gg/sbpf)
-
 
 #### Comment by trenbonole (2026-10-12) on [#2003](https://github.com/morluto/rea/issues/2003)
 
@@ -639,7 +644,6 @@ I also found a gap I hadn't noticed. Older Anchor versions compile dispatch into
 
 This doesn't change what I'd suggest for a first increment; account lists could land as a follow-up. Still happy to do the work if the direction fits.
 
-
 #### Comment by trenbonole (2026-10-14) on [#2003](https://github.com/morluto/rea/issues/2003)
 
 Another update since 0.2.0. A few more of the things this proposal lists under unknowns now work, so I'll note them here.
@@ -656,7 +660,6 @@ It also pulls out the program's own error and log messages. Those are in the bin
 One cleanup worth mentioning if you ever embed it: it no longer uses a third-party disassembler. The ELF reader, decoder and loader are its own now, so the whole analysis path is one MIT/Apache crate.
 
 None of this changes the first increment I suggested — it's all follow-on. Numbers and per-program tables are in the readme: https://github.com/trenbonole/sbpf-inspect. Still glad to do the work if the direction fits.
-
 
 #### Comment by bornsl0ppy (2026-10-15) on [#2003](https://github.com/morluto/rea/issues/2003)
 
