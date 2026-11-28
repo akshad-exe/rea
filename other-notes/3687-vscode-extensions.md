@@ -86,3 +86,19 @@ Open decision: extend that proof per compiler helper, or label any `helper(requi
 
 - Done: the VSIX report keeps every declared command (`commands_omitted` is now always 0) and records `menus` and `keybindings` (null when `package.json` was not read or in older Evidence). 110 VSIX tests, `check:fast`, `docs:check` passed. Uncommitted.
 - Next: the correlation operation (domain result, CLI, MCP, docs, boundary tests), then a real extension trial.
+
+## Part 1 complete locally (2026-11-28)
+
+Uncommitted on `feat/vsix-command-handlers`. Adds `correlate_vsix_commands` (CLI and MCP) over package and application Evidence.
+
+Real extensions from Open VSX, analyzed statically:
+
+| Extension              | Declared | Registered | Undeclared | Undetermined |
+| ---------------------- | -------- | ---------- | ---------- | ------------ |
+| EditorConfig 0.18.2    | 1        | 1          | 1          | 0            |
+| prettier-vscode 12.4.0 | 2        | 2          | 1          | 0            |
+| GitLens 2026.11.260409 | 1199     | 0          | 0          | 1199         |
+
+GitLens: call analysis of both entry bundles was dropped under the analysis result budget, so every command is undetermined. The first run reported them all as not found; fixed. Its code also registers through local wrapper functions, so literal matching would miss many even with a larger budget (seen in the source, not measured).
+
+Checks: `check:fast`, `format:check`, `docs:check`, schema summary; 140 selected test files, 4327 tests. Next: human review, commit, PR with `Refs #3687`.

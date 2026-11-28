@@ -8,7 +8,7 @@ Status 2026-11-28. Recheck on GitHub before relying on it.
 | [#2393](https://github.com/morluto/rea/issues/2393) | `inspect_evm_proxy`: clone proxies and supplied storage slots             | [#14951](https://github.com/morluto/rea/pull/14951) | Ready; CI passed, 5/5; boxes unticked               |
 | [#2393](https://github.com/morluto/rea/issues/2393) | Follow proxy chains                                                       | [#14953](https://github.com/morluto/rea/pull/14953) | Ready; CI passed, 5/5; boxes unticked; after #14951 |
 | [#2388](https://github.com/morluto/rea/issues/2388) | `verify_solidity_metadata`: metadata file against bytecode commitment     | [#14967](https://github.com/morluto/rea/pull/14967) | Draft; CI passed, 5/5; closes the issue once merged |
-| [#3687](3687-vscode-extensions.md)                  | Link VS Code extension commands to their handlers (part 1 of 6 remaining) | branch `feat/vsix-command-handlers`                 | In progress; mvanhorn agreed                        |
+| [#3687](3687-vscode-extensions.md)                  | Link VS Code extension commands to their handlers (part 1 of 6 remaining) | branch `feat/vsix-command-handlers`                 | Built locally; not committed                        |
 
 ## Planned or waiting
 
