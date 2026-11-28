@@ -1,6 +1,6 @@
 # #3687 VS Code extension analysis
 
-[Issue](https://github.com/morluto/rea/issues/3687). Checked 2026-11-28 against upstream `a91d9fa2b`. Status: planned, not started. [Comment posted](https://github.com/morluto/rea/issues/3687#issuecomment-7233182377) 2026-11-28; waiting for a reply.
+[Issue](https://github.com/morluto/rea/issues/3687) · [Our work](our-work.md). Updated 2026-11-28. Status: **in progress** on branch `feat/vsix-command-handlers` (from upstream `c24ec44c9`).
 
 ## State
 
@@ -18,40 +18,37 @@
 
 A synthetic sample showed that `analyze-javascript-application` on the extracted folder records the `vscode.*` calls and some literal arguments, without VS Code meaning.
 
-## First slice: commands to handlers
+## Reply (2026-11-28)
 
-Question: for each declared command, where is it registered, and which declarations or registrations are unmatched?
+mvanhorn is not working on this part and said to take it: command correlation sounds right, dynamically built names should stay unresolved, and the declared command list from #12469 should be built on instead of reparsing `package.json`. Final scope is morluto's call; no reply from morluto yet.
 
-| Result per command      | Meaning                                                                                                    |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `registered`            | A `registerCommand` or `registerTextEditorCommand` call with that literal ID, with module and source range |
-| `not_found`             | No literal registration was seen; this does not show there is none                                         |
-| `registered_undeclared` | Registered in code but absent from `contributes.commands`                                                  |
+## Chosen design: A
 
-Menus and keybindings link to commands by ID. Computed IDs stay unresolved and are counted.
+The JavaScript analysis learns VS Code command registrations, beside its Electron IPC recognition. Chosen by the human owner over a separate reader or position matching.
 
-## Where to look
+Findings that shaped it:
 
-- Manifest facts: `src/vsix/VsixPackageParser.ts`, `src/domain/vsix/vsixPackage.ts`
-- Call facts: the JavaScript semantic graph (`literal_argument_value` and call arguments)
-- Reuse both owners; do not parse the archive or the JavaScript a second time.
+- In the sample, the analysis result recorded the literal argument and the `registerCommand` property use, with no direct link from the call to that member.
+- The VSIX report lists at most 32 commands (`VSIX_COMMANDS_CAP`). The full list must be kept; summaries may stay capped.
 
-## Open questions
+## All parts of #3687
 
-- A new operation that takes retained JavaScript analysis Evidence, or an extension of the VSIX tool? Read "Decide whether to add a tool" and "Compose declared Evidence inputs" in `docs/development/tool-design.md` first.
-- How reliably does the graph resolve `vscode` through bundlers and minification? Test on real extensions before designing.
-- Does mvanhorn plan the next slice?
+| Part | Content                                              | State           |
+| ---- | ---------------------------------------------------- | --------------- |
+| 0    | Package inspection, native and WebAssembly members   | Merged (#12469) |
+| 1    | Commands, menus and keybindings to handlers          | **In progress** |
+| 2    | Chat participants, language model tools, MCP servers | Not started     |
+| 3    | Detailed views, settings and other contributions     | Not started     |
+| 4    | Installed extension folders                          | Not started     |
+| 5    | Webview content and messaging                        | Not started     |
+| 6    | Language and debug server processes                  | Not started     |
 
-## Later slices
+Six parts remain, including this one. The split is ours, not the issue's. This PR uses `Refs #3687`.
 
-Chat participants, tools and MCP declarations; detailed contributions; installed folders; webviews and language servers.
+## Part 1 steps
 
-## Before code
-
-- [#14951](https://github.com/morluto/rea/pull/14951) finished first.
-- Wait a short while for mvanhorn or a maintainer to reply to the comment.
-- Branch from `upstream/main`. No spec or plan files in the PR.
-
-## Comment draft (a shorter version was posted)
-
-> @mvanhorn @morluto #12469 delivered package inspection as the first slice. Are you planning the next one? If not, I'd like to link declared commands (with their menus and keybindings) to `registerCommand` calls found by the existing JavaScript analysis: each command reported as registered with its source location, not found, or registered but undeclared. Static only, no extension execution. Computed command IDs would stay explicitly unresolved.
+1. Recognize `registerCommand` and `registerTextEditorCommand` bound to `vscode`, including CommonJS, ES imports, destructuring and bundler wrappers; dynamic IDs unresolved.
+2. Try it on bundled, minified and real extensions.
+3. Keep the full declared command list in the VSIX report.
+4. New correlation result: registered, not found, registered but undeclared; menus and keybindings by command ID.
+5. Docs, schema records, tests, checks.
