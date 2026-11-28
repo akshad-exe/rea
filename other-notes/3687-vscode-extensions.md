@@ -102,3 +102,14 @@ Real extensions from Open VSX, analyzed statically:
 GitLens: call analysis of both entry bundles was dropped under the analysis result budget, so every command is undetermined. The first run reported them all as not found; fixed. Its code also registers through local wrapper functions, so literal matching would miss many even with a larger budget (seen in the source, not measured).
 
 Checks: `check:fast`, `format:check`, `docs:check`, schema summary; 140 selected test files, 4327 tests. Next: human review, commit, PR with `Refs #3687`.
+
+## Fork pull requests (2026-11-28)
+
+| Part | Fork PR                                                      | Base              | Content                                                    |
+| ---- | ------------------------------------------------------------ | ----------------- | ---------------------------------------------------------- |
+| 1    | [akshad-exe/rea#1](https://github.com/akshad-exe/rea/pull/1) | `base/vsix-part1` | Commands; operation renamed `correlate_vsix_registrations` |
+| 2    | [akshad-exe/rea#2](https://github.com/akshad-exe/rea/pull/2) | part 1 branch     | Chat participants, tools, MCP providers                    |
+
+Nothing opened upstream. Part 2 real trials: three extensions matched; flowrelay's chat participant and MCP provider were missed (APIs obtained through helper functions, IDs as constants). Still open in part 2's area: prompt handling, run-time MCP server definitions.
+
+Remaining parts: 3 detailed contributions, 4 installed folders, 5 webviews, 6 language and debug servers.
