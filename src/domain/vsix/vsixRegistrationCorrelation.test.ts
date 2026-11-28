@@ -3,17 +3,26 @@ import { describe, expect, it } from "vitest";
 import { graphForJavaScript } from "../../../tests/fixtures/javascriptSemanticGraph.js";
 import { correlateVsixRegistrations } from "./vsixRegistrationCorrelation.js";
 
+type ContributionKind =
+  | "chat_participant"
+  | "language_model_tool"
+  | "mcp_server_provider";
+
 const contributes = (
   commands: readonly string[],
   extra: {
     menus?: { menu: string; commands: (string | null)[] }[] | null;
     keybindings?: { command: string | null; key: string | null }[] | null;
+    declarations?:
+      | { kind: ContributionKind; id: string | null; label: string | null }[]
+      | null;
   } = {},
 ) => ({
   commands: commands.map((command) => ({ command, title: null })),
   commands_omitted: 0,
   menus: [],
   keybindings: [],
+  declarations: [],
   ...extra,
 });
 
@@ -144,6 +153,41 @@ describe("VS Code command correlation", () => {
     expect(result.entry_points).toEqual([{ path: "app.js", analyzed: false }]);
     expect(result.commands[0]?.status).toBe("undetermined");
     expect(result.summary).toMatchObject({ not_found: 0, undetermined: 1 });
+  });
+
+  it("correlates chat participants, tools and MCP providers", () => {
+    const result = correlate(
+      `${VSCODE}vscode.chat.createChatParticipant("demo.chat", f);
+       vscode.lm.registerTool("demo_hidden", t);
+       vscode.lm.registerMcpServerDefinitionProvider(id, p);`,
+      contributes([], {
+        declarations: [
+          { kind: "chat_participant", id: "demo.chat", label: "demo" },
+          { kind: "language_model_tool", id: "demo_tool", label: null },
+        ],
+      }),
+    );
+    expect(
+      result.contributions.map(({ kind, id, status }) => [kind, id, status]),
+    ).toEqual([
+      ["chat_participant", "demo.chat", "registered"],
+      ["language_model_tool", "demo_hidden", "registered_undeclared"],
+      ["language_model_tool", "demo_tool", "not_found"],
+    ]);
+    expect(result.unresolved_registrations).toEqual([
+      expect.objectContaining({
+        function: "registerMcpServerDefinitionProvider",
+      }),
+    ]);
+    expect(result.commands).toEqual([]);
+  });
+
+  it("does not call a registration undeclared when declarations are unread", () => {
+    const result = correlate(
+      `${VSCODE}vscode.lm.registerTool("demo_tool", t);`,
+      contributes([], { declarations: null }),
+    );
+    expect(result.contributions[0]?.status).toBe("undetermined");
   });
 
   const withGraph = (

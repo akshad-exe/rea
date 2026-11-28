@@ -3,7 +3,7 @@ import { z } from "zod";
 import { evidenceInputSchema } from "../evidenceReference.js";
 import type { JavaScriptSemanticGraph } from "../javascript/javascriptSemanticGraph.js";
 import { compareUnicodeCodePoints } from "../unicodeCodePointOrder.js";
-import type { VsixPackage } from "./vsixPackage.js";
+import { VSIX_CONTRIBUTION_KINDS, type VsixPackage } from "./vsixPackage.js";
 
 /** Inline or exact retained Evidence for both sides of the correlation. */
 export const correlateVsixRegistrationsInputSchema = z.strictObject({
@@ -15,7 +15,27 @@ export const correlateVsixRegistrationsInputSchema = z.strictObject({
   ),
 });
 
-const REGISTRATIONS = ["registerCommand", "registerTextEditorCommand"] as const;
+/** The vscode functions that register each kind of contribution. */
+const REGISTRATION_KINDS = {
+  "commands.registerCommand": "command",
+  "commands.registerTextEditorCommand": "command",
+  "chat.createChatParticipant": "chat_participant",
+  "lm.registerTool": "language_model_tool",
+  "lm.registerMcpServerDefinitionProvider": "mcp_server_provider",
+} as const;
+const REGISTRATIONS = [
+  "registerCommand",
+  "registerTextEditorCommand",
+  "createChatParticipant",
+  "registerTool",
+  "registerMcpServerDefinitionProvider",
+] as const;
+const STATUSES = [
+  "registered",
+  "not_found",
+  "undetermined",
+  "registered_undeclared",
+] as const;
 
 const registrationSchema = z.strictObject({
   function: z.enum(REGISTRATIONS),
@@ -29,20 +49,24 @@ type Registration = z.output<typeof registrationSchema>;
 
 const commandSchema = z.strictObject({
   command: z.string(),
-  status: z.enum([
-    "registered",
-    "not_found",
-    "undetermined",
-    "registered_undeclared",
-  ]),
+  status: z.enum(STATUSES),
   title: z.string().nullable(),
   registrations: z.array(registrationSchema),
   keybindings: z.array(z.string()).nullable(),
 });
 
+const contributionSchema = z.strictObject({
+  kind: z.enum(VSIX_CONTRIBUTION_KINDS),
+  id: z.string(),
+  status: z.enum(STATUSES),
+  label: z.string().nullable(),
+  registrations: z.array(registrationSchema),
+});
+
 const count = z.int().nonnegative();
 const correlationShape = {
   commands: z.array(commandSchema),
+  contributions: z.array(contributionSchema),
   menus: z
     .array(z.strictObject({ menu: z.string(), commands: z.array(z.string()) }))
     .nullable(),
@@ -73,7 +97,7 @@ export const vsixRegistrationCorrelationSchema = z.strictObject({
 interface CorrelationInput {
   readonly contributes: Pick<
     VsixPackage["contributes"],
-    "commands" | "commands_omitted" | "menus" | "keybindings"
+    "commands" | "commands_omitted" | "menus" | "keybindings" | "declarations"
   >;
   /** Entry point member paths declared by the package. */
   readonly entryPoints: readonly string[];
@@ -84,22 +108,34 @@ interface CorrelationInput {
 
 const calleeSchema = z.object({
   specifier: z.literal("vscode"),
-  path: z.tuple([z.literal("commands"), z.enum(REGISTRATIONS)]),
+  path: z.tuple([z.string(), z.enum(REGISTRATIONS)]),
   loader_authority: z.literal("candidate").optional(),
   wrapper: z.literal("unverified").optional(),
 });
 const argumentsSchema = z.array(
   z.object({ index: z.number(), value: z.unknown() }),
 );
+const isRegistrationPath = (
+  path: string,
+): path is keyof typeof REGISTRATION_KINDS =>
+  Object.hasOwn(REGISTRATION_KINDS, path);
+type Kind = (typeof REGISTRATION_KINDS)[keyof typeof REGISTRATION_KINDS];
 
-/** Registration calls by literal identifier; other identifiers stay unresolved. */
+/** Registration calls by kind and literal ID; other IDs stay unresolved. */
 const registrationsOf = (graph: JavaScriptSemanticGraph) => {
-  const byCommand = new Map<string, Registration[]>();
+  const byKind: Record<Kind, Map<string, Registration[]>> = {
+    command: new Map(),
+    chat_participant: new Map(),
+    language_model_tool: new Map(),
+    mcp_server_provider: new Map(),
+  };
   const unresolved: Registration[] = [];
   for (const node of graph.nodes) {
     if (node.kind !== "call-site") continue;
     const callee = calleeSchema.safeParse(node.properties.module_callee);
     if (!callee.success) continue;
+    const path = callee.data.path.join(".");
+    if (!isRegistrationPath(path)) continue;
     const start = node.identity.source_range?.start;
     const registration: Registration = {
       function: callee.data.path[1],
@@ -115,11 +151,53 @@ const registrationsOf = (graph: JavaScriptSemanticGraph) => {
       unresolved.push(registration);
       continue;
     }
-    const found = byCommand.get(id);
-    if (found === undefined) byCommand.set(id, [registration]);
+    const byId = byKind[REGISTRATION_KINDS[path]];
+    const found = byId.get(id);
+    if (found === undefined) byId.set(id, [registration]);
     else found.push(registration);
   }
-  return { byCommand, unresolved };
+  return { byKind, unresolved };
+};
+
+/**
+ * Join one kind's declared IDs with its registrations. Null declarations mean
+ * they were not read, so nothing is called undeclared.
+ */
+const joinDeclarations = (
+  declared: ReadonlyMap<string, string | null> | null,
+  found: ReadonlyMap<string, Registration[]>,
+  {
+    complete,
+    allDeclared,
+  }: { readonly complete: boolean; readonly allDeclared: boolean },
+) =>
+  [...new Set([...(declared?.keys() ?? []), ...found.keys()])]
+    .sort(compareUnicodeCodePoints)
+    .map((id) => {
+      const registrations = found.get(id) ?? [];
+      const status: (typeof STATUSES)[number] =
+        declared === null
+          ? "undetermined"
+          : !declared.has(id)
+            ? allDeclared
+              ? "registered_undeclared"
+              : "undetermined"
+            : registrations.length > 0
+              ? "registered"
+              : complete
+                ? "not_found"
+                : "undetermined";
+      return { id, status, text: declared?.get(id) ?? null, registrations };
+    });
+
+/** The first declared text for each non-null ID. */
+const firstById = (
+  rows: readonly (readonly [string | null, string | null])[],
+) => {
+  const declared = new Map<string, string | null>();
+  for (const [id, text] of rows)
+    if (id !== null && !declared.has(id)) declared.set(id, text);
+  return declared;
 };
 
 const groupBy = <Row extends { readonly command: string | null }>(
@@ -205,36 +283,43 @@ export const correlateVsixRegistrations = ({
   manifestRead,
   semanticGraph,
 }: CorrelationInput) => {
-  const { byCommand, unresolved } = registrationsOf(semanticGraph);
-  const declared = new Map<string, string | null>();
-  for (const { command, title } of contributes.commands)
-    if (command !== null && !declared.has(command))
-      declared.set(command, title);
+  const { byKind, unresolved } = registrationsOf(semanticGraph);
+  const declared = firstById(
+    contributes.commands.map(({ command, title }) => [command, title]),
+  );
   const keys = groupBy(contributes.keybindings, ({ key }) => key);
   const { entries, complete } = callCoverage(semanticGraph, entryPoints);
   // An unread manifest or a capped older list cannot show an ID is undeclared.
   const allDeclared = manifestRead && contributes.commands_omitted === 0;
-  const commands = [...new Set([...declared.keys(), ...byCommand.keys()])]
-    .sort(compareUnicodeCodePoints)
-    .map((command) => {
-      const registrations = byCommand.get(command) ?? [];
-      const status = !declared.has(command)
-        ? allDeclared
-          ? ("registered_undeclared" as const)
-          : ("undetermined" as const)
-        : registrations.length > 0
-          ? ("registered" as const)
-          : complete
-            ? ("not_found" as const)
-            : ("undetermined" as const);
-      return {
-        command,
-        status,
-        title: declared.get(command) ?? null,
-        registrations,
-        keybindings: keys === null ? null : (keys.get(command) ?? []),
-      };
-    });
+  const commands = joinDeclarations(declared, byKind.command, {
+    complete,
+    allDeclared,
+  }).map(({ id, status, text, registrations }) => ({
+    command: id,
+    status,
+    title: text,
+    registrations,
+    keybindings: keys === null ? null : (keys.get(id) ?? []),
+  }));
+  const declaredContributions = VSIX_CONTRIBUTION_KINDS.flatMap((kind) =>
+    joinDeclarations(
+      contributes.declarations === null
+        ? null
+        : firstById(
+            contributes.declarations
+              .filter((row) => row.kind === kind)
+              .map(({ id, label }) => [id, label]),
+          ),
+      byKind[kind],
+      { complete, allDeclared: manifestRead },
+    ).map(({ id, status, text, registrations }) => ({
+      kind,
+      id,
+      status,
+      label: text,
+      registrations,
+    })),
+  );
   const tally = {
     registered: 0,
     not_found: 0,
@@ -252,6 +337,7 @@ export const correlateVsixRegistrations = ({
   return {
     commands,
     menus,
+    contributions: declaredContributions,
     unresolved_registrations: unresolved,
     entry_points: entries,
     summary: {

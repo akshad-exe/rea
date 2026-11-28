@@ -50,7 +50,8 @@ exists.
 `activation_events` lists each package.json event with `eager` true for `*`
 and `onStartupFinished`. `contributes` lists contribute key names and counts,
 every declared command, the commands each menu invokes (`menus`), and the command each
-keybinding (`keybindings`) invokes. `extension_dependencies` and `extension_pack` keep both
+keybinding (`keybindings`) invokes, plus declared chat participants, language
+model tools and MCP server providers (`declarations`). `extension_dependencies` and `extension_pack` keep both
 manifests' declared ids and a `disagreement` flag. A side is `null` when its
 manifest was missing or could not be read, and `disagreement` is only true
 when both sides were read. `extension_kind`,
@@ -112,6 +113,19 @@ summary of counts; page the complete record with `inspect_analysis_view` kind
 REA does not verify that the two records describe the same files:
 `entry_points` says whether each declared entry path was analyzed. `not_found`
 does not prove that a command has no handler.
+
+`contributions` reports the same statuses for chat participants, language
+model tools and MCP server providers:
+
+| Declared in `contributes`           | Registered with                                 |
+| ----------------------------------- | ----------------------------------------------- |
+| `chatParticipants[].id`             | `vscode.chat.createChatParticipant`             |
+| `languageModelTools[].name`         | `vscode.lm.registerTool`                        |
+| `mcpServerDefinitionProviders[].id` | `vscode.lm.registerMcpServerDefinitionProvider` |
+
+The servers an MCP provider returns at run time, their commands and prompt
+handling are not analyzed. `summary` counts commands only, apart from
+`unresolved_registrations`, which covers every kind.
 
 `undetermined` also replaces `registered_undeclared` when the manifest was not
 read or an older record omitted commands. Absence is not claimed when any source
