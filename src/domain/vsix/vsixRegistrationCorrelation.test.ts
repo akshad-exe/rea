@@ -8,7 +8,8 @@ type ContributionKind =
   | "language_model_tool"
   | "mcp_server_provider"
   | "view"
-  | "custom_editor";
+  | "custom_editor"
+  | "debugger";
 
 const contributes = (
   commands: readonly string[],
@@ -216,6 +217,29 @@ describe("VS Code command correlation", () => {
       ["demo.web", "registered", 1],
       ["demo.editor", "registered_undeclared", 1],
       ["demo.other", "not_found", 0],
+    ]);
+  });
+
+  it("correlates debugger types with adapter and configuration providers", () => {
+    const result = correlate(
+      `${VSCODE}vscode.debug.registerDebugAdapterDescriptorFactory("demo-debug", f);
+       vscode.debug.registerDebugConfigurationProvider("demo-debug", p);`,
+      contributes([], {
+        declarations: [
+          { kind: "debugger", id: "demo-debug", label: "Demo" },
+          { kind: "debugger", id: "other-debug", label: null },
+        ],
+      }),
+    );
+    expect(
+      result.contributions.map(({ id, status, registrations }) => [
+        id,
+        status,
+        registrations.length,
+      ]),
+    ).toEqual([
+      ["demo-debug", "registered", 2],
+      ["other-debug", "not_found", 0],
     ]);
   });
 });

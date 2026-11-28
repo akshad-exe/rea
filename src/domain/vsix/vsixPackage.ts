@@ -297,6 +297,7 @@ export const VSIX_CONTRIBUTION_KINDS = [
   "mcp_server_provider",
   "view",
   "custom_editor",
+  "debugger",
 ] as const;
 
 /** A declared contribution that code registers by its exact ID. */

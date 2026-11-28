@@ -359,6 +359,24 @@ it("records declared views, custom editors and settings", async () => {
   ]);
 });
 
+it("records declared debugger types", async () => {
+  const bytes = await vsixPackageFixture({
+    packageJson: JSON.stringify({
+      name: "hello",
+      publisher: "demo",
+      version: "1.2.3",
+      engines: { vscode: "^1.74.0" },
+      contributes: { debuggers: [{ type: "demo-debug", label: "Demo" }] },
+    }),
+  });
+  const report = vsixPackageSchema.parse(
+    await parseVsixPackage(bytes, artifactOf(bytes), defaults),
+  );
+  expect(report.contributes.declarations).toEqual([
+    { kind: "debugger", id: "demo-debug", label: "Demo" },
+  ]);
+});
+
 it("counts a single contributed command object as one command", async () => {
   const bytes = await vsixPackageFixture({
     packageJson: JSON.stringify({
