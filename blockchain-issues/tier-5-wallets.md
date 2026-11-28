@@ -1,14 +1,30 @@
+<a id="top"></a>
+
 # Tier 5: wallets and frontends
 
-[Master tracker](README.md). Status read from GitHub 2026-11-28.
+<!-- nav --> [← Tier 4](tier-4-zk.md) · [Master tracker](README.md) · [Dashboard](../dashboard/README.md) · [Related →](related.md)
+
+Status read from GitHub 2026-11-28.
 
 | Issue                                               | Title                                                                                                                            | Author  | State | Priority / labels            | Comments | Linked PRs |
 | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------- | ----- | ---------------------------- | -------- | ---------- |
 | [#3737](https://github.com/morluto/rea/issues/3737) | Wallet and dApp reverse engineering: EIP-1193 providers, WalletConnect sessions, JSON-RPC requests and frontend-to-wallet graphs | matbrgz | open  | enhancement, area: providers | 0        | none found |
 
+## Jump to an issue
+
+[#3737](#issue-3737)
+
 ## Source text
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.
+
+---
+
+<a id="issue-3737"></a>
+
+**━━━━━━━━ ISSUE 1 of 1 · #3737 ━━━━━━━━**
+
+[↑ Top](#top)
 
 ### [#3737](https://github.com/morluto/rea/issues/3737) [Feature] Wallet and dApp reverse engineering: EIP-1193 providers, WalletConnect sessions, JSON-RPC requests and frontend-to-wallet graphs
 
@@ -88,3 +104,7 @@ flowchart TD
 - Complements [#3608](https://github.com/morluto/rea/issues/3608) (React Semantic Reconstruction & Decompiler Engine)
 - Complements [#972](https://github.com/morluto/rea/issues/972) (Solidity/EVM reverse engineering)
 - Complements [#117](https://github.com/morluto/rea/issues/117) (Full-stack reconstruction)
+
+---
+
+<!-- nav --> [← Tier 4](tier-4-zk.md) · [Master tracker](README.md) · [Dashboard](../dashboard/README.md) · [Related →](related.md)

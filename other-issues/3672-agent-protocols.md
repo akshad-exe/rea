@@ -1,21 +1,44 @@
 # #3672 Agent protocols
 
-[Issue](https://github.com/morluto/rea/issues/3672) · [Our work](our-work.md). Checked 2026-11-28: open, no assignee, no comments, no linked or matching open PR. Status: noted to work on; not planned in detail, not claimed.
+<!-- nav --> [Dashboard](../dashboard/README.md) · [#3687 VS Code extensions →](3687-vscode-extensions.md)
+
+| Field      | Value                                                                            |
+| ---------- | -------------------------------------------------------------------------------- |
+| Issue      | [#3672](https://github.com/morluto/rea/issues/3672)                              |
+| Group      | Not in a tier; related to [emerging domain 1](../emerging-issues/1-agentic-ai.md) |
+| State      | Open, no assignee, no comments (checked 2026-11-28)                              |
+| Our status | Noted to work on; not claimed                                                    |
+| Our PRs    | None                                                                             |
+
+## Summary
+
+Read the protocols AI agents use (MCP, A2A, tool calling) from files, and report tools, schemas, delegation and risky capabilities. REA has no operation for third-party agents yet, according to the issue.
+
+## Parts
+
+The split and sizes are our estimate; the issue lists acceptance items, not steps.
+
+| Part | Content                                                        | Issue item | Size                   | Status      |
+| ---- | -------------------------------------------------------------- | ---------- | ---------------------- | ----------- |
+| 1    | Saved MCP listings into an inventory; `analyze_agent_protocol` | 1, 2       | Small to medium        | Not started |
+| 2    | Tool schemas and limits, including OpenAI-style `tools`        | 4          | Medium                 | Not started |
+| 3    | Flag privileged tools, as inference                            | 5          | Small, can misjudge    | Not started |
+| 4    | Delegation between agents                                      | 3          | Large, loosely defined | Not started |
+
+Outside the acceptance items but in the description: transport detection (STDIO or HTTP), tool-call round trips, prompt injection surfaces.
 
 ## Related issues
 
-- [#3721](https://github.com/morluto/rea/issues/3721) A2A, which says it is distinct from this issue; agree the split before code ([emerging notes](../emerging-notes/1-agentic-ai.md)).
-- [#3651](https://github.com/morluto/rea/issues/3651) LLM applications, which also recovers tool schemas and MCP configuration.
+| Issue                                                                | Overlap                                                    |
+| -------------------------------------------------------------------- | ---------------------------------------------------------- |
+| [#3721](https://github.com/morluto/rea/issues/3721) A2A              | Says it is distinct from this issue; agree who owns part 4 |
+| [#3651](https://github.com/morluto/rea/issues/3651) LLM applications | Also recovers tool schemas and MCP configuration (part 2)  |
 
-## Candidate first slice
+## Next steps
 
-Read a saved MCP listing (`tools/list`, `resources/list`, `prompts/list`) into a structured inventory (acceptance item 2). Offline, no server started. Flagging privileged tools would be a labelled inference.
-
-## Before code
-
-- Check what REA already parses for MCP.
-- Comment on the issue.
-- Branch from `upstream/main`.
+1. Check what REA already parses for MCP.
+2. Comment on the issue proposing part 1 (not posted).
+3. Branch from `upstream/main`.
 
 ## Source text
 
@@ -120,3 +143,7 @@ This feature proposal introduces dedicated **AI Agent Protocol Reverse Engineeri
 - [#3651](https://github.com/morluto/rea/issues/3651) [Feature] LLM application reverse engineering
 - [#3323](https://github.com/morluto/rea/issues/3323) [Feature] Inspect GGUF and safetensors model files without loading them
 - [#3599](https://github.com/morluto/rea/issues/3599) [Feature] Passive DNS extraction and cybersecurity analysis primitives
+
+---
+
+<!-- nav --> [Dashboard](../dashboard/README.md) · [#3687 VS Code extensions →](3687-vscode-extensions.md)

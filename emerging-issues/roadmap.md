@@ -15,7 +15,7 @@ Offline parsing with no new engine. By my reading of `CONTRIBUTING.md` this is f
 
 ## Added outside the tracker
 
-[#3672](../other-notes/3672-agent-protocols.md) agent protocols (MCP, A2A, tool calling): we intend to work on it. Settle the overlap with #3721 and #3651 first.
+[#3672](../other-issues/3672-agent-protocols.md) agent protocols (MCP, A2A, tool calling): we intend to work on it. Settle the overlap with #3721 and #3651 first.
 
 ## Claimed
 

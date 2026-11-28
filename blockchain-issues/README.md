@@ -1,6 +1,6 @@
 # REA blockchain domain: master tracker
 
-Built 2026-11-28 from `morluto/rea` issues. Versioned in `blockchain-notes/` on the fork's `main` only, never on a PR branch or upstream.
+Built 2026-11-28 from `morluto/rea` issues. Versioned in `blockchain-issues/` on the fork's `main` only, never on a PR branch or upstream.
 
 ## Files
 

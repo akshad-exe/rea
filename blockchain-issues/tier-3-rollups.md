@@ -1,6 +1,10 @@
+<a id="top"></a>
+
 # Tier 3: rollups and cross-chain
 
-[Master tracker](README.md). Status read from GitHub 2026-11-28.
+<!-- nav --> [← Tier 2](tier-2-chains.md) · [Master tracker](README.md) · [Dashboard](../dashboard/README.md) · [Tier 4 →](tier-4-zk.md)
+
+Status read from GitHub 2026-11-28.
 
 | Issue                                               | Title                                                                                                                        | Author  | State | Priority / labels           | Comments | Linked PRs |
 | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------- | ----- | --------------------------- | -------- | ---------- |
@@ -8,9 +12,21 @@
 | [#3743](https://github.com/morluto/rea/issues/3743) | OP Stack reverse engineering: L1 batches, deposits, withdrawals, derivation and fault-proof artifacts                        | matbrgz | open  | enhancement, area: evidence | 0        | none found |
 | [#3744](https://github.com/morluto/rea/issues/3744) | Arbitrum Nitro reverse engineering: Inbox batches, retryables, ArbOS calls and L1-to-L2 message reconstruction               | matbrgz | open  | enhancement, area: evidence | 0        | none found |
 
+## Jump to an issue
+
+[#3745](#issue-3745) · [#3743](#issue-3743) · [#3744](#issue-3744)
+
 ## Source text
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.
+
+---
+
+<a id="issue-3745"></a>
+
+**━━━━━━━━ ISSUE 1 of 3 · #3745 ━━━━━━━━**
+
+[↑ Top](#top) · [#3743 →](#issue-3743)
 
 ### [#3745](https://github.com/morluto/rea/issues/3745) [Feature] Cross-chain bridge reverse engineering: message envelopes, nonces, proofs, relayers and source-to-destination state machines
 
@@ -96,6 +112,14 @@ flowchart TD
 - Complements [#2391](https://github.com/morluto/rea/issues/2391) (EVM calldata and execution trace analysis)
 - Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
 
+---
+
+<a id="issue-3743"></a>
+
+**━━━━━━━━ ISSUE 2 of 3 · #3743 ━━━━━━━━**
+
+[← #3745](#issue-3745) · [↑ Top](#top) · [#3744 →](#issue-3744)
+
 ### [#3743](https://github.com/morluto/rea/issues/3743) [Feature] OP Stack reverse engineering: L1 batches, deposits, withdrawals, derivation and fault-proof artifacts
 
 _matbrgz, open, https://github.com/morluto/rea/issues/3743_
@@ -177,6 +201,14 @@ flowchart TD
 - Complements [#2391](https://github.com/morluto/rea/issues/2391) (EVM calldata and execution trace analysis)
 - Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
 
+---
+
+<a id="issue-3744"></a>
+
+**━━━━━━━━ ISSUE 3 of 3 · #3744 ━━━━━━━━**
+
+[← #3743](#issue-3743) · [↑ Top](#top)
+
 ### [#3744](https://github.com/morluto/rea/issues/3744) [Feature] Arbitrum Nitro reverse engineering: Inbox batches, retryables, ArbOS calls and L1-to-L2 message reconstruction
 
 _matbrgz, open, https://github.com/morluto/rea/issues/3744_
@@ -257,3 +289,7 @@ flowchart TD
 - Complements [#972](https://github.com/morluto/rea/issues/972) (Solidity/EVM reverse engineering)
 - Complements [#2391](https://github.com/morluto/rea/issues/2391) (EVM calldata and execution trace analysis)
 - Complements [#2298](https://github.com/morluto/rea/issues/2298) (Decompile WebAssembly modules)
+
+---
+
+<!-- nav --> [← Tier 2](tier-2-chains.md) · [Master tracker](README.md) · [Dashboard](../dashboard/README.md) · [Tier 4 →](tier-4-zk.md)

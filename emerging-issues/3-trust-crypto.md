@@ -1,15 +1,31 @@
+<a id="top"></a>
+
 # Hardware trust and cryptography
 
-[Master tracker](README.md). Status read from GitHub 2026-11-28.
+<!-- nav --> [← Tier 2](2-ml-runtimes.md) · [Master tracker](README.md) · [Dashboard](../dashboard/README.md) · [Tier 4 →](4-vehicles-iot.md)
+
+Status read from GitHub 2026-11-28.
 
 | Issue                                               | Title                                                                                                                                | Author  | State | Labels      | Comments | Linked PRs | Notes |
 | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------- | ----- | ----------- | -------- | ---------- | ----- |
 | [#3723](https://github.com/morluto/rea/issues/3723) | [Feature] Confidential-computing reverse engineering: TDX, SEV-SNP, Arm CCA attestation, measurements and workload binding           | matbrgz | open  | enhancement | 0        | none found | -     |
 | [#3724](https://github.com/morluto/rea/issues/3724) | [Feature] Post-quantum cryptography reverse engineering: ML-KEM, ML-DSA and SLH-DSA fingerprints, parameters and migration inventory | matbrgz | open  | enhancement | 0        | none found | -     |
 
+## Jump to an issue
+
+[#3723](#issue-3723) · [#3724](#issue-3724)
+
 ## Source text
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.
+
+---
+
+<a id="issue-3723"></a>
+
+**━━━━━━━━ ISSUE 1 of 2 · #3723 ━━━━━━━━**
+
+[↑ Top](#top) · [#3724 →](#issue-3724)
 
 ### [#3723](https://github.com/morluto/rea/issues/3723) [Feature] Confidential-computing reverse engineering: TDX, SEV-SNP, Arm CCA attestation, measurements and workload binding
 
@@ -84,6 +100,14 @@ flowchart TD
 
 - Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
 - Complements [#3672](https://github.com/morluto/rea/issues/3672) (AI agent protocol reverse engineering)
+
+---
+
+<a id="issue-3724"></a>
+
+**━━━━━━━━ ISSUE 2 of 2 · #3724 ━━━━━━━━**
+
+[← #3723](#issue-3723) · [↑ Top](#top)
 
 ### [#3724](https://github.com/morluto/rea/issues/3724) [Feature] Post-quantum cryptography reverse engineering: ML-KEM, ML-DSA and SLH-DSA fingerprints, parameters and migration inventory
 
@@ -169,3 +193,7 @@ flowchart TD
 
 - Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
 - Complements [#3624](https://github.com/morluto/rea/issues/3624) (Native C++ semantic reconstruction)
+
+---
+
+<!-- nav --> [← Tier 2](2-ml-runtimes.md) · [Master tracker](README.md) · [Dashboard](../dashboard/README.md) · [Tier 4 →](4-vehicles-iot.md)

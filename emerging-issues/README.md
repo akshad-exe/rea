@@ -1,6 +1,6 @@
 # REA emerging domains: master tracker
 
-Built 2026-11-28 from [#3720](https://github.com/morluto/rea/issues/3720). Kept in `emerging-notes/` on the fork's `main` only, never on a PR branch or upstream.
+Built 2026-11-28 from [#3720](https://github.com/morluto/rea/issues/3720). Kept in `emerging-issues/` on the fork's `main` only, never on a PR branch or upstream.
 
 **The tracker issue is closed** (matbrgz, 2026-10-15, reason "completed"). All 14 issues it indexes were still open on 2026-11-28.
 
@@ -12,7 +12,7 @@ Built 2026-11-28 from [#3720](https://github.com/morluto/rea/issues/3720). Kept 
 | [4-vehicles-iot.md](4-vehicles-iot.md) | Software-defined vehicles and industrial IoT        | [#3725](https://github.com/morluto/rea/issues/3725), [#3726](https://github.com/morluto/rea/issues/3726)                                                                                                           |
 | [5-web-gpu.md](5-web-gpu.md)           | WebGPU, shader bytecode and web runtimes            | [#3727](https://github.com/morluto/rea/issues/3727), [#3620](https://github.com/morluto/rea/issues/3620), [#2350](https://github.com/morluto/rea/issues/2350)                                                      |
 
-**What to work on:** see the [roadmap](roadmap.md). Blockchain notes are separate, in [blockchain-notes](../blockchain-notes/README.md).
+**What to work on:** see the [roadmap](roadmap.md). Blockchain notes are separate, in [blockchain-issues](../blockchain-issues/README.md).
 
 ## The tracker as matbrgz wrote it
 

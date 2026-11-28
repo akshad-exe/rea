@@ -4,10 +4,11 @@ Written 2026-11-28. Read [our work](our-work.md) first, then verify live status 
 
 ## Next actions
 
-1. Check the seven open upstream PRs for maintainer or bot comments; fix real findings until checks pass and Greptile shows 5/5.
+1. Boxes are ticked on all seven (2026-11-28). Check the seven open upstream PRs for maintainer or bot comments; fix real findings until checks pass and Greptile shows 5/5.
 2. Fixes to a lower stacked branch must be merged into the higher ones (#14951 → #14953; #14977 → #14978 → #14979 → fork debugger branch).
 3. After a lower PR merges, merge `upstream/main` into the next branch and update its description.
 4. Do not start new features until some reviews land, unless asked.
+5. #3687: parts 4 to 6 wait in fork PRs #5 to #7. Next tier 1 work after #12743 merges: #2392, #2396, #2390.
 
 Offered, not yet approved: add "please merge in order" to #14953, #14978 and #14979; try the Greptile CLI (user must install and log in).
 
@@ -27,6 +28,7 @@ Offered, not yet approved: add "please merge in order" to #14953, #14978 and #14
 | Main checkout                         | `~/Codebase/Contribution/rea` (on `feat/solc-compiler-artifacts`)  |
 | Feature work                          | worktree `~/Codebase/Contribution/rea-2393`; switch branches there |
 | Notes, versioned on fork `main`       | worktree `~/Codebase/Contribution/rea/local-notes` (sparse)        |
+| Issue pages and dashboard             | `local-notes/other-issues/`; dashboard in `local-notes/dashboard/`                                        |
 | Learning pages, never committed       | `local-notes/learning/`                                            |
 | Temporary check scripts and PR drafts | `~/temp/claude-1000/`; may be gone after a reboot                  |
 

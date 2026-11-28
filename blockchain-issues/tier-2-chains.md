@@ -1,6 +1,10 @@
+<a id="top"></a>
+
 # Tier 2: non-EVM VMs and UTXO chains
 
-[Master tracker](README.md). Status read from GitHub 2026-11-28.
+<!-- nav --> [← Tier 1](tier-1-evm.md) · [Master tracker](README.md) · [Dashboard](../dashboard/README.md) · [Tier 3 →](tier-3-rollups.md)
+
+Status read from GitHub 2026-11-28.
 
 | Issue                                               | Title                                                                                                                       | Author     | State | Priority / labels                         | Comments | Linked PRs |
 | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------- | ----- | ----------------------------------------- | -------- | ---------- |
@@ -12,9 +16,21 @@
 | [#3747](https://github.com/morluto/rea/issues/3747) | Solana transaction reverse engineering: instructions, CPIs, account roles, logs and state-change graphs                     | matbrgz    | open  | enhancement                               | 0        | none found |
 | [#2003](https://github.com/morluto/rea/issues/2003) | Offline Solana sBPF program interface recovery                                                                              | trenbonole | open  | enhancement, P3: low, area: native        | 3        | none found |
 
+## Jump to an issue
+
+[#3730](#issue-3730) · [#3731](#issue-3731) · [#3732](#issue-3732) · [#3738](#issue-3738) · [#3739](#issue-3739) · [#3747](#issue-3747) · [#2003](#issue-2003)
+
 ## Source text
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.
+
+---
+
+<a id="issue-3730"></a>
+
+**━━━━━━━━ ISSUE 1 of 7 · #3730 ━━━━━━━━**
+
+[↑ Top](#top) · [#3731 →](#issue-3731)
 
 ### [#3730](https://github.com/morluto/rea/issues/3730) [Feature] Bitcoin reverse engineering: raw transactions, PSBT, Script/Tapscript, descriptors, Miniscript and UTXO-flow reconstruction
 
@@ -94,6 +110,14 @@ flowchart TD
 
 - Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
 - Complements [#3698](https://github.com/morluto/rea/issues/3698) (Interactive entertainment and asset reverse engineering tracker)
+
+---
+
+<a id="issue-3731"></a>
+
+**━━━━━━━━ ISSUE 2 of 7 · #3731 ━━━━━━━━**
+
+[← #3730](#issue-3730) · [↑ Top](#top) · [#3732 →](#issue-3732)
 
 ### [#3731](https://github.com/morluto/rea/issues/3731) [Feature] Move VM reverse engineering: bytecode modules, abilities, resources, types and call graphs
 
@@ -177,6 +201,14 @@ flowchart TD
 - Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
 - Complements [#3716](https://github.com/morluto/rea/issues/3716) (Common Bytecode and VM Framework)
 
+---
+
+<a id="issue-3732"></a>
+
+**━━━━━━━━ ISSUE 3 of 7 · #3732 ━━━━━━━━**
+
+[← #3731](#issue-3731) · [↑ Top](#top) · [#3738 →](#issue-3738)
+
 ### [#3732](https://github.com/morluto/rea/issues/3732) [Feature] Starknet reverse engineering: Cairo, Sierra/CASM, class hashes, entrypoints and storage graphs
 
 _matbrgz, open, https://github.com/morluto/rea/issues/3732_
@@ -259,6 +291,14 @@ flowchart TD
 - Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
 - Complements [#3716](https://github.com/morluto/rea/issues/3716) (Common Bytecode and VM Framework)
 
+---
+
+<a id="issue-3738"></a>
+
+**━━━━━━━━ ISSUE 4 of 7 · #3738 ━━━━━━━━**
+
+[← #3732](#issue-3732) · [↑ Top](#top) · [#3739 →](#issue-3739)
+
 ### [#3738](https://github.com/morluto/rea/issues/3738) [Feature] Polkadot/Substrate reverse engineering: SCALE metadata, runtime Wasm, pallets, extrinsics and runtime-upgrade diffs
 
 _matbrgz, open, https://github.com/morluto/rea/issues/3738_
@@ -339,6 +379,14 @@ flowchart TD
 - Complements [#2350](https://github.com/morluto/rea/issues/2350) (Inspect WebAssembly binaries)
 - Complements [#2298](https://github.com/morluto/rea/issues/2298) (Decompile WebAssembly modules)
 - Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
+
+---
+
+<a id="issue-3739"></a>
+
+**━━━━━━━━ ISSUE 5 of 7 · #3739 ━━━━━━━━**
+
+[← #3738](#issue-3738) · [↑ Top](#top) · [#3747 →](#issue-3747)
 
 ### [#3739](https://github.com/morluto/rea/issues/3739) [Feature] CosmWasm and IBC reverse engineering: Wasm contracts, schemas, packet lifecycles and cross-chain state machines
 
@@ -421,6 +469,14 @@ flowchart TD
 - Complements [#2298](https://github.com/morluto/rea/issues/2298) (Decompile WebAssembly modules)
 - Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
 
+---
+
+<a id="issue-3747"></a>
+
+**━━━━━━━━ ISSUE 6 of 7 · #3747 ━━━━━━━━**
+
+[← #3739](#issue-3739) · [↑ Top](#top) · [#2003 →](#issue-2003)
+
 ### [#3747](https://github.com/morluto/rea/issues/3747) [Feature] Solana transaction reverse engineering: instructions, CPIs, account roles, logs and state-change graphs
 
 _matbrgz, open, https://github.com/morluto/rea/issues/3747_
@@ -502,6 +558,14 @@ flowchart TD
 
 - Complements [#2003](https://github.com/morluto/rea/issues/2003) (Solana sBPF/Anchor reverse engineering)
 - Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
+
+---
+
+<a id="issue-2003"></a>
+
+**━━━━━━━━ ISSUE 7 of 7 · #2003 ━━━━━━━━**
+
+[← #3747](#issue-3747) · [↑ Top](#top)
 
 ### [#2003](https://github.com/morluto/rea/issues/2003) [Feature] Offline Solana sBPF program interface recovery
 
@@ -666,3 +730,7 @@ None of this changes the first increment I suggested — it's all follow-on. Num
 +1 from a downstream user. We'd use this through REA, mostly on native (non-Anchor) programs, so the native dispatch recovery in sbpf-inspect is the part we'd lean on. Nice work on the recent updates, @trenbonole.
 
 Happy to help test and review if the direction fits. A maintainer call on scope, even "not now", would unblock it.
+
+---
+
+<!-- nav --> [← Tier 1](tier-1-evm.md) · [Master tracker](README.md) · [Dashboard](../dashboard/README.md) · [Tier 3 →](tier-3-rollups.md)

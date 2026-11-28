@@ -1,6 +1,10 @@
+<a id="top"></a>
+
 # Filed outside the tracker's index (related)
 
-[Master tracker](README.md). Status read from GitHub 2026-11-28.
+<!-- nav --> [← Tier 5](tier-5-wallets.md) · [Master tracker](README.md) · [Dashboard](../dashboard/README.md)
+
+Status read from GitHub 2026-11-28.
 
 | Issue                                               | Title                                                                                                                          | Author   | State | Priority / labels                                                         | Comments | Linked PRs |
 | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------- | ----- | ------------------------------------------------------------------------- | -------- | ---------- |
@@ -13,9 +17,21 @@
 
 [#4479](https://github.com/morluto/rea/pull/4479) by yawningmonsoon: draft, documentation only (+28 lines in one skill reference). It explains how to connect EVM evidence to separately checked on-chain inclusion. It belongs with tier 1.
 
+## Jump to an issue
+
+[#3746](#issue-3746) · [#3748](#issue-3748) · [#3716](#issue-3716) · [#3137](#issue-3137)
+
 ## Source text
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.
+
+---
+
+<a id="issue-3746"></a>
+
+**━━━━━━━━ ISSUE 1 of 4 · #3746 ━━━━━━━━**
+
+[↑ Top](#top) · [#3748 →](#issue-3748)
 
 ### [#3746](https://github.com/morluto/rea/issues/3746) [Feature] TON / TVM reverse engineering: BOC cells, TL-B schemas, TVM bytecode and message/state graphs
 
@@ -105,6 +121,14 @@ flowchart TD
 - Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
 - Complements [#3716](https://github.com/morluto/rea/issues/3716) (Common Bytecode and VM Framework)
 
+---
+
+<a id="issue-3748"></a>
+
+**━━━━━━━━ ISSUE 2 of 4 · #3748 ━━━━━━━━**
+
+[← #3746](#issue-3746) · [↑ Top](#top) · [#3716 →](#issue-3716)
+
 ### [#3748](https://github.com/morluto/rea/issues/3748) [Feature] Foundry and Hardhat project reverse engineering: build-info, deployments, broadcasts, libraries and contract dependency graphs
 
 _matbrgz, open, https://github.com/morluto/rea/issues/3748_
@@ -187,6 +211,14 @@ flowchart TD
 - Complements [#2389](https://github.com/morluto/rea/issues/2389) (EVM Standard JSON and compiler metadata)
 - Complements [#3734](https://github.com/morluto/rea/issues/3734) (EVM deployment lineage reverse engineering)
 
+---
+
+<a id="issue-3716"></a>
+
+**━━━━━━━━ ISSUE 3 of 4 · #3716 ━━━━━━━━**
+
+[← #3748](#issue-3748) · [↑ Top](#top) · [#3137 →](#issue-3137)
+
 ### [#3716](https://github.com/morluto/rea/issues/3716) [RFC/Epic] Common Bytecode and VM Framework: unified instruction decoding, CFG synthesis, SSA analysis and source decompilation
 
 _matbrgz, open, https://github.com/morluto/rea/issues/3716_
@@ -268,6 +300,14 @@ flowchart TD
 - Complements [#3678](https://github.com/morluto/rea/issues/3678) (Python packaged application reverse engineering)
 - Complements [#3608](https://github.com/morluto/rea/issues/3608) (React Semantic Reconstruction & Hermes unbundling)
 
+---
+
+<a id="issue-3137"></a>
+
+**━━━━━━━━ ISSUE 4 of 4 · #3137 ━━━━━━━━**
+
+[← #3716](#issue-3716) · [↑ Top](#top)
+
 ### [#3137](https://github.com/morluto/rea/issues/3137) research(architecture): establish demand and compatibility gates for external domain modules
 
 _N0zoM1z0, open, https://github.com/morluto/rea/issues/3137_
@@ -305,3 +345,7 @@ Token consumption and time to a correct answer are the primary outcomes. Record 
 Keep current complete defaults, caller-selected inputs/providers, source bytes, Evidence identity/links, omission/null/type distinctions, partial coverage, and lifecycle/export/import behavior. Inspect the current advertised contracts and reuse existing selectors/views before adding code. Any implementation needs measured benefit and relevant compatibility verification; a documented no-change decision is a successful research outcome. Run checks for affected boundaries rather than repeating unrelated suites after each small correction.
 
 Run heavy work serially under one CPU, 3 GiB early stop / 4 GiB hard memory, no swap, owned scopes and host-availability checks. Distinguish verified payload-phase observations from unavailable terminal whole-scope counters; missing counters stay unknown. For performance experiments, use real public CLI/MCP workflows and actual Codex CLI tasks when assessing agent token/time outcomes, with a private temporary profile pointing at the tested REA MCP; pin the requested model/reasoning and runtime within each cohort. Planning or demand-only work does not require an unrelated model/provider matrix. Simulated providers do not establish real-provider behavior. Keep raw captures/binaries/replies/transcripts/configuration private, commit source and curated reproducible findings, and record unrelated product bugs in the existing `/tmp` team handoff. No release is part of this task.
+
+---
+
+<!-- nav --> [← Tier 5](tier-5-wallets.md) · [Master tracker](README.md) · [Dashboard](../dashboard/README.md)

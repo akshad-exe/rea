@@ -1,15 +1,31 @@
+<a id="top"></a>
+
 # Software-defined vehicles and industrial IoT
 
-[Master tracker](README.md). Status read from GitHub 2026-11-28.
+<!-- nav --> [← Tier 3](3-trust-crypto.md) · [Master tracker](README.md) · [Dashboard](../dashboard/README.md) · [Tier 5 →](5-web-gpu.md)
+
+Status read from GitHub 2026-11-28.
 
 | Issue                                               | Title                                                                                                                                     | Author  | State | Labels                                     | Comments | Linked PRs | Notes |
 | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------- | ----- | ------------------------------------------ | -------- | ---------- | ----- |
 | [#3725](https://github.com/morluto/rea/issues/3725) | [Feature] Software-defined vehicle reverse engineering: AUTOSAR Adaptive, SOME/IP, DDS, DoIP, UDS and service graphs                      | matbrgz | open  | enhancement                                | 0        | none found | -     |
 | [#3726](https://github.com/morluto/rea/issues/3726) | [Feature] Matter & Thread reverse engineering: commissioning captures, TLV, clusters, endpoints, fabrics and mesh topology reconstruction | matbrgz | open  | enhancement, area: runtime, area: evidence | 0        | none found | -     |
 
+## Jump to an issue
+
+[#3725](#issue-3725) · [#3726](#issue-3726)
+
 ## Source text
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.
+
+---
+
+<a id="issue-3725"></a>
+
+**━━━━━━━━ ISSUE 1 of 2 · #3725 ━━━━━━━━**
+
+[↑ Top](#top) · [#3726 →](#issue-3726)
 
 ### [#3725](https://github.com/morluto/rea/issues/3725) [Feature] Software-defined vehicle reverse engineering: AUTOSAR Adaptive, SOME/IP, DDS, DoIP, UDS and service graphs
 
@@ -93,6 +109,14 @@ flowchart TD
 - Complements [#3626](https://github.com/morluto/rea/issues/3626) (Windows kernel driver reverse engineering: IOCTL correlation)
 - Complements [#3698](https://github.com/morluto/rea/issues/3698) (Interactive entertainment runtime and asset reverse engineering tracker)
 
+---
+
+<a id="issue-3726"></a>
+
+**━━━━━━━━ ISSUE 2 of 2 · #3726 ━━━━━━━━**
+
+[← #3725](#issue-3725) · [↑ Top](#top)
+
 ### [#3726](https://github.com/morluto/rea/issues/3726) [Feature] Matter & Thread reverse engineering: commissioning captures, TLV, clusters, endpoints, fabrics and mesh topology reconstruction
 
 _matbrgz, open, https://github.com/morluto/rea/issues/3726_
@@ -172,3 +196,7 @@ flowchart TD
 - Complements [#3641](https://github.com/morluto/rea/issues/3641) (USB protocol reverse engineering)
 - Complements [#3644](https://github.com/morluto/rea/issues/3644) (Bluetooth/BLE reverse engineering)
 - Complements [#3615](https://github.com/morluto/rea/issues/3615) (Hardware and Embedded Reverse Engineering)
+
+---
+
+<!-- nav --> [← Tier 3](3-trust-crypto.md) · [Master tracker](README.md) · [Dashboard](../dashboard/README.md) · [Tier 5 →](5-web-gpu.md)

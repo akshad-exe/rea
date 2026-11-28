@@ -1,6 +1,10 @@
+<a id="top"></a>
+
 # Edge accelerators, ML runtimes and model topologies
 
-[Master tracker](README.md). Status read from GitHub 2026-11-28.
+<!-- nav --> [← Tier 1](1-agentic-ai.md) · [Master tracker](README.md) · [Dashboard](../dashboard/README.md) · [Tier 3 →](3-trust-crypto.md)
+
+Status read from GitHub 2026-11-28.
 
 | Issue                                               | Title                                                                                                                                             | Author  | State | Labels                                     | Comments | Linked PRs                                                                   | Notes                                                                        |
 | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ----- | ------------------------------------------ | -------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
@@ -9,9 +13,21 @@
 | [#3652](https://github.com/morluto/rea/issues/3652) | [Feature] PyTorch checkpoint reverse engineering: ZIP/pickle opcode graph, tensor storages, state_dict reconstruction and unsafe-global detection | matbrgz | open  | enhancement, area: evidence                | 0        | none found                                                                   | -                                                                            |
 | [#3673](https://github.com/morluto/rea/issues/3673) | [Feature] ML compiler IR reverse engineering: MLIR bytecode, StableHLO, TOSA and XLA HLO graph reconstruction                                     | matbrgz | open  | enhancement, area: evidence                | 0        | none found                                                                   | -                                                                            |
 
+## Jump to an issue
+
+[#3722](#issue-3722) · [#3637](#issue-3637) · [#3652](#issue-3652) · [#3673](#issue-3673)
+
 ## Source text
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.
+
+---
+
+<a id="issue-3722"></a>
+
+**━━━━━━━━ ISSUE 1 of 4 · #3722 ━━━━━━━━**
+
+[↑ Top](#top) · [#3637 →](#issue-3637)
 
 ### [#3722](https://github.com/morluto/rea/issues/3722) [Feature] On-device AI runtime reverse engineering: Core AI, Foundation Models, ExecuTorch, LiteRT and NPU delegate reconstruction
 
@@ -88,6 +104,14 @@ flowchart TD
 
 - Complements [#3637](https://github.com/morluto/rea/issues/3637) (ML model graph reverse engineering: ONNX, TFLite, CoreML)
 - Complements [#3668](https://github.com/morluto/rea/issues/3668) (Local LLM runtime reverse engineering: llama.cpp, ExecuTorch)
+
+---
+
+<a id="issue-3637"></a>
+
+**━━━━━━━━ ISSUE 2 of 4 · #3637 ━━━━━━━━**
+
+[← #3722](#issue-3722) · [↑ Top](#top) · [#3652 →](#issue-3652)
 
 ### [#3637](https://github.com/morluto/rea/issues/3637) [Feature] ML model graph reverse engineering: ONNX, TFLite, CoreML, and TensorRT topology
 
@@ -222,6 +246,14 @@ It seemed worth flagging because `.ort` is ORT's deployment format, so it is a l
 
 No action implied for this issue. If maintainers would rather treat `.ort` as one more format under this umbrella than as its own request, [#8097](https://github.com/morluto/rea/issues/8097) can be folded in or closed as a duplicate — I filed it separately only because the protobuf reader proposed here would not cover it.
 
+---
+
+<a id="issue-3652"></a>
+
+**━━━━━━━━ ISSUE 3 of 4 · #3652 ━━━━━━━━**
+
+[← #3637](#issue-3637) · [↑ Top](#top) · [#3673 →](#issue-3673)
+
 ### [#3652](https://github.com/morluto/rea/issues/3652) [Feature] PyTorch checkpoint reverse engineering: ZIP/pickle opcode graph, tensor storages, state_dict reconstruction and unsafe-global detection
 
 _matbrgz, open, https://github.com/morluto/rea/issues/3652_
@@ -324,6 +356,14 @@ This feature proposal introduces dedicated **PyTorch Checkpoint Reverse Engineer
 - [#3637](https://github.com/morluto/rea/issues/3637) [Feature] ML model graph reverse engineering: ONNX, TFLite, CoreML, and TensorRT topology
 - [#3599](https://github.com/morluto/rea/issues/3599) [Feature] Passive DNS extraction and cybersecurity analysis primitives
 
+---
+
+<a id="issue-3673"></a>
+
+**━━━━━━━━ ISSUE 4 of 4 · #3673 ━━━━━━━━**
+
+[← #3652](#issue-3652) · [↑ Top](#top)
+
 ### [#3673](https://github.com/morluto/rea/issues/3673) [Feature] ML compiler IR reverse engineering: MLIR bytecode, StableHLO, TOSA and XLA HLO graph reconstruction
 
 _matbrgz, open, https://github.com/morluto/rea/issues/3673_
@@ -425,3 +465,7 @@ This feature proposal introduces dedicated **ML Compiler IR Reverse Engineering*
 - [#3637](https://github.com/morluto/rea/issues/3637) [Feature] ML model graph reverse engineering
 - [#3620](https://github.com/morluto/rea/issues/3620) [Feature] Shader and GPU Bytecode Reverse Engineering
 - [#3323](https://github.com/morluto/rea/issues/3323) [Feature] Inspect GGUF and safetensors model files without loading them
+
+---
+
+<!-- nav --> [← Tier 1](1-agentic-ai.md) · [Master tracker](README.md) · [Dashboard](../dashboard/README.md) · [Tier 3 →](3-trust-crypto.md)

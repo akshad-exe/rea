@@ -1,6 +1,10 @@
+<a id="top"></a>
+
 # WebGPU, shader bytecode and web runtimes
 
-[Master tracker](README.md). Status read from GitHub 2026-11-28.
+<!-- nav --> [← Tier 4](4-vehicles-iot.md) · [Master tracker](README.md) · [Dashboard](../dashboard/README.md)
+
+Status read from GitHub 2026-11-28.
 
 | Issue                                               | Title                                                                                                                       | Author  | State | Labels                                   | Comments | Linked PRs                                               | Notes                             |
 | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------- | ----- | ---------------------------------------- | -------- | -------------------------------------------------------- | --------------------------------- |
@@ -8,9 +12,21 @@
 | [#3620](https://github.com/morluto/rea/issues/3620) | [Feature] Shader and GPU Bytecode Reverse Engineering: SPIR-V, DXBC, DXIL, and Metal AIR reflection and decompilation       | matbrgz | open  | enhancement, area: native, provider: gpu | 2        | none found                                               | morluto commented with a baseline |
 | [#2350](https://github.com/morluto/rea/issues/2350) | [Feature] Inspect WebAssembly components and canonical ABI declarations offline                                             | matbrgz | open  | enhancement, P2: medium, area: native    | 1        | [#2406](https://github.com/morluto/rea/pull/2406) (open) | all-black-493 offered a PR        |
 
+## Jump to an issue
+
+[#3727](#issue-3727) · [#3620](#issue-3620) · [#2350](#issue-2350)
+
 ## Source text
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.
+
+---
+
+<a id="issue-3727"></a>
+
+**━━━━━━━━ ISSUE 1 of 3 · #3727 ━━━━━━━━**
+
+[↑ Top](#top) · [#3620 →](#issue-3620)
 
 ### [#3727](https://github.com/morluto/rea/issues/3727) [Feature] WebGPU application reverse engineering: WGSL, pipelines, bind groups, compute passes and JavaScript-to-GPU graphs
 
@@ -94,6 +110,14 @@ flowchart TD
 - Complements [#3620](https://github.com/morluto/rea/issues/3620) (Shader and GPU bytecode reverse engineering: SPIR-V, DXBC, DXIL)
 - Complements [#3608](https://github.com/morluto/rea/issues/3608) (React Semantic Reconstruction & Decompiler Engine)
 - Complements [#3637](https://github.com/morluto/rea/issues/3637) (ML model graph reverse engineering)
+
+---
+
+<a id="issue-3620"></a>
+
+**━━━━━━━━ ISSUE 2 of 3 · #3620 ━━━━━━━━**
+
+[← #3727](#issue-3727) · [↑ Top](#top) · [#2350 →](#issue-2350)
 
 ### [#3620](https://github.com/morluto/rea/issues/3620) [Feature] Shader and GPU Bytecode Reverse Engineering: SPIR-V, DXBC, DXIL, and Metal AIR reflection and decompilation
 
@@ -228,6 +252,14 @@ REA 6.10.1 (`bf913bc3dc`, macOS arm64, CLI):
 
 So this is a ready-made regression corpus for DXBC part tables (`RDEF`/`ISGN`/`OSGN`/`SHEX`/`DXIL`/`STAT`), SPIR-V headers (version, generator, bound) and an "embedded at offset N inside an unknown wrapper" result. All three blob types start at a fixed, discoverable offset, which also makes these files a good test for the scan-for-magic part of [#14151](https://github.com/morluto/rea/issues/14151).
 
+---
+
+<a id="issue-2350"></a>
+
+**━━━━━━━━ ISSUE 3 of 3 · #2350 ━━━━━━━━**
+
+[← #3620](#issue-3620) · [↑ Top](#top)
+
 ### [#2350](https://github.com/morluto/rea/issues/2350) [Feature] Inspect WebAssembly components and canonical ABI declarations offline
 
 _matbrgz, open, https://github.com/morluto/rea/issues/2350_
@@ -293,3 +325,7 @@ Anything the decoder does not handle, for example GC core types in a core type s
 3. Complete inline results first, with summary delivery as in [#2193](https://github.com/morluto/rea/issues/2193) as a follow-up, or both in this PR?
 
 This stays separate from [#2298](https://github.com/morluto/rea/issues/2298) (pseudocode) and [#2356](https://github.com/morluto/rea/issues/2356) (interface comparison), though [#2356](https://github.com/morluto/rea/issues/2356) could build on these typed imports and exports.
+
+---
+
+<!-- nav --> [← Tier 4](4-vehicles-iot.md) · [Master tracker](README.md) · [Dashboard](../dashboard/README.md)

@@ -1,6 +1,10 @@
+<a id="top"></a>
+
 # Agentic AI protocols and LLM applications
 
-[Master tracker](README.md). Status read from GitHub 2026-11-28.
+<!-- nav --> [Master tracker](README.md) · [Dashboard](../dashboard/README.md) · [Tier 2 →](2-ml-runtimes.md)
+
+Status read from GitHub 2026-11-28.
 
 | Issue                                               | Title                                                                                                                                                 | Author  | State | Labels                                                  | Comments | Linked PRs | Notes |
 | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ----- | ------------------------------------------------------- | -------- | ---------- | ----- |
@@ -8,9 +12,21 @@
 | [#3651](https://github.com/morluto/rea/issues/3651) | [Feature] LLM application reverse engineering: system prompts, model/provider routing, tool schemas, RAG links and agent workflow reconstruction      | matbrgz | open  | enhancement, area: domain, area: build, area: providers | 0        | none found | -     |
 | [#3653](https://github.com/morluto/rea/issues/3653) | [Feature] LLM tokenizer reverse engineering: tokenizer.json, SentencePiece, BPE/Unigram vocabularies, special tokens and chat-template reconstruction | matbrgz | open  | enhancement, area: evidence                             | 0        | none found | -     |
 
+## Jump to an issue
+
+[#3721](#issue-3721) · [#3651](#issue-3651) · [#3653](#issue-3653)
+
 ## Source text
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.
+
+---
+
+<a id="issue-3721"></a>
+
+**━━━━━━━━ ISSUE 1 of 3 · #3721 ━━━━━━━━**
+
+[↑ Top](#top) · [#3651 →](#issue-3651)
 
 ### [#3721](https://github.com/morluto/rea/issues/3721) [Feature] A2A protocol reverse engineering: Agent Cards, task lifecycles, artifacts, streaming sessions and multi-agent workflow reconstruction
 
@@ -88,6 +104,14 @@ flowchart TD
 
 - Complements [#3672](https://github.com/morluto/rea/issues/3672) (AI agent protocol reverse engineering: MCP and tool calling)
 - Complements [#3651](https://github.com/morluto/rea/issues/3651) (LLM application reverse engineering)
+
+---
+
+<a id="issue-3651"></a>
+
+**━━━━━━━━ ISSUE 2 of 3 · #3651 ━━━━━━━━**
+
+[← #3721](#issue-3721) · [↑ Top](#top) · [#3653 →](#issue-3653)
 
 ### [#3651](https://github.com/morluto/rea/issues/3651) [Feature] LLM application reverse engineering: system prompts, model/provider routing, tool schemas, RAG links and agent workflow reconstruction
 
@@ -200,6 +224,14 @@ This feature proposal introduces dedicated **LLM Application Reverse Engineering
 - [#3323](https://github.com/morluto/rea/issues/3323) [Feature] Inspect GGUF and safetensors model files without loading them
 - [#3608](https://github.com/morluto/rea/issues/3608) [RFC/Feature] React Semantic Reconstruction & Decompiler Engine
 - [#3599](https://github.com/morluto/rea/issues/3599) [Feature] Passive DNS extraction and cybersecurity analysis primitives
+
+---
+
+<a id="issue-3653"></a>
+
+**━━━━━━━━ ISSUE 3 of 3 · #3653 ━━━━━━━━**
+
+[← #3651](#issue-3651) · [↑ Top](#top)
 
 ### [#3653](https://github.com/morluto/rea/issues/3653) [Feature] LLM tokenizer reverse engineering: tokenizer.json, SentencePiece, BPE/Unigram vocabularies, special tokens and chat-template reconstruction
 
@@ -317,3 +349,7 @@ This feature proposal introduces dedicated **LLM Tokenizer Reverse Engineering**
 - [#3323](https://github.com/morluto/rea/issues/3323) [Feature] Inspect GGUF and safetensors model files without loading them
 - [#3637](https://github.com/morluto/rea/issues/3637) [Feature] ML model graph reverse engineering
 - [#3608](https://github.com/morluto/rea/issues/3608) [RFC/Feature] React Semantic Reconstruction & Decompiler Engine
+
+---
+
+<!-- nav --> [Master tracker](README.md) · [Dashboard](../dashboard/README.md) · [Tier 2 →](2-ml-runtimes.md)

@@ -1,15 +1,31 @@
+<a id="top"></a>
+
 # Tier 4: zero knowledge
 
-[Master tracker](README.md). Status read from GitHub 2026-11-28.
+<!-- nav --> [← Tier 3](tier-3-rollups.md) · [Master tracker](README.md) · [Dashboard](../dashboard/README.md) · [Tier 5 →](tier-5-wallets.md)
+
+Status read from GitHub 2026-11-28.
 
 | Issue                                               | Title                                                                                                   | Author  | State | Priority / labels        | Comments | Linked PRs |
 | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------- | ----- | ------------------------ | -------- | ---------- |
 | [#3740](https://github.com/morluto/rea/issues/3740) | Zero-knowledge circuit reverse engineering: Circom/R1CS, PLONKish/Halo2 constraints and verifier graphs | matbrgz | open  | enhancement, area: tests | 0        | none found |
 | [#3741](https://github.com/morluto/rea/issues/3741) | zkVM reverse engineering: RISC Zero, SP1 and zkWasm guest images, receipts, journals and proof metadata | matbrgz | open  | enhancement              | 0        | none found |
 
+## Jump to an issue
+
+[#3740](#issue-3740) · [#3741](#issue-3741)
+
 ## Source text
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.
+
+---
+
+<a id="issue-3740"></a>
+
+**━━━━━━━━ ISSUE 1 of 2 · #3740 ━━━━━━━━**
+
+[↑ Top](#top) · [#3741 →](#issue-3741)
 
 ### [#3740](https://github.com/morluto/rea/issues/3740) [Feature] Zero-knowledge circuit reverse engineering: Circom/R1CS, PLONKish/Halo2 constraints and verifier graphs
 
@@ -85,6 +101,14 @@ flowchart TD
 
 - Complements [#972](https://github.com/morluto/rea/issues/972) (Solidity/EVM reverse engineering)
 - Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
+
+---
+
+<a id="issue-3741"></a>
+
+**━━━━━━━━ ISSUE 2 of 2 · #3741 ━━━━━━━━**
+
+[← #3740](#issue-3740) · [↑ Top](#top)
 
 ### [#3741](https://github.com/morluto/rea/issues/3741) [Feature] zkVM reverse engineering: RISC Zero, SP1 and zkWasm guest images, receipts, journals and proof metadata
 
@@ -164,3 +188,7 @@ flowchart TD
 
 - Complements [#3621](https://github.com/morluto/rea/issues/3621) (Unknown binary file-format inference)
 - Complements [#3716](https://github.com/morluto/rea/issues/3716) (Common Bytecode and VM Framework)
+
+---
+
+<!-- nav --> [← Tier 3](tier-3-rollups.md) · [Master tracker](README.md) · [Dashboard](../dashboard/README.md) · [Tier 5 →](tier-5-wallets.md)

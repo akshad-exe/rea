@@ -1,6 +1,10 @@
+<a id="top"></a>
+
 # Tier 1: advanced EVM and decompilation
 
-[Master tracker](README.md). Status read from GitHub 2026-11-28.
+<!-- nav --> [Master tracker](README.md) · [Dashboard](../dashboard/README.md) · [Tier 2 →](tier-2-chains.md)
+
+Status read from GitHub 2026-11-28.
 
 | Issue                                               | Title                                                                                                                                    | Author  | State | Priority / labels                                                                          | Comments | Linked PRs                                                                                                                                                                         |
 | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------- | ----- | ------------------------------------------------------------------------------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -17,9 +21,21 @@
 | [#2395](https://github.com/morluto/rea/issues/2395) | Solidity: expose fork-profiled EVM disassembly and bounded control-flow evidence                                                         | matbrgz | open  | enhancement, P2: medium, area: domain, area: native, area: evidence, design, provider: evm | 1        | none found                                                                                                                                                                         |
 | [#2396](https://github.com/morluto/rea/issues/2396) | Solidity: compare exact bytecode with separately explained compiler patch spans                                                          | matbrgz | open  | enhancement, P2: medium, area: domain, provider: evm                                       | 1        | none found                                                                                                                                                                         |
 
+## Jump to an issue
+
+[#3734](#issue-3734) · [#3733](#issue-3733) · [#3736](#issue-3736) · [#2388](#issue-2388) · [#2389](#issue-2389) · [#2390](#issue-2390) · [#2391](#issue-2391) · [#2392](#issue-2392) · [#2393](#issue-2393) · [#2394](#issue-2394) · [#2395](#issue-2395) · [#2396](#issue-2396)
+
 ## Source text
 
 Verbatim issue text and comments follow. Badge images are removed and heading levels shifted. Claims are the authors', not verified here.
+
+---
+
+<a id="issue-3734"></a>
+
+**━━━━━━━━ ISSUE 1 of 12 · #3734 ━━━━━━━━**
+
+[↑ Top](#top) · [#3733 →](#issue-3733)
 
 ### [#3734](https://github.com/morluto/rea/issues/3734) [Feature] EVM deployment lineage reverse engineering: CREATE/CREATE2 initcode, constructors, factories, clones and library-link graphs
 
@@ -103,6 +119,14 @@ flowchart TD
 - Complements [#2393](https://github.com/morluto/rea/issues/2393) (EVM storage layout and proxy detection)
 - Complements [#2396](https://github.com/morluto/rea/issues/2396) (EVM bytecode comparison and semantic diffing)
 
+---
+
+<a id="issue-3733"></a>
+
+**━━━━━━━━ ISSUE 2 of 12 · #3733 ━━━━━━━━**
+
+[← #3734](#issue-3734) · [↑ Top](#top) · [#3736 →](#issue-3736)
+
 ### [#3733](https://github.com/morluto/rea/issues/3733) [Feature] ERC-4337 / EIP-7702 account-abstraction reverse engineering: UserOperations, EntryPoint, paymasters, factories and delegated-code graphs
 
 _matbrgz, open, https://github.com/morluto/rea/issues/3733_
@@ -182,6 +206,14 @@ flowchart TD
 - Complements [#972](https://github.com/morluto/rea/issues/972) (Solidity/EVM reverse engineering)
 - Complements [#2391](https://github.com/morluto/rea/issues/2391) (EVM calldata and execution trace analysis)
 - Complements [#2394](https://github.com/morluto/rea/issues/2394) (EVM transaction simulation and state diffs)
+
+---
+
+<a id="issue-3736"></a>
+
+**━━━━━━━━ ISSUE 3 of 12 · #3736 ━━━━━━━━**
+
+[← #3733](#issue-3733) · [↑ Top](#top) · [#2388 →](#issue-2388)
 
 ### [#3736](https://github.com/morluto/rea/issues/3736) [Feature] EVM pseudocode decompilation: stack-to-SSA IR, expressions and Solidity-like control/data-flow reconstruction
 
@@ -266,6 +298,14 @@ flowchart TD
 - Complements [#2395](https://github.com/morluto/rea/issues/2395) (EVM disassembly and CFG generation)
 - Complements [#3716](https://github.com/morluto/rea/issues/3716) (Common Bytecode and VM Framework)
 
+---
+
+<a id="issue-2388"></a>
+
+**━━━━━━━━ ISSUE 4 of 12 · #2388 ━━━━━━━━**
+
+[← #3736](#issue-3736) · [↑ Top](#top) · [#2389 →](#issue-2389)
+
 ### [#2388](https://github.com/morluto/rea/issues/2388) [Feature] Solidity: inspect bytecode CBOR metadata losslessly and bind supplied metadata files
 
 _matbrgz, open, https://github.com/morluto/rea/issues/2388_
@@ -313,6 +353,14 @@ Extract and verify Solidity compiler metadata appended at the end of runtime/cre
    - Exact offset isolation to prevent trailing swarm hashes from distorting opcode disassembly or instructions coverage.
 2. Next Step:
    - Format canonical spec under `docs/specs/evm/cbor-metadata/{spec.md,plan.md,tasks.md}` and submit the formal PR.
+
+---
+
+<a id="issue-2389"></a>
+
+**━━━━━━━━ ISSUE 5 of 12 · #2389 ━━━━━━━━**
+
+[← #2388](#issue-2388) · [↑ Top](#top) · [#2390 →](#issue-2390)
 
 ### [#2389](https://github.com/morluto/rea/issues/2389) [Feature] Solidity: select exact solc Standard JSON contract artifacts and bytecode kinds
 
@@ -363,6 +411,14 @@ Disambiguate contract artifacts produced by `solc` Standard JSON output (`bin` c
 
 I'd like to take this issue, working on it
 
+---
+
+<a id="issue-2390"></a>
+
+**━━━━━━━━ ISSUE 6 of 12 · #2390 ━━━━━━━━**
+
+[← #2389](#issue-2389) · [↑ Top](#top) · [#2391 →](#issue-2391)
+
 ### [#2390](https://github.com/morluto/rea/issues/2390) [Feature] Solidity: map EVM byte PCs to original and generated source spans
 
 _matbrgz, open, https://github.com/morluto/rea/issues/2390_
@@ -408,6 +464,14 @@ Map EVM program counters (PC byte offsets) back to exact source code spans (file
 2. **PC-to-Instruction Offset:** EVM instruction byte offsets deviate from instruction indices due to variable-length `PUSH<N>` data bytes. The PC mapping table must index by exact byte PC.
 3. **Spec Target:** `docs/specs/evm/source-mappings/`
 
+---
+
+<a id="issue-2391"></a>
+
+**━━━━━━━━ ISSUE 7 of 12 · #2391 ━━━━━━━━**
+
+[← #2390](#issue-2390) · [↑ Top](#top) · [#2392 →](#issue-2392)
+
 ### [#2391](https://github.com/morluto/rea/issues/2391) [Feature] Solidity: decode supplied ABI calldata, logs and revert payloads with explicit ambiguity
 
 _matbrgz, open, https://github.com/morluto/rea/issues/2391_
@@ -452,6 +516,14 @@ Decode ABI calldata, emitted event topics/data, and revert reasons into structur
 1. **Ambiguity Preservation:** When a 4-byte function selector matches multiple ABI definitions, the tool must not guess. It must return all candidate matches marked with `ambiguous: true` and their respective parameter decodings.
 2. **Modern Error Support:** Must natively decode standard `Error(string)` (`0x08c379a0`), `Panic(uint256)` (`0x4e487b71`), and arbitrary custom errors from the contract's ABI. Unknown error selectors should remain raw bytes with `unmatched_custom_error` diagnostics.
 
+---
+
+<a id="issue-2392"></a>
+
+**━━━━━━━━ ISSUE 8 of 12 · #2392 ━━━━━━━━**
+
+[← #2391](#issue-2391) · [↑ Top](#top) · [#2393 →](#issue-2393)
+
 ### [#2392](https://github.com/morluto/rea/issues/2392) [Feature] Solidity: inspect and compare compiler storage layouts without inferring live state
 
 _matbrgz, open, https://github.com/morluto/rea/issues/2392_
@@ -495,6 +567,14 @@ Parse and visualize EVM contract storage layouts (`storageLayout` from solc) wit
 
 1. **Packing & Offsets:** Correctly model continuous 32-byte slot assignments and byte offsets (`offset: 0..31`) for packed elementary types (`uint128`, `bool`, `address`).
 2. **Dynamic Structures:** Represent mappings and dynamic arrays by their hashing derivations (`keccak256(p . s)`) as structural recipes rather than attempting runtime key enumeration.
+
+---
+
+<a id="issue-2393"></a>
+
+**━━━━━━━━ ISSUE 9 of 12 · #2393 ━━━━━━━━**
+
+[← #2392](#issue-2392) · [↑ Top](#top) · [#2394 →](#issue-2394)
 
 ### [#2393](https://github.com/morluto/rea/issues/2393) [Feature] Solidity: inspect offline proxy patterns and supplied implementation-slot evidence
 
@@ -544,6 +624,14 @@ Identify upgradeable proxy patterns (ERC-1967, ERC-1822 UUPS, Diamond Multi-Face
   - ERC-1967 Beacon: `0xa3f0ad74e5423aebfd80d3ef4346578335a9a72aeaee59ff6cb3582b35133d50`
 - If an implementation address cannot be resolved from supplied artifacts or recorded storage diffs, report `implementation: unknown` instead of executing remote eth_call heuristics.
 
+---
+
+<a id="issue-2394"></a>
+
+**━━━━━━━━ ISSUE 10 of 12 · #2394 ━━━━━━━━**
+
+[← #2393](#issue-2393) · [↑ Top](#top) · [#2395 →](#issue-2395)
+
 ### [#2394](https://github.com/morluto/rea/issues/2394) [Feature] Solidity: inspect recorded EVM opcode/call traces and attribute debugging locations
 
 _matbrgz, open, https://github.com/morluto/rea/issues/2394_
@@ -588,6 +676,14 @@ Reconstruct recorded execution paths (EVM opcode execution traces and call tree 
 - Consume standard debug traces (`debug_traceTransaction` / `structLogs` or Foundry/Anvil call traces).
 - Frame hierarchy must preserve child calls (`DELEGATECALL`, `STATICCALL`, `CALL`, `CREATE2`), gas consumption delta, and retained return/revert memory slices.
 - Trace step PC numbers must look up directly into the verified source mapping provider ([#2390](https://github.com/morluto/rea/issues/2390)).
+
+---
+
+<a id="issue-2395"></a>
+
+**━━━━━━━━ ISSUE 11 of 12 · #2395 ━━━━━━━━**
+
+[← #2394](#issue-2394) · [↑ Top](#top) · [#2396 →](#issue-2396)
 
 ### [#2395](https://github.com/morluto/rea/issues/2395) [Design] Solidity: expose fork-profiled EVM disassembly and bounded control-flow evidence
 
@@ -637,6 +733,14 @@ Provide fork-aware EVM disassembly and bounded basic-block control flow graphs (
   - Prague / Osaka future opcodes.
 - **CFG Bounds:** Jump destinations (`JUMPDEST` `0x5b`) linked via static `PUSH<N>` analysis must enforce bounded exploration depth and block count to guard against maliciously tangled jump tables or decompiler traps.
 
+---
+
+<a id="issue-2396"></a>
+
+**━━━━━━━━ ISSUE 12 of 12 · #2396 ━━━━━━━━**
+
+[← #2395](#issue-2395) · [↑ Top](#top)
+
 ### [#2396](https://github.com/morluto/rea/issues/2396) [Feature] Solidity: compare exact bytecode with separately explained compiler patch spans
 
 _matbrgz, open, https://github.com/morluto/rea/issues/2396_
@@ -683,3 +787,7 @@ Compare deployed on-chain bytecode against locally recompiled bytecode, isolatin
 2. **Linker Placeholders:** Explaining 20-byte library address patch spans (`__$30...$__`).
 3. **Immutable Slots:** Recognizing constructor assignments replaced into deployed code as data slots rather than code logic alterations.
 4. If code outside these allowed patch spans differs, mark the comparison as `mismatch`.
+
+---
+
+<!-- nav --> [Master tracker](README.md) · [Dashboard](../dashboard/README.md) · [Tier 2 →](tier-2-chains.md)
