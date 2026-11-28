@@ -75,3 +75,11 @@ Decision: one PR per part.
 webpack was tried only with a hand-written stand-in. Namespace imports wrap `require("vscode")` in a helper. The interop owner (`javascriptModuleInterop.ts`) proves only the Rolldown helper shape, and the new resolver does not use it yet.
 
 Open decision: extend that proof per compiler helper, or label any `helper(require("vscode"))` binding as a candidate.
+
+## Decisions and progress (latest)
+
+- One PR per part; part 1 stays a single PR (human owner).
+- Option B for wrappers: `helper(require(name))` is reported with `loader_authority: candidate` and `wrapper: unverified`.
+- Done: resolver, including wrappers; call-site graph nodes carry `module_callee` for `vscode` only. All 12 real outputs resolved (esbuild plain and minified, rolldown, tsc; namespace, default and named imports). webpack real output untested.
+- Checks: `check:fast`; 112 semantic and graph test files, 3833 tests. Uncommitted.
+- Remaining: full declared command list in the VSIX report; correlation operation with CLI and MCP; docs, schema records, boundary tests; a real extension trial.
