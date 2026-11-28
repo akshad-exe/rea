@@ -70,7 +70,7 @@ exists.
 and `onStartupFinished`. `contributes` lists contribute key names and counts,
 every declared command, the commands each menu invokes (`menus`), and the command each
 keybinding (`keybindings`) invokes, plus declared chat participants, language
-model tools, MCP server providers, views and custom editors (`declarations`),
+model tools, MCP server providers, views, custom editors and debugger types (`declarations`),
 and configuration `settings`. `extension_dependencies` and `extension_pack` keep both
 manifests' declared ids and a `disagreement` flag. A side is `null` when its
 manifest was missing or could not be read, and `disagreement` is only true
@@ -136,13 +136,14 @@ does not prove that a command has no handler.
 
 `contributions` reports the same statuses for these contribution points:
 
-| Declared in `contributes`           | Registered with                                                                             |
-| ----------------------------------- | ------------------------------------------------------------------------------------------- |
-| `chatParticipants[].id`             | `vscode.chat.createChatParticipant`                                                         |
-| `languageModelTools[].name`         | `vscode.lm.registerTool`                                                                    |
-| `mcpServerDefinitionProviders[].id` | `vscode.lm.registerMcpServerDefinitionProvider`                                             |
-| `views.*[].id`                      | `vscode.window.registerTreeDataProvider`, `createTreeView` or `registerWebviewViewProvider` |
-| `customEditors[].viewType`          | `vscode.window.registerCustomEditorProvider`                                                |
+| Declared in `contributes`           | Registered with                                                                              |
+| ----------------------------------- | -------------------------------------------------------------------------------------------- |
+| `chatParticipants[].id`             | `vscode.chat.createChatParticipant`                                                          |
+| `languageModelTools[].name`         | `vscode.lm.registerTool`                                                                     |
+| `mcpServerDefinitionProviders[].id` | `vscode.lm.registerMcpServerDefinitionProvider`                                              |
+| `views.*[].id`                      | `vscode.window.registerTreeDataProvider`, `createTreeView` or `registerWebviewViewProvider`  |
+| `customEditors[].viewType`          | `vscode.window.registerCustomEditorProvider`                                                 |
+| `debuggers[].type`                  | `vscode.debug.registerDebugAdapterDescriptorFactory` or `registerDebugConfigurationProvider` |
 
 The servers an MCP provider returns at run time, their commands and prompt
 handling are not analyzed. `summary` counts commands only, apart from
@@ -152,6 +153,10 @@ The package report also lists declared configuration `settings` with their
 types. Reads of those settings in code are not correlated. Views that VS Code
 fills without a provider call, such as walkthrough or welcome content, have no
 registration to find.
+
+A debugger declared with only a static `program` needs no registration call and
+can appear as `not_found`. Debug adapter and language server processes are not
+analyzed.
 
 `undetermined` also replaces `registered_undeclared` when the manifest was not
 read or an older record omitted commands. Absence is not claimed when any source
@@ -186,6 +191,25 @@ scripts inside `.html` files and HTML built at run time are not read, so
 the other side. `omitted_facts` counts facts over the per-file record size. HTML
 files shipped in the package are listed in the package report's `contents`;
 `extract-artifact` unpacks them.
+
+## Language and debug servers
+
+`processes` lists where the extension declares or starts other programs.
+
+| Field                     | Content                                                                        |
+| ------------------------- | ------------------------------------------------------------------------------ |
+| `declared_debug_adapters` | `program` and `runtime` of each `contributes.debuggers` row                    |
+| `spawns`                  | `spawn`, `exec`, `execFile` and `fork` from `child_process`                    |
+| `debug_adapters`          | `vscode.DebugAdapter*` descriptors with a literal command, port or pipe        |
+| `language_clients`        | `new LanguageClient(...)` with the `command` or `module` of its server options |
+
+A server option path is read from fixed text, including `asAbsolutePath` and
+`join` of fixed text. Option functions, run-time values and options built in
+another file are `null`. `LanguageClient` and local subclasses of it are
+matched by class name, since extensions usually bundle the library. Platform-specific manifest overrides are
+not read, and no process is started or observed. `spawns` and `debug_adapters`
+come from call analysis, so a truncated graph can omit them. Native and
+WebAssembly files are listed in the package report's `interesting_members`.
 
 ## Limits and failures
 

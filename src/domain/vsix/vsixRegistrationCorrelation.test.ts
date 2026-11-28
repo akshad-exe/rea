@@ -8,7 +8,8 @@ type ContributionKind =
   | "language_model_tool"
   | "mcp_server_provider"
   | "view"
-  | "custom_editor";
+  | "custom_editor"
+  | "debugger";
 
 const contributes = (
   commands: readonly string[],
@@ -25,6 +26,7 @@ const contributes = (
   menus: [],
   keybindings: [],
   declarations: [],
+  debug_adapters: null,
   ...extra,
 });
 
@@ -220,6 +222,29 @@ describe("VS Code command correlation", () => {
     ]);
   });
 
+  it("correlates debugger types with adapter and configuration providers", () => {
+    const result = correlate(
+      `${VSCODE}vscode.debug.registerDebugAdapterDescriptorFactory("demo-debug", f);
+       vscode.debug.registerDebugConfigurationProvider("demo-debug", p);`,
+      contributes([], {
+        declarations: [
+          { kind: "debugger", id: "demo-debug", label: "Demo" },
+          { kind: "debugger", id: "other-debug", label: null },
+        ],
+      }),
+    );
+    expect(
+      result.contributions.map(({ id, status, registrations }) => [
+        id,
+        status,
+        registrations.length,
+      ]),
+    ).toEqual([
+      ["demo-debug", "registered", 2],
+      ["other-debug", "not_found", 0],
+    ]);
+  });
+
   const withGraph = (
     change: (graph: ReturnType<typeof graphForJavaScript>) => unknown,
   ) =>
@@ -357,10 +382,10 @@ describe("VS Code webview facts", () => {
   });
 
   it("reports unrecorded facts as unknown for an older graph", () => {
-    const { webview_facts, ...older } = graphForJavaScript(
+    const { extension_facts, ...older } = graphForJavaScript(
       "view.webview.postMessage(1);",
     );
-    expect(webview_facts).toBe(true);
+    expect(extension_facts).toBe(true);
     expect(
       correlateVsixRegistrations({
         contributes: contributes([]),
@@ -369,6 +394,90 @@ describe("VS Code webview facts", () => {
         semanticGraph: older,
       }).webviews,
     ).toBeNull();
+  });
+});
+
+describe("VS Code server processes", () => {
+  const processesOf = (source: string) =>
+    correlate(source, contributes([])).processes;
+
+  it("lists spawns and debug adapter descriptors with fixed values", () => {
+    const processes = processesOf(
+      `${VSCODE}const cp = require("child_process");
+       cp.spawn("gopls", ["serve"]);
+       cp.exec(command);
+       new vscode.DebugAdapterExecutable("node", ["adapter.js"]);
+       new vscode.DebugAdapterServer(4711);
+       new vscode.DebugAdapterInlineImplementation(session);`,
+    );
+    expect(
+      processes.spawns.map(({ method, command }) => [method, command]),
+    ).toEqual([
+      ["spawn", "gopls"],
+      ["exec", null],
+    ]);
+    expect(
+      processes.debug_adapters.map(({ descriptor, target }) => [
+        descriptor,
+        target,
+      ]),
+    ).toEqual([
+      ["DebugAdapterExecutable", "node"],
+      ["DebugAdapterServer", 4711],
+      ["DebugAdapterInlineImplementation", null],
+    ]);
+  });
+
+  it("reads language client server options and keeps built ones unknown", () => {
+    const processes = processesOf(
+      `${VSCODE}const { LanguageClient } = require("vscode-languageclient/node");
+       const path = require("path");
+       exports.activate = (context) => {
+         const module = context.asAbsolutePath(path.join("server", "out", "main.js"));
+         const options = { run: { module }, debug: { module, transport: 1 } };
+         new LanguageClient("demo", "Demo", options, {});
+         new lsp.LanguageClient("Other", { command: "rust-analyzer" }, {});
+         new LanguageClient("dyn", "Dyn", () => start(), {});
+       };`,
+    );
+    expect(
+      processes.language_clients?.map(({ id, servers }) => [id, servers]),
+    ).toEqual([
+      [
+        "demo",
+        [
+          { mode: "run", command: null, module: "server/out/main.js" },
+          { mode: "debug", command: null, module: "server/out/main.js" },
+        ],
+      ],
+      ["Other", [{ mode: null, command: "rust-analyzer", module: null }]],
+      ["dyn", null],
+    ]);
+  });
+
+  it("includes subclasses of a language client", () => {
+    const processes = processesOf(
+      `var Expr = class extends lsp.LanguageClient {};
+       class Declared extends LanguageClient {}
+       class Other extends Client {}
+       new Expr("A", { command: "a" }, {});
+       new Declared("B", { command: "b" }, {});
+       new Other("C", { command: "c" }, {});`,
+    );
+    expect(processes.language_clients?.map(({ id }) => id)).toEqual(["A", "B"]);
+  });
+
+  it("reports unrecorded language client facts as unknown", () => {
+    const { extension_facts, ...older } = graphForJavaScript("f();");
+    expect(extension_facts).toBe(true);
+    expect(
+      correlateVsixRegistrations({
+        contributes: contributes([]),
+        entryPoints: ["app.js"],
+        manifestRead: true,
+        semanticGraph: older,
+      }).processes,
+    ).toMatchObject({ language_clients: null, declared_debug_adapters: null });
   });
 });
 

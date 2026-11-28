@@ -641,6 +641,7 @@ const CONTRIBUTION_POINTS = [
   ["mcp_server_provider", "mcpServerDefinitionProviders", "id", "label"],
   ["view", "views", "id", "name"],
   ["custom_editor", "customEditors", "viewType", "displayName"],
+  ["debugger", "debuggers", "type", "label"],
 ] as const;
 
 /** `contributes.views` groups its rows by view container. */
@@ -663,6 +664,13 @@ const declaredContributions = (
           label: exactText(row[labelKey]),
         })),
   );
+
+const declaredDebugAdapters = (debuggers: unknown) =>
+  rowsOf(debuggers).map((row) => ({
+    type: exactText(row.type),
+    program: exactText(row.program),
+    runtime: exactText(row.runtime),
+  }));
 
 /** Properties of one configuration object or of each in an array. */
 const declaredSettings = (configuration: unknown) =>
@@ -699,6 +707,7 @@ const parsePackageJsonDocument = (
       keybindings: null,
       declarations: null,
       settings: null,
+      debug_adapters: null,
     },
     extensionDependencies: null,
     extensionPack: null,
@@ -796,6 +805,7 @@ const parsePackageJsonDocument = (
       })),
       declarations: declaredContributions(contributesRaw),
       settings: declaredSettings(contributesRaw?.configuration),
+      debug_adapters: declaredDebugAdapters(contributesRaw?.debuggers),
     },
     extensionDependencies: parseExtensionList(record.extensionDependencies),
     extensionPack: parseExtensionList(record.extensionPack),
@@ -1451,6 +1461,7 @@ export const decodeVsixListing = async (
       keybindings: null,
       declarations: null,
       settings: null,
+      debug_adapters: null,
     },
     extension_dependencies: extensionDependencies,
     extension_pack: extensionPack,

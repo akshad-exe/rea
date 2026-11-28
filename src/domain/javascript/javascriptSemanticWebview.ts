@@ -1,7 +1,7 @@
 import * as t from "@babel/types";
 
 import type {
-  JavaScriptSemanticWebviewFact,
+  JavaScriptSemanticExtensionFact,
   JavaScriptWebviewDirection,
 } from "./javascriptSemanticIr.js";
 import {
@@ -191,10 +191,10 @@ const handledTypes = (
 export const collectJavaScriptSemanticWebview = (
   program: t.Program,
   state: JavaScriptSemanticAnalysisState,
-): readonly JavaScriptSemanticWebviewFact[] => {
+): readonly JavaScriptSemanticExtensionFact[] => {
   const context: WebviewContext = { state, functions: new Map() };
   const calls: t.CallExpression[] = [];
-  const facts: JavaScriptSemanticWebviewFact[] = [];
+  const facts: JavaScriptSemanticExtensionFact[] = [];
   traverseJavaScriptValueAst(program, state.erasedSyntaxNodes, {
     enter: (node) => {
       const [name, value] = t.isFunctionDeclaration(node)

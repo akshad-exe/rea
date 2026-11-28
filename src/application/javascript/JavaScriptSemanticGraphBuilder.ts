@@ -333,7 +333,7 @@ export const createJavaScriptSemanticGraphProjection = (
     const graph = factory({
       schema: "JavaScriptSemanticRelationGraph",
       callee_fact_modules: [CALLEE_FACT_MODULE],
-      webview_facts: true,
+      extension_facts: true,
       root_artifact_sha256: rootArtifactSha256,
       application_graph_id: applicationGraph.graph_id,
       root_node_ids: [...state.roots],
@@ -636,7 +636,7 @@ function* projectFileWithEvidenceSteps(
     location: null,
     label: file.path,
     functionNodeId: null,
-    ...webviewProperties(ir),
+    ...extensionFactProperties(ir),
   });
   if (moduleNode === null) return [];
   state.roots.add(moduleNode.node_id);
@@ -802,19 +802,22 @@ function* createReturnSiteNodes(
 const CALLEE_FACT_MODULE = "vscode";
 
 /**
- * Webview facts live on the module node, so a dropped call analysis keeps them.
+ * Extension facts live on the module node, so a dropped call analysis keeps them.
  * Facts that do not fit one worker transfer record are counted, not retained.
  */
-const webviewProperties = ({ webviewFacts }: JavaScriptSemanticIr) => {
-  if (webviewFacts.length === 0) return {};
+const extensionFactProperties = ({ extensionFacts }: JavaScriptSemanticIr) => {
+  if (extensionFacts.length === 0) return {};
   const facts: JsonValue[] = [];
   let bytes = 0;
   let omitted = 0;
-  for (const { location, ...fact } of webviewFacts) {
+  for (const { location, ...fact } of extensionFacts) {
     const item = {
       ...fact,
       ...(fact.kind === "receive" && fact.types !== null
         ? { types: [...fact.types] }
+        : {}),
+      ...(fact.kind === "language_client" && fact.servers !== null
+        ? { servers: fact.servers.map((server) => ({ ...server })) }
         : {}),
       line: location.start.line,
       column: location.start.column,
@@ -828,7 +831,7 @@ const webviewProperties = ({ webviewFacts }: JavaScriptSemanticIr) => {
     facts.push(item);
     bytes += size;
   }
-  return { properties: { webview: { facts, omitted } } };
+  return { properties: { extension_facts: { facts, omitted } } };
 };
 
 function* createCallSiteNodes(

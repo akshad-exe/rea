@@ -377,8 +377,8 @@ export const javaScriptSemanticGraphInputSchema = z.strictObject({
   limitations: z.array(nonEmptyTextSchema),
   /** Modules whose call sites carry `module_callee`; absent in older graphs. */
   callee_fact_modules: z.array(nonEmptyTextSchema).exactOptional(),
-  /** Module nodes carry `webview` facts; absent in older graphs. */
-  webview_facts: z.literal(true).exactOptional(),
+  /** Module nodes carry `extension_facts`; absent in older graphs. */
+  extension_facts: z.literal(true).exactOptional(),
 });
 
 /** Stored JavaScript Semantic Relation Graph. */

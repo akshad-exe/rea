@@ -304,6 +304,7 @@ export const VSIX_CONTRIBUTION_KINDS = [
   "mcp_server_provider",
   "view",
   "custom_editor",
+  "debugger",
 ] as const;
 
 /** A declared contribution that code registers by its exact ID. */
@@ -311,6 +312,13 @@ const contributionSchema = z.strictObject({
   kind: z.enum(VSIX_CONTRIBUTION_KINDS),
   id: nullableText,
   label: nullableText,
+});
+
+/** The static adapter a `debuggers` row starts; platform overrides are not read. */
+const debugAdapterSchema = z.strictObject({
+  type: nullableText,
+  program: nullableText,
+  runtime: nullableText,
 });
 
 /** A declared configuration property and the JSON types it names. */
@@ -418,6 +426,7 @@ export const vsixPackageSchema = z.strictObject({
     keybindings: z.array(keybindingSchema).nullable().default(null),
     declarations: z.array(contributionSchema).nullable().default(null),
     settings: z.array(settingSchema).nullable().default(null),
+    debug_adapters: z.array(debugAdapterSchema).nullable().default(null),
   }),
   extension_dependencies: declaredIdsSchema,
   extension_pack: declaredIdsSchema,

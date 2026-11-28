@@ -27,6 +27,8 @@ const REGISTRATION_KINDS = {
   "window.createTreeView": "view",
   "window.registerWebviewViewProvider": "view",
   "window.registerCustomEditorProvider": "custom_editor",
+  "debug.registerDebugAdapterDescriptorFactory": "debugger",
+  "debug.registerDebugConfigurationProvider": "debugger",
 } as const;
 const REGISTRATIONS = [
   "registerCommand",
@@ -38,6 +40,8 @@ const REGISTRATIONS = [
   "createTreeView",
   "registerWebviewViewProvider",
   "registerCustomEditorProvider",
+  "registerDebugAdapterDescriptorFactory",
+  "registerDebugConfigurationProvider",
 ] as const;
 const STATUSES = [
   "registered",
@@ -110,13 +114,73 @@ const webviewsSchema = z
   })
   .nullable();
 
-const webviewFactsSchema = z.object({
+const languageClientShape = {
+  id: z.string().nullable(),
+  servers: z
+    .array(
+      z.strictObject({
+        mode: z.enum(["run", "debug"]).nullable(),
+        command: z.string().nullable(),
+        module: z.string().nullable(),
+      }),
+    )
+    .nullable(),
+};
+const DEBUG_ADAPTER_DESCRIPTORS = [
+  "DebugAdapterExecutable",
+  "DebugAdapterServer",
+  "DebugAdapterNamedPipeServer",
+  "DebugAdapterInlineImplementation",
+] as const;
+
+const processesSchema = z.strictObject({
+  /** Static `debuggers` programs; null when not recorded. */
+  declared_debug_adapters: z
+    .array(
+      z.strictObject({
+        type: z.string().nullable(),
+        program: z.string().nullable(),
+        runtime: z.string().nullable(),
+      }),
+    )
+    .nullable(),
+  spawns: z.array(
+    z.strictObject({
+      method: z.string(),
+      command: z.string().nullable(),
+      argument_count: z.int().nonnegative().nullable(),
+      builtin_authority: z.literal("candidate").nullable(),
+      ...siteShape,
+    }),
+  ),
+  debug_adapters: z.array(
+    z.strictObject({
+      descriptor: z.enum(DEBUG_ADAPTER_DESCRIPTORS),
+      /** Command, port or pipe path when it is a literal first argument. */
+      target: z.union([z.string(), z.number()]).nullable(),
+      ...siteShape,
+      ...authorityShape,
+    }),
+  ),
+  /** Null when the application graph predates these facts. */
+  language_clients: z
+    .array(z.strictObject({ ...languageClientShape, ...siteShape }))
+    .nullable(),
+});
+
+const extensionFactsSchema = z.object({
   facts: z.array(
     z.discriminatedUnion("kind", [
       z.object({ kind: z.literal("send"), ...sendShape, line, column }),
       z.object({ kind: z.literal("receive"), ...receiveShape, line, column }),
       z.object({ kind: z.literal("html"), ...htmlShape, line, column }),
       z.object({ kind: z.literal("acquire"), line, column }),
+      z.object({
+        kind: z.literal("language_client"),
+        ...languageClientShape,
+        line,
+        column,
+      }),
     ]),
   ),
   omitted: z.int().nonnegative(),
@@ -142,6 +206,7 @@ const correlationShape = {
     unresolved_registrations: count,
   }),
   webviews: webviewsSchema,
+  processes: processesSchema,
   semantic_graph_truncated: z.boolean(),
 };
 
@@ -157,7 +222,12 @@ export const vsixRegistrationCorrelationSchema = z.strictObject({
 interface CorrelationInput {
   readonly contributes: Pick<
     VsixPackage["contributes"],
-    "commands" | "commands_omitted" | "menus" | "keybindings" | "declarations"
+    | "commands"
+    | "commands_omitted"
+    | "menus"
+    | "keybindings"
+    | "declarations"
+    | "debug_adapters"
   >;
   /** Entry point member paths declared by the package. */
   readonly entryPoints: readonly string[];
@@ -246,7 +316,7 @@ const pairedMessages = ({
 
 /** Panels, messaging and HTML facts in source order. */
 const webviewsOf = (graph: JavaScriptSemanticGraph): Webviews | null => {
-  if (graph.webview_facts !== true) return null;
+  if (graph.extension_facts !== true) return null;
   const found: Webviews = {
     panels: [],
     sends: [],
@@ -268,7 +338,9 @@ const webviewsOf = (graph: JavaScriptSemanticGraph): Webviews | null => {
         });
       continue;
     }
-    const recorded = webviewFactsSchema.safeParse(node.properties.webview);
+    const recorded = extensionFactsSchema.safeParse(
+      node.properties.extension_facts,
+    );
     if (!recorded.success) continue;
     found.omitted_facts += recorded.data.omitted;
     const module_path = node.identity.module_path;
@@ -288,7 +360,7 @@ const webviewsOf = (graph: JavaScriptSemanticGraph): Webviews | null => {
         });
       else if (fact.kind === "html")
         found.html.push({ html: fact.html, ...site });
-      else found.api_acquisitions.push(site);
+      else if (fact.kind === "acquire") found.api_acquisitions.push(site);
     }
   }
   for (const list of [
@@ -302,6 +374,79 @@ const webviewsOf = (graph: JavaScriptSemanticGraph): Webviews | null => {
   return { ...found, messages: pairedMessages(found) };
 };
 
+const spawnSchema = z.object({
+  method: z.string(),
+  command: z.string().nullable(),
+  argv_count: z.int().nonnegative().nullable(),
+  builtin_authority: z.literal("candidate").optional(),
+});
+const descriptorCalleeSchema = z.object({
+  ...authorityFields,
+  path: z.tuple([z.enum(DEBUG_ADAPTER_DESCRIPTORS)]),
+});
+
+/** Where code and the manifest start language and debug servers. */
+const processesOf = (
+  graph: JavaScriptSemanticGraph,
+  declared: VsixPackage["contributes"]["debug_adapters"],
+): z.output<typeof processesSchema> => {
+  const spawns: z.output<typeof processesSchema>["spawns"] = [];
+  const adapters: z.output<typeof processesSchema>["debug_adapters"] = [];
+  const clients: NonNullable<
+    z.output<typeof processesSchema>["language_clients"]
+  > = [];
+  for (const node of graph.nodes) {
+    if (node.kind === "child-process") {
+      const spawn = spawnSchema.safeParse(node.properties);
+      if (spawn.success)
+        spawns.push({
+          method: spawn.data.method,
+          command: spawn.data.command,
+          argument_count: spawn.data.argv_count,
+          builtin_authority: spawn.data.builtin_authority ?? null,
+          ...siteOf(node),
+        });
+    } else if (node.kind === "call-site") {
+      const callee = descriptorCalleeSchema.safeParse(
+        node.properties.module_callee,
+      );
+      if (!callee.success) continue;
+      const target = argumentsSchema
+        .safeParse(node.properties.arguments)
+        .data?.find(({ index }) => index === 0)?.value;
+      adapters.push({
+        descriptor: callee.data.path[0],
+        target:
+          typeof target === "string" || typeof target === "number"
+            ? target
+            : null,
+        ...siteOf(node),
+        loader_authority: callee.data.loader_authority ?? null,
+        wrapper: callee.data.wrapper ?? null,
+      });
+    }
+    const recorded = extensionFactsSchema.safeParse(
+      node.properties.extension_facts,
+    );
+    for (const fact of recorded.data?.facts ?? [])
+      if (fact.kind === "language_client")
+        clients.push({
+          id: fact.id,
+          servers: fact.servers,
+          module_path: node.identity.module_path,
+          line: fact.line,
+          column: fact.column,
+        });
+  }
+  for (const list of [spawns, adapters, clients]) list.sort(bySource);
+  return {
+    declared_debug_adapters: declared,
+    spawns,
+    debug_adapters: adapters,
+    language_clients: graph.extension_facts === true ? clients : null,
+  };
+};
+
 /** Registration calls by kind and literal ID; other IDs stay unresolved. */
 const registrationsOf = (graph: JavaScriptSemanticGraph) => {
   const byKind: Record<Kind, Map<string, Registration[]>> = {
@@ -311,6 +456,7 @@ const registrationsOf = (graph: JavaScriptSemanticGraph) => {
     mcp_server_provider: new Map(),
     view: new Map(),
     custom_editor: new Map(),
+    debugger: new Map(),
   };
   const unresolved: Registration[] = [];
   for (const node of graph.nodes) {
@@ -528,6 +674,7 @@ export const correlateVsixRegistrations = ({
       unresolved_registrations: unresolved.length,
     },
     webviews: webviewsOf(semanticGraph),
+    processes: processesOf(semanticGraph, contributes.debug_adapters),
     semantic_graph_truncated: semanticGraph.coverage.truncated,
   };
 };
