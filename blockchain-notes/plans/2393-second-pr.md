@@ -1,14 +1,12 @@
 # Second PR for #2393: proxy chains
 
-Branch `feat/evm-proxy-chains` on the fork, commit `d7ad40816`. Not opened.
+Opened 2026-11-28 as draft [#14953](https://github.com/morluto/rea/pull/14953), head `5634c466d`. Depends on [#14951](https://github.com/morluto/rea/pull/14951).
 
-## Before opening
+## After the first PR merges
 
-1. [#14951](https://github.com/morluto/rea/pull/14951) is merged. Its review fixes change files this branch also changes.
 2. Merge `upstream/main` into the branch and resolve conflicts (the first PR is squash-merged).
 3. Rerun the checks below and the real-contract test; update the numbers.
 4. Check whether the review comments on #14951 also apply to code added here (per related file).
-5. Open as draft. The readiness boxes belong to the human owner.
 
 [Compare view](https://github.com/morluto/rea/compare/main...akshad-exe:rea:feat/evm-proxy-chains) (includes the first PR's commits until it merges).
 
