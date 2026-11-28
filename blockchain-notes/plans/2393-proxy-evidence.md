@@ -1,6 +1,6 @@
 # Plan: #2393 offline proxy evidence
 
-[Issue](https://github.com/morluto/rea/issues/2393) · [Roadmap](../roadmap.md). Written 2026-11-28 against upstream `d74703ff5`. Status: draft, not started.
+[Issue](https://github.com/morluto/rea/issues/2393) · [Roadmap](../roadmap.md). Written 2026-11-28 against upstream `d74703ff5`. Status: steps 1 and 2 in [#14951](https://github.com/morluto/rea/pull/14951); step 3 on the fork, see [second PR](2393-second-pr.md).
 
 ## Question
 
