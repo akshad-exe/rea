@@ -314,6 +314,13 @@ const contributionSchema = z.strictObject({
   label: nullableText,
 });
 
+/** The static adapter a `debuggers` row starts; platform overrides are not read. */
+const debugAdapterSchema = z.strictObject({
+  type: nullableText,
+  program: nullableText,
+  runtime: nullableText,
+});
+
 /** A declared configuration property and the JSON types it names. */
 const settingSchema = z.strictObject({
   key: z.string().min(1),
@@ -419,6 +426,7 @@ export const vsixPackageSchema = z.strictObject({
     keybindings: z.array(keybindingSchema).nullable().default(null),
     declarations: z.array(contributionSchema).nullable().default(null),
     settings: z.array(settingSchema).nullable().default(null),
+    debug_adapters: z.array(debugAdapterSchema).nullable().default(null),
   }),
   extension_dependencies: declaredIdsSchema,
   extension_pack: declaredIdsSchema,

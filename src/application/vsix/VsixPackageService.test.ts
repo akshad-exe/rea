@@ -57,6 +57,7 @@ const report: VsixPackage = {
     keybindings: [],
     declarations: [],
     settings: [],
+    debug_adapters: [],
   },
   extension_dependencies: {
     vsixmanifest: ["other.dep"],

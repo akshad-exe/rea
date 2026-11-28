@@ -154,8 +154,15 @@ export const JAVASCRIPT_WEBVIEW_DIRECTIONS = [
 export type JavaScriptWebviewDirection =
   (typeof JAVASCRIPT_WEBVIEW_DIRECTIONS)[number];
 
-/** One VS Code webview syntax fact; null marks a value only known at run time. */
-export type JavaScriptSemanticWebviewFact = {
+/** One server a language client starts; null parts are known only at run time. */
+export interface JavaScriptSemanticLanguageServer {
+  readonly mode: "run" | "debug" | null;
+  readonly command: string | null;
+  readonly module: string | null;
+}
+
+/** One VS Code extension syntax fact; null marks a run-time value. */
+export type JavaScriptSemanticExtensionFact = {
   readonly location: JavaScriptSourceRange;
 } & (
   | {
@@ -170,6 +177,11 @@ export type JavaScriptSemanticWebviewFact = {
     }
   | { readonly kind: "html"; readonly html: string | null }
   | { readonly kind: "acquire" }
+  | {
+      readonly kind: "language_client";
+      readonly id: string | null;
+      readonly servers: readonly JavaScriptSemanticLanguageServer[] | null;
+    }
 );
 
 /** One argument occurrence retained without evaluating application code. */
@@ -518,7 +530,7 @@ export interface JavaScriptSemanticIr {
   readonly references: readonly JavaScriptSemanticReference[];
   readonly moduleLinks: readonly JavaScriptSemanticModuleLink[];
   readonly callSites: readonly JavaScriptSemanticCallSite[];
-  readonly webviewFacts: readonly JavaScriptSemanticWebviewFact[];
+  readonly extensionFacts: readonly JavaScriptSemanticExtensionFact[];
   readonly argumentFlows: readonly JavaScriptSemanticArgumentFlow[];
   readonly callReturnFlows: readonly JavaScriptSemanticCallReturnFlow[];
   readonly callResultFlows: readonly JavaScriptSemanticCallResultFlow[];
@@ -557,7 +569,7 @@ export const failedJavaScriptSemanticIr = (): JavaScriptSemanticIr => ({
   references: [],
   moduleLinks: [],
   callSites: [],
-  webviewFacts: [],
+  extensionFacts: [],
   argumentFlows: [],
   callReturnFlows: [],
   callResultFlows: [],

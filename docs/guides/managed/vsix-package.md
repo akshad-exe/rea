@@ -188,6 +188,25 @@ the other side. `omitted_facts` counts facts over the per-file record size. HTML
 files shipped in the package are listed in the package report's `contents`;
 `extract-artifact` unpacks them.
 
+## Language and debug servers
+
+`processes` lists where the extension declares or starts other programs.
+
+| Field                     | Content                                                                        |
+| ------------------------- | ------------------------------------------------------------------------------ |
+| `declared_debug_adapters` | `program` and `runtime` of each `contributes.debuggers` row                    |
+| `spawns`                  | `spawn`, `exec`, `execFile` and `fork` from `child_process`                    |
+| `debug_adapters`          | `vscode.DebugAdapter*` descriptors with a literal command, port or pipe        |
+| `language_clients`        | `new LanguageClient(...)` with the `command` or `module` of its server options |
+
+A server option path is read from fixed text, including `asAbsolutePath` and
+`join` of fixed text. Option functions, run-time values and options built in
+another file are `null`. `LanguageClient` and local subclasses of it are
+matched by class name, since extensions usually bundle the library. Platform-specific manifest overrides are
+not read, and no process is started or observed. `spawns` and `debug_adapters`
+come from call analysis, so a truncated graph can omit them. Native and
+WebAssembly files are listed in the package report's `interesting_members`.
+
 ## Limits and failures
 
 The selected file is limited to 64 MiB by default (512 MiB maximum). At most

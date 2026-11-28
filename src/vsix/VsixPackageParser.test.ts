@@ -365,7 +365,16 @@ it("records declared debugger types", async () => {
       publisher: "demo",
       version: "1.2.3",
       engines: { vscode: "^1.74.0" },
-      contributes: { debuggers: [{ type: "demo-debug", label: "Demo" }] },
+      contributes: {
+        debuggers: [
+          {
+            type: "demo-debug",
+            label: "Demo",
+            program: "./a.js",
+            runtime: "node",
+          },
+        ],
+      },
     }),
   });
   const report = vsixPackageSchema.parse(
@@ -373,6 +382,9 @@ it("records declared debugger types", async () => {
   );
   expect(report.contributes.declarations).toEqual([
     { kind: "debugger", id: "demo-debug", label: "Demo" },
+  ]);
+  expect(report.contributes.debug_adapters).toEqual([
+    { type: "demo-debug", program: "./a.js", runtime: "node" },
   ]);
 });
 
