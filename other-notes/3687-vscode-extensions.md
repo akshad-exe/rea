@@ -119,3 +119,19 @@ Remaining parts: 3 detailed contributions, 4 installed folders, 5 webviews, 6 la
 [akshad-exe/rea#3](https://github.com/akshad-exe/rea/pull/3), on the part 2 branch. Views and custom editors correlated; settings listed. Part 2 fields renamed to `contributions` and `contributes.declarations`. Real trials: views registered in two extensions, one undetermined; custom editors only unit tested.
 
 Not covered by parts 1 to 3: setting reads, languages, debuggers, other contribution points. Remaining: 4 installed folders, 5 webview messaging, 6 language and debug servers.
+
+### Debuggers (slice of part 6)
+
+[akshad-exe/rea#4](https://github.com/akshad-exe/rea/pull/4), on the part 3 branch. Unit tested only.
+
+## What still blocks closing #3687
+
+| Item                                                 | Needs                                                                                                         |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Installed extension folders (part 4)                 | A directory reader for the package report with its own symlink and size rules; the current reader is ZIP only |
+| Webview content and messaging (part 5)               | New analysis of webview objects, which are not `vscode` module calls; HTML is often built at run time         |
+| Language and debug server processes (rest of part 6) | Recovering `LanguageClient` options and spawned commands, usually inside bundled libraries                    |
+| Registrations through helpers and constant IDs       | Value tracing in the analyzer (seen missed in flowrelay and agent-kanban)                                     |
+| Large extensions                                     | The analysis result budget drops call analysis (GitLens)                                                      |
+
+The criterion "map 100% of declared contribution points to handlers" cannot be met by static analysis; agree the scope with morluto before any PR says `Fixes`.
