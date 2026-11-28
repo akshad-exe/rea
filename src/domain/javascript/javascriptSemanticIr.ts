@@ -140,12 +140,21 @@ export interface JavaScriptSemanticCallSite {
      */
     readonly wrappedSpecifier?: string;
   };
+  /** A VS Code webview messaging call, recognized by name. */
+  readonly webviewCall?: JavaScriptWebviewCall;
   /** The call's value appears in an enclosing expression or return. */
   readonly resultUsed: boolean;
   readonly resolution: "exact" | "ambiguous" | "unresolved";
   readonly calleeCallableIds: readonly string[];
   readonly arguments: readonly JavaScriptSemanticCallArgument[];
 }
+
+export const JAVASCRIPT_WEBVIEW_CALLS = [
+  "postMessage",
+  "onDidReceiveMessage",
+  "acquireVsCodeApi",
+] as const;
+export type JavaScriptWebviewCall = (typeof JAVASCRIPT_WEBVIEW_CALLS)[number];
 
 /** One argument occurrence retained without evaluating application code. */
 export interface JavaScriptSemanticCallArgument {

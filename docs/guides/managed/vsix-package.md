@@ -159,6 +159,23 @@ read or an older record omitted commands. Absence is not claimed when any source
 was skipped or unparsed, or for application Evidence recorded before callee
 facts existed; rerun the analysis for those.
 
+## Webviews
+
+`webviews` lists where the extension creates and talks to webviews. It is
+`null` for application Evidence recorded before these facts existed.
+
+- `panels`: each `vscode.window.createWebviewPanel` call, with its literal
+  `view_type` or `null`. Webview views and custom editors appear in
+  `contributions`.
+- `calls`: `*.webview.postMessage`, `*.webview.onDidReceiveMessage` and the
+  webview-side global `acquireVsCodeApi`, with module, line and column.
+
+The message calls are matched by name. A renamed receiver is missed, and an
+unrelated object with the same name can appear. Messages are not paired with
+handlers, their contents are not read, and HTML assigned or built in code is
+not extracted. HTML files shipped in the package are listed in the package
+report's `contents`; `extract-artifact` unpacks them.
+
 ## Limits and failures
 
 The selected file is limited to 64 MiB by default (512 MiB maximum). At most

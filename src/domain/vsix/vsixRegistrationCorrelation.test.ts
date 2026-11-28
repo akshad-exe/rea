@@ -296,3 +296,51 @@ describe("VS Code command correlation", () => {
     expect(result.commands[0]?.status).toBe("undetermined");
   });
 });
+
+describe("VS Code webview facts", () => {
+  it("lists panels, message calls and webview API acquisition", () => {
+    const { webviews } = correlate(
+      `${VSCODE}const panel = vscode.window.createWebviewPanel("demo.panel", "T", 1);
+       panel.webview.postMessage({ type: "x" });
+       this.view.webview.onDidReceiveMessage(handle);
+       const { webview } = panel; webview?.postMessage(1);
+       const api = acquireVsCodeApi();
+       vscode.window.createWebviewPanel(kind, "T", 1);`,
+      contributes([]),
+    );
+    expect(webviews?.panels.map(({ view_type }) => view_type)).toEqual([
+      "demo.panel",
+      null,
+    ]);
+    expect(webviews?.calls.map(({ call, line }) => [call, line])).toEqual([
+      ["postMessage", 3],
+      ["onDidReceiveMessage", 4],
+      ["postMessage", 5],
+      ["acquireVsCodeApi", 6],
+    ]);
+  });
+
+  it("ignores other receivers and a locally defined acquireVsCodeApi", () => {
+    const { webviews } = correlate(
+      `worker.postMessage(1); bus.onDidReceiveMessage(f);
+       function acquireVsCodeApi() {} acquireVsCodeApi();`,
+      contributes([]),
+    );
+    expect(webviews).toEqual({ panels: [], calls: [] });
+  });
+
+  it("reports unrecorded facts as unknown for an older graph", () => {
+    const { webview_call_facts, ...older } = graphForJavaScript(
+      "view.webview.postMessage(1);",
+    );
+    expect(webview_call_facts).toBe(true);
+    expect(
+      correlateVsixRegistrations({
+        contributes: contributes([]),
+        entryPoints: ["app.js"],
+        manifestRead: true,
+        semanticGraph: older,
+      }).webviews,
+    ).toBeNull();
+  });
+});

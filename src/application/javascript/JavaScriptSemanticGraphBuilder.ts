@@ -333,6 +333,7 @@ export const createJavaScriptSemanticGraphProjection = (
     const graph = factory({
       schema: "JavaScriptSemanticRelationGraph",
       callee_fact_modules: [CALLEE_FACT_MODULE],
+      webview_call_facts: true,
       root_artifact_sha256: rootArtifactSha256,
       application_graph_id: applicationGraph.graph_id,
       root_node_ids: [...state.roots],
@@ -821,10 +822,14 @@ function* createCallSiteNodes(
       functionNodeId: owner,
     };
     const callee = moduleCallees.get(call.callSiteId);
-    const calleeProperties =
-      callee?.specifier === CALLEE_FACT_MODULE
+    const calleeProperties = {
+      ...(callee?.specifier === CALLEE_FACT_MODULE
         ? { module_callee: { ...callee, path: [...callee.path] } }
-        : {};
+        : {}),
+      ...(call.webviewCall === undefined
+        ? {}
+        : { webview_call: call.webviewCall }),
+    };
     // Include the complete node and worker JSON envelope before retaining any
     // arguments. Each entry is charged by its encoded size and comma, so even
     // worst-case escaping cannot overflow the worker's single-record ceiling.
@@ -862,7 +867,8 @@ function* createCallSiteNodes(
     }
     const node = retainNode(state, file, {
       ...nodeInput,
-      ...(argumentsValue.length === 0 && !("module_callee" in calleeProperties)
+      ...(argumentsValue.length === 0 &&
+      Object.keys(calleeProperties).length === 0
         ? {}
         : {
             properties: {

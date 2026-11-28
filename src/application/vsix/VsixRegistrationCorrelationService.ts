@@ -35,6 +35,7 @@ const LIMITATIONS = [
   "undetermined replaces not_found when a declared entry point or any source was not analyzed, analysis was truncated, or the application graph predates callee facts; it replaces registered_undeclared when declarations were not all read. not_found means no vscode registration with that literal identifier was seen. Identifiers built at run time are listed as unresolved, and unrecognized code or bundler forms can hide a registration.",
   "A registration with loader_authority candidate rests on an unestablished require; wrapper unverified additionally rests on a helper whose effect was not checked.",
   "Static source facts only: activation, execution and handler behavior are not observed.",
+  "webviews.calls are matched by name (*.webview.postMessage, *.webview.onDidReceiveMessage, global acquireVsCodeApi), so renamed receivers are missed and unrelated objects with these names can appear. Senders are not paired with handlers, message contents and HTML built or assigned in code are not read, and an empty list does not prove there is no webview messaging.",
 ] as const;
 
 const invalid = (field: string, message: string) =>

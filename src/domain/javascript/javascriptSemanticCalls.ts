@@ -220,6 +220,38 @@ const calleeAccess = (
   }
 };
 
+/**
+ * `*.webview.postMessage`, `*.webview.onDidReceiveMessage` (or the same on a
+ * binding named `webview`), and the undeclared global `acquireVsCodeApi`.
+ */
+const webviewCall = (
+  callee: t.Node,
+  state: JavaScriptSemanticAnalysisState,
+): JavaScriptSemanticCallSite["webviewCall"] => {
+  const unwrapped = (node: t.Node) =>
+    unwrapJavaScriptExpression(
+      unwrapPureSemanticSequenceExpression(node, state),
+    ).node;
+  const target = unwrapped(callee);
+  if (t.isIdentifier(target))
+    return target.name === "acquireVsCodeApi" &&
+      resolveSemanticBindingState(state, target, target.name) === undefined
+      ? "acquireVsCodeApi"
+      : undefined;
+  if (!t.isMemberExpression(target) && !t.isOptionalMemberExpression(target))
+    return undefined;
+  const method = semanticStaticPropertyKey(target.property, target.computed);
+  if (method !== "postMessage" && method !== "onDidReceiveMessage")
+    return undefined;
+  const receiver = unwrapped(target.object);
+  const name = t.isIdentifier(receiver)
+    ? receiver.name
+    : t.isMemberExpression(receiver) || t.isOptionalMemberExpression(receiver)
+      ? semanticStaticPropertyKey(receiver.property, receiver.computed)
+      : null;
+  return name === "webview" ? method : undefined;
+};
+
 const collectCallSite = (
   node: t.CallExpression | t.OptionalCallExpression | t.NewExpression,
   parent: t.Node | null,
@@ -237,6 +269,7 @@ const collectCallSite = (
   const callSiteId = semanticCallSiteId(node);
   const argumentsValue = retainedArguments(node.arguments, state);
   const access = calleeAccess(node.callee, state);
+  const webview = webviewCall(node.callee, state);
   const site: JavaScriptSemanticCallSite = {
     callSiteId,
     kind: t.isNewExpression(node) ? "construct" : "call",
@@ -244,6 +277,7 @@ const collectCallSite = (
     location: range(node),
     calleeLocation: range(node.callee),
     ...(access === undefined ? {} : { calleeAccess: access }),
+    ...(webview === undefined ? {} : { webviewCall: webview }),
     resultUsed: callResultIsUsed(node, parent, context.ancestors),
     resolution:
       resolution.callableIds.length === 1 && resolution.complete
