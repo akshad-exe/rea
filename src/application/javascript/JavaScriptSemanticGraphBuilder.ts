@@ -333,7 +333,7 @@ export const createJavaScriptSemanticGraphProjection = (
     const graph = factory({
       schema: "JavaScriptSemanticRelationGraph",
       callee_fact_modules: [CALLEE_FACT_MODULE],
-      webview_call_facts: true,
+      webview_facts: true,
       root_artifact_sha256: rootArtifactSha256,
       application_graph_id: applicationGraph.graph_id,
       root_node_ids: [...state.roots],
@@ -636,6 +636,7 @@ function* projectFileWithEvidenceSteps(
     location: null,
     label: file.path,
     functionNodeId: null,
+    ...webviewProperties(ir),
   });
   if (moduleNode === null) return [];
   state.roots.add(moduleNode.node_id);
@@ -800,6 +801,36 @@ function* createReturnSiteNodes(
 /** Only the VS Code extension host API is published as a callee fact. */
 const CALLEE_FACT_MODULE = "vscode";
 
+/**
+ * Webview facts live on the module node, so a dropped call analysis keeps them.
+ * Facts that do not fit one worker transfer record are counted, not retained.
+ */
+const webviewProperties = ({ webviewFacts }: JavaScriptSemanticIr) => {
+  if (webviewFacts.length === 0) return {};
+  const facts: JsonValue[] = [];
+  let bytes = 0;
+  let omitted = 0;
+  for (const { location, ...fact } of webviewFacts) {
+    const item = {
+      ...fact,
+      ...(fact.kind === "receive" && fact.types !== null
+        ? { types: [...fact.types] }
+        : {}),
+      line: location.start.line,
+      column: location.start.column,
+    } as JsonValue;
+    const size = Buffer.byteLength(JSON.stringify(item)) + 1;
+    // Half the record leaves room for the node's own envelope.
+    if (bytes + size > JAVASCRIPT_ANALYSIS_TRANSFER_RECORD_BYTES / 2) {
+      omitted += 1;
+      continue;
+    }
+    facts.push(item);
+    bytes += size;
+  }
+  return { properties: { webview: { facts, omitted } } };
+};
+
 function* createCallSiteNodes(
   file: JavaScriptArtifactFile,
   ir: JavaScriptSemanticIr,
@@ -822,14 +853,10 @@ function* createCallSiteNodes(
       functionNodeId: owner,
     };
     const callee = moduleCallees.get(call.callSiteId);
-    const calleeProperties = {
-      ...(callee?.specifier === CALLEE_FACT_MODULE
+    const calleeProperties =
+      callee?.specifier === CALLEE_FACT_MODULE
         ? { module_callee: { ...callee, path: [...callee.path] } }
-        : {}),
-      ...(call.webviewCall === undefined
-        ? {}
-        : { webview_call: call.webviewCall }),
-    };
+        : {};
     // Include the complete node and worker JSON envelope before retaining any
     // arguments. Each entry is charged by its encoded size and comma, so even
     // worst-case escaping cannot overflow the worker's single-record ceiling.
@@ -867,8 +894,7 @@ function* createCallSiteNodes(
     }
     const node = retainNode(state, file, {
       ...nodeInput,
-      ...(argumentsValue.length === 0 &&
-      Object.keys(calleeProperties).length === 0
+      ...(argumentsValue.length === 0 && !("module_callee" in calleeProperties)
         ? {}
         : {
             properties: {

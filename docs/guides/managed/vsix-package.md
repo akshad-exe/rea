@@ -161,20 +161,32 @@ facts existed; rerun the analysis for those.
 
 ## Webviews
 
-`webviews` lists where the extension creates and talks to webviews. It is
-`null` for application Evidence recorded before these facts existed.
+`webviews` reports how the extension and its webviews talk. It is `null` for
+application Evidence recorded before these facts existed.
 
-- `panels`: each `vscode.window.createWebviewPanel` call, with its literal
-  `view_type` or `null`. Webview views and custom editors appear in
-  `contributions`.
-- `calls`: `*.webview.postMessage`, `*.webview.onDidReceiveMessage` and the
-  webview-side global `acquireVsCodeApi`, with module, line and column.
+| Field              | Content                                                                    |
+| ------------------ | -------------------------------------------------------------------------- |
+| `panels`           | `vscode.window.createWebviewPanel` calls with a literal `view_type`        |
+| `sends`            | `*.webview.postMessage`, or `postMessage` on the `acquireVsCodeApi` object |
+| `receivers`        | `*.webview.onDidReceiveMessage` and `window` `message` listeners           |
+| `messages`         | Each message type per direction: `paired`, `sent_only` or `handled_only`   |
+| `html`             | Assignments to `*.webview.html`, with the text when written as fixed text  |
+| `api_acquisitions` | Calls to the global `acquireVsCodeApi`                                     |
 
-The message calls are matched by name. A renamed receiver is missed, and an
-unrelated object with the same name can appear. Messages are not paired with
-handlers, their contents are not read, and HTML assigned or built in code is
-not extracted. HTML files shipped in the package are listed in the package
-report's `contents`; `extract-artifact` unpacks them.
+A message type is the literal `type`, `command` or `method` property of a sent
+object. A
+receiver's `types` are the literals its handler compares those properties with,
+by `===`, `==` or `switch`; it is `null` when the handler is not a function in
+the same file, such as `this.receive`.
+
+Webview views and custom editors appear in `contributions`. Recognition is by
+name, so a renamed receiver is missed and an unrelated object with the same name
+can appear. Messages are paired across all webviews. Run-time message types,
+scripts inside `.html` files and HTML built at run time are not read, so
+`sent_only`, `handled_only` or an empty list does not prove that nothing is on
+the other side. `omitted_facts` counts facts over the per-file record size. HTML
+files shipped in the package are listed in the package report's `contents`;
+`extract-artifact` unpacks them.
 
 ## Limits and failures
 

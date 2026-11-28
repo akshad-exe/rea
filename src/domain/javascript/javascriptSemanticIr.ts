@@ -140,8 +140,6 @@ export interface JavaScriptSemanticCallSite {
      */
     readonly wrappedSpecifier?: string;
   };
-  /** A VS Code webview messaging call, recognized by name. */
-  readonly webviewCall?: JavaScriptWebviewCall;
   /** The call's value appears in an enclosing expression or return. */
   readonly resultUsed: boolean;
   readonly resolution: "exact" | "ambiguous" | "unresolved";
@@ -149,12 +147,30 @@ export interface JavaScriptSemanticCallSite {
   readonly arguments: readonly JavaScriptSemanticCallArgument[];
 }
 
-export const JAVASCRIPT_WEBVIEW_CALLS = [
-  "postMessage",
-  "onDidReceiveMessage",
-  "acquireVsCodeApi",
+export const JAVASCRIPT_WEBVIEW_DIRECTIONS = [
+  "to_extension",
+  "to_webview",
 ] as const;
-export type JavaScriptWebviewCall = (typeof JAVASCRIPT_WEBVIEW_CALLS)[number];
+export type JavaScriptWebviewDirection =
+  (typeof JAVASCRIPT_WEBVIEW_DIRECTIONS)[number];
+
+/** One VS Code webview syntax fact; null marks a value only known at run time. */
+export type JavaScriptSemanticWebviewFact = {
+  readonly location: JavaScriptSourceRange;
+} & (
+  | {
+      readonly kind: "send";
+      readonly direction: JavaScriptWebviewDirection;
+      readonly type: string | null;
+    }
+  | {
+      readonly kind: "receive";
+      readonly direction: JavaScriptWebviewDirection;
+      readonly types: readonly string[] | null;
+    }
+  | { readonly kind: "html"; readonly html: string | null }
+  | { readonly kind: "acquire" }
+);
 
 /** One argument occurrence retained without evaluating application code. */
 export interface JavaScriptSemanticCallArgument {
@@ -502,6 +518,7 @@ export interface JavaScriptSemanticIr {
   readonly references: readonly JavaScriptSemanticReference[];
   readonly moduleLinks: readonly JavaScriptSemanticModuleLink[];
   readonly callSites: readonly JavaScriptSemanticCallSite[];
+  readonly webviewFacts: readonly JavaScriptSemanticWebviewFact[];
   readonly argumentFlows: readonly JavaScriptSemanticArgumentFlow[];
   readonly callReturnFlows: readonly JavaScriptSemanticCallReturnFlow[];
   readonly callResultFlows: readonly JavaScriptSemanticCallResultFlow[];
@@ -540,6 +557,7 @@ export const failedJavaScriptSemanticIr = (): JavaScriptSemanticIr => ({
   references: [],
   moduleLinks: [],
   callSites: [],
+  webviewFacts: [],
   argumentFlows: [],
   callReturnFlows: [],
   callResultFlows: [],

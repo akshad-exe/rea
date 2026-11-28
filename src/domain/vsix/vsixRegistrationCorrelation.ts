@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { evidenceInputSchema } from "../evidenceReference.js";
-import { JAVASCRIPT_WEBVIEW_CALLS } from "../javascript/javascriptSemanticIr.js";
+import { JAVASCRIPT_WEBVIEW_DIRECTIONS } from "../javascript/javascriptSemanticIr.js";
 import type { JavaScriptSemanticGraph } from "../javascript/javascriptSemanticGraph.js";
 import { compareUnicodeCodePoints } from "../unicodeCodePointOrder.js";
 import { VSIX_CONTRIBUTION_KINDS, type VsixPackage } from "./vsixPackage.js";
@@ -82,7 +82,14 @@ const contributionSchema = z.strictObject({
   registrations: z.array(registrationSchema),
 });
 
-/** Null when the application graph predates webview call facts. */
+const direction = z.enum(JAVASCRIPT_WEBVIEW_DIRECTIONS);
+const column = z.int().nonnegative();
+const line = z.int().positive();
+const sendShape = { direction, type: z.string().nullable() };
+const receiveShape = { direction, types: z.array(z.string()).nullable() };
+const htmlShape = { html: z.string().nullable() };
+
+/** Null when the application graph predates webview facts. */
 const webviewsSchema = z
   .strictObject({
     panels: z.array(
@@ -92,14 +99,32 @@ const webviewsSchema = z
         ...authorityShape,
       }),
     ),
-    calls: z.array(
+    sends: z.array(z.strictObject({ ...sendShape, ...siteShape })),
+    receivers: z.array(z.strictObject({ ...receiveShape, ...siteShape })),
+    html: z.array(z.strictObject({ ...htmlShape, ...siteShape })),
+    api_acquisitions: z.array(z.strictObject(siteShape)),
+    messages: z.array(
       z.strictObject({
-        call: z.enum(JAVASCRIPT_WEBVIEW_CALLS),
-        ...siteShape,
+        direction,
+        type: z.string(),
+        status: z.enum(["paired", "sent_only", "handled_only"]),
       }),
     ),
+    omitted_facts: z.int().nonnegative(),
   })
   .nullable();
+
+const webviewFactsSchema = z.object({
+  facts: z.array(
+    z.discriminatedUnion("kind", [
+      z.object({ kind: z.literal("send"), ...sendShape, line, column }),
+      z.object({ kind: z.literal("receive"), ...receiveShape, line, column }),
+      z.object({ kind: z.literal("html"), ...htmlShape, line, column }),
+      z.object({ kind: z.literal("acquire"), line, column }),
+    ]),
+  ),
+  omitted: z.int().nonnegative(),
+});
 
 const count = z.int().nonnegative();
 const correlationShape = {
@@ -192,31 +217,93 @@ const bySource = (
   (left.line ?? 0) - (right.line ?? 0) ||
   (left.column ?? 0) - (right.column ?? 0);
 
-/** Panels created through vscode and webview messaging calls, in source order. */
-const webviewsOf = (graph: JavaScriptSemanticGraph) => {
-  if (graph.webview_call_facts !== true) return null;
-  const found: NonNullable<z.output<typeof webviewsSchema>> = {
+type Webviews = NonNullable<z.output<typeof webviewsSchema>>;
+
+/** Each message type per direction, and which side of it was seen. */
+const pairedMessages = ({
+  sends,
+  receivers,
+}: Pick<Webviews, "sends" | "receivers">): Webviews["messages"] =>
+  JAVASCRIPT_WEBVIEW_DIRECTIONS.flatMap((direction) => {
+    const sent = new Set(
+      sends.flatMap((send) =>
+        send.direction === direction && send.type !== null ? [send.type] : [],
+      ),
+    );
+    const handled = new Set(
+      receivers.flatMap((receiver) =>
+        receiver.direction === direction ? (receiver.types ?? []) : [],
+      ),
+    );
+    return [...new Set([...sent, ...handled])]
+      .sort(compareUnicodeCodePoints)
+      .map((type) => ({
+        direction,
+        type,
+        status: !handled.has(type)
+          ? ("sent_only" as const)
+          : sent.has(type)
+            ? ("paired" as const)
+            : ("handled_only" as const),
+      }));
+  });
+
+/** Panels, messaging and HTML facts in source order. */
+const webviewsOf = (graph: JavaScriptSemanticGraph): Webviews | null => {
+  if (graph.webview_facts !== true) return null;
+  const found: Webviews = {
     panels: [],
-    calls: [],
+    sends: [],
+    receivers: [],
+    html: [],
+    api_acquisitions: [],
+    messages: [],
+    omitted_facts: 0,
   };
   for (const node of graph.nodes) {
-    if (node.kind !== "call-site") continue;
-    const panel = panelCalleeSchema.safeParse(node.properties.module_callee);
-    if (panel.success)
-      found.panels.push({
-        view_type: literalId(node),
-        ...siteOf(node),
-        loader_authority: panel.data.loader_authority ?? null,
-        wrapper: panel.data.wrapper ?? null,
-      });
-    const call = z
-      .enum(JAVASCRIPT_WEBVIEW_CALLS)
-      .safeParse(node.properties.webview_call);
-    if (call.success) found.calls.push({ call: call.data, ...siteOf(node) });
+    if (node.kind === "call-site") {
+      const panel = panelCalleeSchema.safeParse(node.properties.module_callee);
+      if (panel.success)
+        found.panels.push({
+          view_type: literalId(node),
+          ...siteOf(node),
+          loader_authority: panel.data.loader_authority ?? null,
+          wrapper: panel.data.wrapper ?? null,
+        });
+      continue;
+    }
+    const recorded = webviewFactsSchema.safeParse(node.properties.webview);
+    if (!recorded.success) continue;
+    found.omitted_facts += recorded.data.omitted;
+    const module_path = node.identity.module_path;
+    for (const fact of recorded.data.facts) {
+      const site = { module_path, line: fact.line, column: fact.column };
+      if (fact.kind === "send")
+        found.sends.push({
+          direction: fact.direction,
+          type: fact.type,
+          ...site,
+        });
+      else if (fact.kind === "receive")
+        found.receivers.push({
+          direction: fact.direction,
+          types: fact.types,
+          ...site,
+        });
+      else if (fact.kind === "html")
+        found.html.push({ html: fact.html, ...site });
+      else found.api_acquisitions.push(site);
+    }
   }
-  found.panels.sort(bySource);
-  found.calls.sort(bySource);
-  return found;
+  for (const list of [
+    found.panels,
+    found.sends,
+    found.receivers,
+    found.html,
+    found.api_acquisitions,
+  ])
+    list.sort(bySource);
+  return { ...found, messages: pairedMessages(found) };
 };
 
 /** Registration calls by kind and literal ID; other IDs stay unresolved. */
