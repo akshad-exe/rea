@@ -61,3 +61,17 @@ Uncommitted on `feat/vsix-command-handlers` in the `rea-2393` worktree.
 - Resolved in a trial: plain `require`, `registerTextEditorCommand`.
 - Not resolved in a trial with simplified stand-ins: esbuild `__toESM`, TypeScript `__importStar`, a webpack module map.
 - Next: reuse the existing module interop owner (`createSemanticModuleInterop`, used for Electron) with real compiler output; then graph property, full command list, correlation result.
+
+### Real compiler output (2026-11-28)
+
+Decision: one PR per part.
+
+| Output of                    | Named import | Namespace or default import                      |
+| ---------------------------- | ------------ | ------------------------------------------------ |
+| esbuild (plain and minified) | resolved     | not resolved                                     |
+| rolldown                     | resolved     | not resolved                                     |
+| TypeScript `tsc`             | resolved     | not resolved (`__importStar`, `__importDefault`) |
+
+webpack was tried only with a hand-written stand-in. Namespace imports wrap `require("vscode")` in a helper. The interop owner (`javascriptModuleInterop.ts`) proves only the Rolldown helper shape, and the new resolver does not use it yet.
+
+Open decision: extend that proof per compiler helper, or label any `helper(require("vscode"))` binding as a candidate.
