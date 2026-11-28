@@ -135,3 +135,14 @@ Not covered by parts 1 to 3: setting reads, languages, debuggers, other contribu
 | Large extensions                                     | The analysis result budget drops call analysis (GitLens)                                                      |
 
 The criterion "map 100% of declared contribution points to handlers" cannot be met by static analysis; agree the scope with morluto before any PR says `Fixes`.
+
+## Upstream pull requests (2026-11-28)
+
+| Part                       | Upstream                                                 | State               |
+| -------------------------- | -------------------------------------------------------- | ------------------- |
+| 1 commands                 | [#14977](https://github.com/morluto/rea/pull/14977)      | Draft               |
+| 2 AI contributions         | [#14978](https://github.com/morluto/rea/pull/14978)      | Draft; after #14977 |
+| 3 views, editors, settings | [#14979](https://github.com/morluto/rea/pull/14979)      | Draft; after #14978 |
+| debuggers                  | fork [#4](https://github.com/akshad-exe/rea/pull/4) only | Unit tested only    |
+
+Review fixes to an earlier part must be merged into the later branches.
