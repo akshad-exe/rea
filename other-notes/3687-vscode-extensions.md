@@ -52,3 +52,12 @@ Six parts remain, including this one. The split is ours, not the issue's. This P
 3. Keep the full declared command list in the VSIX report.
 4. New correlation result: registered, not found, registered but undeclared; menus and keybindings by command ID.
 5. Docs, schema records, tests, checks.
+
+## Progress (2026-11-28)
+
+Uncommitted on `feat/vsix-command-handlers` in the `rea-2393` worktree.
+
+- Done: call sites record their callee access path; `javascriptSemanticModuleCallee.ts` resolves it to a module member from the binding's origin. 15 tests pass (require, ES imports, destructuring, alias, sequence and optional calls; shadowed, reassigned and computed forms stay unresolved).
+- Resolved in a trial: plain `require`, `registerTextEditorCommand`.
+- Not resolved in a trial with simplified stand-ins: esbuild `__toESM`, TypeScript `__importStar`, a webpack module map.
+- Next: reuse the existing module interop owner (`createSemanticModuleInterop`, used for Electron) with real compiler output; then graph property, full command list, correlation result.
