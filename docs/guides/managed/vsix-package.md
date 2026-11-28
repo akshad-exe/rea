@@ -158,6 +158,35 @@ read or an older record omitted commands. Absence is not claimed when any source
 was skipped or unparsed, or for application Evidence recorded before callee
 facts existed; rerun the analysis for those.
 
+## Webviews
+
+`webviews` reports how the extension and its webviews talk. It is `null` for
+application Evidence recorded before these facts existed.
+
+| Field              | Content                                                                    |
+| ------------------ | -------------------------------------------------------------------------- |
+| `panels`           | `vscode.window.createWebviewPanel` calls with a literal `view_type`        |
+| `sends`            | `*.webview.postMessage`, or `postMessage` on the `acquireVsCodeApi` object |
+| `receivers`        | `*.webview.onDidReceiveMessage` and `window` `message` listeners           |
+| `messages`         | Each message type per direction: `paired`, `sent_only` or `handled_only`   |
+| `html`             | Assignments to `*.webview.html`, with the text when written as fixed text  |
+| `api_acquisitions` | Calls to the global `acquireVsCodeApi`                                     |
+
+A message type is the literal `type`, `command` or `method` property of a sent
+object. A
+receiver's `types` are the literals its handler compares those properties with,
+by `===`, `==` or `switch`; it is `null` when the handler is not a function in
+the same file, such as `this.receive`.
+
+Webview views and custom editors appear in `contributions`. Recognition is by
+name, so a renamed receiver is missed and an unrelated object with the same name
+can appear. Messages are paired across all webviews. Run-time message types,
+scripts inside `.html` files and HTML built at run time are not read, so
+`sent_only`, `handled_only` or an empty list does not prove that nothing is on
+the other side. `omitted_facts` counts facts over the per-file record size. HTML
+files shipped in the package are listed in the package report's `contents`;
+`extract-artifact` unpacks them.
+
 ## Limits and failures
 
 The selected file is limited to 64 MiB by default (512 MiB maximum). At most

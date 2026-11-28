@@ -273,6 +273,105 @@ describe("VS Code command correlation", () => {
   });
 });
 
+describe("VS Code webview facts", () => {
+  const webviewsOf = (source: string) =>
+    correlate(source, contributes([])).webviews;
+
+  it("pairs message types sent and handled on both sides", () => {
+    const webviews = webviewsOf(
+      `${VSCODE}const panel = vscode.window.createWebviewPanel("demo.panel", "T", 1);
+       panel.webview.postMessage({ type: "load" });
+       panel.webview.onDidReceiveMessage((message) => {
+         switch (message.command) { case "save": break; case "lost": break; }
+       });
+       const api = acquireVsCodeApi();
+       api.postMessage({ command: "save" });
+       api.postMessage({ command: "extra" });
+       window.addEventListener("message", (event) => {
+         const data = event.data;
+         if (data.type === "load") render();
+       });`,
+    );
+    expect(webviews?.panels.map(({ view_type }) => view_type)).toEqual([
+      "demo.panel",
+    ]);
+    expect(webviews?.messages).toEqual([
+      { direction: "to_extension", type: "extra", status: "sent_only" },
+      { direction: "to_extension", type: "lost", status: "handled_only" },
+      { direction: "to_extension", type: "save", status: "paired" },
+      { direction: "to_webview", type: "load", status: "paired" },
+    ]);
+    expect(webviews?.sends.map(({ line }) => line)).toEqual([3, 8, 9]);
+    expect(webviews?.receivers.map(({ line, types }) => [line, types])).toEqual(
+      [
+        [4, ["lost", "save"]],
+        [10, ["load"]],
+      ],
+    );
+    expect(webviews?.api_acquisitions).toHaveLength(1);
+  });
+
+  it("reads named and destructuring handlers, and marks others unknown", () => {
+    const webviews = webviewsOf(
+      `function receive({ type }) { if ("a" === type) go(); }
+       window.addEventListener("message", (e) => { switch (e.data.method) { case "update": break; } });
+       view.webview.onDidReceiveMessage(receive);
+       this.view.webview.onDidReceiveMessage(this.receive);
+       const { webview } = view; webview?.postMessage(payload);`,
+    );
+    expect(webviews?.receivers.map(({ types }) => types)).toEqual([
+      ["update"],
+      ["a"],
+      null,
+    ]);
+    expect(webviews?.sends).toEqual([
+      expect.objectContaining({ direction: "to_webview", type: null }),
+    ]);
+  });
+
+  it("keeps fixed HTML text and leaves built HTML unknown", () => {
+    const webviews = webviewsOf(
+      `a.webview.html = "<h1>a</h1>";
+       b.webview.html = \`<p>b</p>\`;
+       c.webview.html = render();`,
+    );
+    expect(webviews?.html.map(({ html }) => html)).toEqual([
+      "<h1>a</h1>",
+      "<p>b</p>",
+      null,
+    ]);
+  });
+
+  it("ignores other receivers and a locally defined acquireVsCodeApi", () => {
+    const webviews = webviewsOf(
+      `worker.postMessage({ type: "a" }); bus.onDidReceiveMessage(f);
+       page.html = "x"; function acquireVsCodeApi() {} acquireVsCodeApi();`,
+    );
+    expect(webviews).toMatchObject({
+      sends: [],
+      receivers: [],
+      html: [],
+      api_acquisitions: [],
+      messages: [],
+    });
+  });
+
+  it("reports unrecorded facts as unknown for an older graph", () => {
+    const { webview_facts, ...older } = graphForJavaScript(
+      "view.webview.postMessage(1);",
+    );
+    expect(webview_facts).toBe(true);
+    expect(
+      correlateVsixRegistrations({
+        contributes: contributes([]),
+        entryPoints: ["app.js"],
+        manifestRead: true,
+        semanticGraph: older,
+      }).webviews,
+    ).toBeNull();
+  });
+});
+
 it("is undetermined when a call's literal identifier exceeded a limit", () => {
   const result = correlate(
     `${VSCODE}vscode.commands.registerCommand("${"x".repeat(2_000_000)}", f);`,

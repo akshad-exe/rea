@@ -2,6 +2,7 @@ import * as t from "@babel/types";
 
 import { collectJavaScriptSemanticAsyncEffects } from "./javascriptSemanticAsyncEffects.js";
 import { collectJavaScriptSemanticCalls } from "./javascriptSemanticCalls.js";
+import { collectJavaScriptSemanticWebview } from "./javascriptSemanticWebview.js";
 import { collectJavaScriptSemanticChildProcesses } from "./javascriptSemanticChildProcesses.js";
 import { collectJavaScriptSemanticFingerprintsSteps } from "./javascriptSemanticFingerprints.js";
 import { collectJavaScriptSemanticDataEffects } from "./javascriptSemanticDataEffects.js";
@@ -39,6 +40,7 @@ type DerivedSemanticAnalysis = Pick<
   | "callResultFlows"
   | "callReturnFlows"
   | "callSites"
+  | "webviewFacts"
   | "boundaryOperations"
   | "childProcessInteractions"
   | "childProcessSpawns"
@@ -67,6 +69,8 @@ export function* collectJavaScriptDerivedSemanticsSteps(
   expressionNodeBudget: number = JAVASCRIPT_ANALYSIS_RESOURCE_DEFAULTS.semanticNodesPerFile,
 ): Generator<void, DerivedSemanticAnalysis> {
   const calls = collectJavaScriptSemanticCalls(program, state, callables);
+  yield;
+  const webviewFacts = collectJavaScriptSemanticWebview(program, state);
   yield;
   const promiseOperations = collectJavaScriptSemanticPromises(
     program,
@@ -131,6 +135,7 @@ export function* collectJavaScriptDerivedSemanticsSteps(
     literalReturns: expressionFlows.literalReturns,
     expressionFlowsTruncated: expressionFlows.truncated,
     ...calls,
+    webviewFacts,
     promiseOperations,
     ...asyncEffects,
     ...childProcesses,

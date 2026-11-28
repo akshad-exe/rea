@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { evidenceInputSchema } from "../evidenceReference.js";
+import { JAVASCRIPT_WEBVIEW_DIRECTIONS } from "../javascript/javascriptSemanticIr.js";
 import type { JavaScriptSemanticGraph } from "../javascript/javascriptSemanticGraph.js";
 import { compareUnicodeCodePoints } from "../unicodeCodePointOrder.js";
 import { VSIX_CONTRIBUTION_KINDS, type VsixPackage } from "./vsixPackage.js";
@@ -45,13 +46,19 @@ const STATUSES = [
   "registered_undeclared",
 ] as const;
 
-const registrationSchema = z.strictObject({
-  function: z.enum(REGISTRATIONS),
+const siteShape = {
   module_path: z.string(),
   line: z.int().positive().nullable(),
   column: z.int().nonnegative().nullable(),
+};
+const authorityShape = {
   loader_authority: z.literal("candidate").nullable(),
   wrapper: z.literal("unverified").nullable(),
+};
+const registrationSchema = z.strictObject({
+  function: z.enum(REGISTRATIONS),
+  ...siteShape,
+  ...authorityShape,
 });
 type Registration = z.output<typeof registrationSchema>;
 
@@ -69,6 +76,50 @@ const contributionSchema = z.strictObject({
   status: z.enum(STATUSES),
   label: z.string().nullable(),
   registrations: z.array(registrationSchema),
+});
+
+const direction = z.enum(JAVASCRIPT_WEBVIEW_DIRECTIONS);
+const column = z.int().nonnegative();
+const line = z.int().positive();
+const sendShape = { direction, type: z.string().nullable() };
+const receiveShape = { direction, types: z.array(z.string()).nullable() };
+const htmlShape = { html: z.string().nullable() };
+
+/** Null when the application graph predates webview facts. */
+const webviewsSchema = z
+  .strictObject({
+    panels: z.array(
+      z.strictObject({
+        view_type: z.string().nullable(),
+        ...siteShape,
+        ...authorityShape,
+      }),
+    ),
+    sends: z.array(z.strictObject({ ...sendShape, ...siteShape })),
+    receivers: z.array(z.strictObject({ ...receiveShape, ...siteShape })),
+    html: z.array(z.strictObject({ ...htmlShape, ...siteShape })),
+    api_acquisitions: z.array(z.strictObject(siteShape)),
+    messages: z.array(
+      z.strictObject({
+        direction,
+        type: z.string(),
+        status: z.enum(["paired", "sent_only", "handled_only"]),
+      }),
+    ),
+    omitted_facts: z.int().nonnegative(),
+  })
+  .nullable();
+
+const webviewFactsSchema = z.object({
+  facts: z.array(
+    z.discriminatedUnion("kind", [
+      z.object({ kind: z.literal("send"), ...sendShape, line, column }),
+      z.object({ kind: z.literal("receive"), ...receiveShape, line, column }),
+      z.object({ kind: z.literal("html"), ...htmlShape, line, column }),
+      z.object({ kind: z.literal("acquire"), line, column }),
+    ]),
+  ),
+  omitted: z.int().nonnegative(),
 });
 
 const count = z.int().nonnegative();
@@ -90,6 +141,7 @@ const correlationShape = {
     undetermined: count,
     unresolved_registrations: count,
   }),
+  webviews: webviewsSchema,
   semantic_graph_truncated: z.boolean(),
 };
 
@@ -114,11 +166,18 @@ interface CorrelationInput {
   readonly semanticGraph: JavaScriptSemanticGraph;
 }
 
-const calleeSchema = z.object({
+const authorityFields = {
   specifier: z.literal("vscode"),
-  path: z.tuple([z.string(), z.enum(REGISTRATIONS)]),
   loader_authority: z.literal("candidate").optional(),
   wrapper: z.literal("unverified").optional(),
+};
+const calleeSchema = z.object({
+  ...authorityFields,
+  path: z.tuple([z.string(), z.enum(REGISTRATIONS)]),
+});
+const panelCalleeSchema = z.object({
+  ...authorityFields,
+  path: z.tuple([z.literal("window"), z.literal("createWebviewPanel")]),
 });
 const argumentsSchema = z.array(
   z.object({ index: z.number(), value: z.unknown() }),
@@ -128,6 +187,120 @@ const isRegistrationPath = (
 ): path is keyof typeof REGISTRATION_KINDS =>
   Object.hasOwn(REGISTRATION_KINDS, path);
 type Kind = (typeof REGISTRATION_KINDS)[keyof typeof REGISTRATION_KINDS];
+type CallNode = JavaScriptSemanticGraph["nodes"][number];
+
+const siteOf = (node: CallNode) => {
+  const start = node.identity.source_range?.start;
+  return {
+    module_path: node.identity.module_path,
+    line: start?.line ?? null,
+    column: start?.column ?? null,
+  };
+};
+
+/** The first argument when it is a literal string, otherwise null. */
+const literalId = (node: CallNode): string | null => {
+  const literals = argumentsSchema.safeParse(node.properties.arguments);
+  const id = literals.data?.find(({ index }) => index === 0)?.value;
+  return typeof id === "string" ? id : null;
+};
+
+const bySource = (
+  left: ReturnType<typeof siteOf>,
+  right: ReturnType<typeof siteOf>,
+) =>
+  compareUnicodeCodePoints(left.module_path, right.module_path) ||
+  (left.line ?? 0) - (right.line ?? 0) ||
+  (left.column ?? 0) - (right.column ?? 0);
+
+type Webviews = NonNullable<z.output<typeof webviewsSchema>>;
+
+/** Each message type per direction, and which side of it was seen. */
+const pairedMessages = ({
+  sends,
+  receivers,
+}: Pick<Webviews, "sends" | "receivers">): Webviews["messages"] =>
+  JAVASCRIPT_WEBVIEW_DIRECTIONS.flatMap((direction) => {
+    const sent = new Set(
+      sends.flatMap((send) =>
+        send.direction === direction && send.type !== null ? [send.type] : [],
+      ),
+    );
+    const handled = new Set(
+      receivers.flatMap((receiver) =>
+        receiver.direction === direction ? (receiver.types ?? []) : [],
+      ),
+    );
+    return [...new Set([...sent, ...handled])]
+      .sort(compareUnicodeCodePoints)
+      .map((type) => ({
+        direction,
+        type,
+        status: !handled.has(type)
+          ? ("sent_only" as const)
+          : sent.has(type)
+            ? ("paired" as const)
+            : ("handled_only" as const),
+      }));
+  });
+
+/** Panels, messaging and HTML facts in source order. */
+const webviewsOf = (graph: JavaScriptSemanticGraph): Webviews | null => {
+  if (graph.webview_facts !== true) return null;
+  const found: Webviews = {
+    panels: [],
+    sends: [],
+    receivers: [],
+    html: [],
+    api_acquisitions: [],
+    messages: [],
+    omitted_facts: 0,
+  };
+  for (const node of graph.nodes) {
+    if (node.kind === "call-site") {
+      const panel = panelCalleeSchema.safeParse(node.properties.module_callee);
+      if (panel.success)
+        found.panels.push({
+          view_type: literalId(node),
+          ...siteOf(node),
+          loader_authority: panel.data.loader_authority ?? null,
+          wrapper: panel.data.wrapper ?? null,
+        });
+      continue;
+    }
+    const recorded = webviewFactsSchema.safeParse(node.properties.webview);
+    if (!recorded.success) continue;
+    found.omitted_facts += recorded.data.omitted;
+    const module_path = node.identity.module_path;
+    for (const fact of recorded.data.facts) {
+      const site = { module_path, line: fact.line, column: fact.column };
+      if (fact.kind === "send")
+        found.sends.push({
+          direction: fact.direction,
+          type: fact.type,
+          ...site,
+        });
+      else if (fact.kind === "receive")
+        found.receivers.push({
+          direction: fact.direction,
+          types: fact.types,
+          ...site,
+        });
+      else if (fact.kind === "html")
+        found.html.push({ html: fact.html, ...site });
+      else found.api_acquisitions.push(site);
+    }
+  }
+  for (const list of [
+    found.panels,
+    found.sends,
+    found.receivers,
+    found.html,
+    found.api_acquisitions,
+  ])
+    list.sort(bySource);
+  return { ...found, messages: pairedMessages(found) };
+};
 
 /** Registration calls by kind and literal ID; other IDs stay unresolved. */
 const registrationsOf = (graph: JavaScriptSemanticGraph) => {
@@ -146,18 +319,14 @@ const registrationsOf = (graph: JavaScriptSemanticGraph) => {
     if (!callee.success) continue;
     const path = callee.data.path.join(".");
     if (!isRegistrationPath(path)) continue;
-    const start = node.identity.source_range?.start;
     const registration: Registration = {
       function: callee.data.path[1],
-      module_path: node.identity.module_path,
-      line: start?.line ?? null,
-      column: start?.column ?? null,
+      ...siteOf(node),
       loader_authority: callee.data.loader_authority ?? null,
       wrapper: callee.data.wrapper ?? null,
     };
-    const literals = argumentsSchema.safeParse(node.properties.arguments);
-    const id = literals.data?.find(({ index }) => index === 0)?.value;
-    if (typeof id !== "string") {
+    const id = literalId(node);
+    if (id === null) {
       unresolved.push(registration);
       continue;
     }
@@ -358,6 +527,7 @@ export const correlateVsixRegistrations = ({
       undetermined: tally.undetermined,
       unresolved_registrations: unresolved.length,
     },
+    webviews: webviewsOf(semanticGraph),
     semantic_graph_truncated: semanticGraph.coverage.truncated,
   };
 };
