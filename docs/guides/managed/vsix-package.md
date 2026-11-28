@@ -26,6 +26,25 @@ requires an absolute filesystem path and preserves that exact selection:
 }
 ```
 
+## Installed extension folders
+
+`path` can also name an installed extension folder, such as
+`~/.vscode/extensions/publisher.name-1.2.3`. Pass the same folder to
+`analyze_javascript_application` to correlate its registrations.
+
+- The folder's files are reported under `extension/`, and its `.vsixmanifest`
+  as `extension.vsixmanifest`, so the report reads like a package report.
+- `artifact.sha256` is the folder's complete directory tree digest and
+  `artifact.tree` names the algorithm. `artifact.bytes` totals the file bytes.
+- `max_file_bytes` limits those total bytes and `max_entries` limits files,
+  directories and links together. Installed folders with `node_modules` often
+  need higher values than the defaults.
+- Symbolic links are never followed; each is named in a limitation. An entry
+  that cannot be examined, such as a FIFO or a name that is not UTF-8, fails
+  the call because the folder then has no complete identity.
+- VS Code may add metadata to an installed `package.json`, so the folder can
+  differ from the package it came from.
+
 ## Observations
 
 The inline Evidence result contains the artifact path, SHA-256, and byte length.

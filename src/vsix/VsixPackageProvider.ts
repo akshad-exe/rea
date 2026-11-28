@@ -1,7 +1,11 @@
+import { stat } from "node:fs/promises";
+
 import { VSIX_PACKAGE_PROVIDER_IDENTITY } from "../domain/investigationProviders.js";
 import {
   ArtifactReaderFailure,
   ArtifactResourceScope,
+  DirectoryArtifactReader,
+  translateArtifactOperationFailure,
   artifactFilePrimaryFacts,
   bindArtifactFileCleanup,
   completedStableArtifactObservation,
@@ -16,7 +20,10 @@ import {
   type ProviderFailureDialect,
 } from "../providers/classifyProviderFailure.js";
 import type { AnalysisErrorOptions } from "../domain/analysisErrorBase.js";
-import { analysisErrorWithCleanupFailure } from "../domain/analysisErrorCleanup.js";
+import {
+  analysisErrorWithCleanupDependencies,
+  analysisErrorWithCleanupFailure,
+} from "../domain/analysisErrorCleanup.js";
 import { ProviderCleanupError } from "../domain/providerCleanupError.js";
 import {
   isParseLimit,
@@ -32,10 +39,12 @@ import {
   VSIX_PACKAGE_FORMAT,
   vsixPackageBudgetLimit,
   type InspectVsixPackageInput,
+  type VsixPackage,
   type VsixPackageBudget,
 } from "../domain/vsix/vsixPackage.js";
 import { err, ok } from "../domain/result.js";
 import { errorMessage } from "../kernel/errorMessage.js";
+import { parseInstalledExtension } from "./VsixInstalledExtension.js";
 import { parseVsixPackage } from "./VsixPackageParser.js";
 
 const OPERATION = "inspect_vsix_package";
@@ -208,7 +217,7 @@ const vsixFailure = (
   return failure;
 };
 
-/** Portable parser over one bounded, identity-checked regular file. */
+/** Portable parser over one bounded .vsix file or installed extension folder. */
 export class VsixPackageProvider {
   readonly identity = VSIX_PACKAGE_PROVIDER_IDENTITY;
   readonly #resources = new ArtifactResourceScope();
@@ -225,6 +234,42 @@ export class VsixPackageProvider {
     }
   }
 
+  async #inspectFolder(
+    input: InspectVsixPackageInput,
+    signal: AbortSignal | undefined,
+  ) {
+    const reader = new DirectoryArtifactReader(input.path);
+    const owner = { kind: "reader", resource: input.path, reader } as const;
+    let outcome:
+      | { readonly kind: "completed"; readonly value: VsixPackage }
+      | { readonly kind: "failed"; readonly cause: unknown };
+    try {
+      outcome = {
+        kind: "completed",
+        value: await parseInstalledExtension(reader, input, signal),
+      };
+    } catch (cause: unknown) {
+      outcome = { kind: "failed", cause };
+    }
+    const closed = await this.#resources.release(owner);
+    if (closed.kind === "released") {
+      if (outcome.kind === "failed") throw outcome.cause;
+      return ok(outcome.value);
+    }
+    const cleanup = this.#resources.cleanupFailure({ kind: "completed" }, [
+      closed,
+    ]);
+    if (outcome.kind === "completed") throw cleanup;
+    // The read's own failure stays primary.
+    return err(
+      analysisErrorWithCleanupDependencies(
+        vsixFailure(outcome.cause, input),
+        translateArtifactOperationFailure(OPERATION, cleanup),
+        OPERATION,
+      ),
+    );
+  }
+
   async inspect(
     input: InspectVsixPackageInput,
     options?: { readonly signal?: AbortSignal },
@@ -232,6 +277,10 @@ export class VsixPackageProvider {
     let snapshot: StableArtifactSnapshot | undefined;
     try {
       return await this.#resources.run(async () => {
+        // A failed stat falls through to the file reader's own refusal.
+        const selected = await stat(input.path).catch(() => undefined);
+        if (selected?.isDirectory() === true)
+          return await this.#inspectFolder(input, options?.signal);
         snapshot = await readStableArtifact(
           input.path,
           input.max_file_bytes,

@@ -3,6 +3,10 @@ import { z } from "zod";
 
 import { BinaryReader } from "../binaryContainer.js";
 import { digestSchema } from "../digests.js";
+import {
+  DIRECTORY_TREE_DIGEST_ALGORITHM,
+  DIRECTORY_TREE_DIGEST_VERSION,
+} from "../directoryTreeDigest.js";
 import { absoluteLocalPathStringSchema } from "../localPath.js";
 import { coverageStatusSchema } from "../coverage.js";
 
@@ -215,7 +219,7 @@ export const vsixActivationIsEager = (event: string): boolean =>
 /** Complete bounded inspection of one VS Code .vsix ZIP. */
 export const inspectVsixPackageInputSchema = z.strictObject({
   path: absoluteLocalPathStringSchema.describe(
-    "Absolute filesystem path to a VS Code .vsix package",
+    "Absolute filesystem path to a VS Code .vsix package or an installed extension folder",
   ),
   max_file_bytes: z
     .number()
@@ -367,6 +371,13 @@ export const vsixPackageSchema = z.strictObject({
     path: z.string().min(1),
     sha256: digestSchema,
     bytes: uint,
+    /** Present for an installed folder: `sha256` is its complete tree digest. */
+    tree: z
+      .strictObject({
+        algorithm: z.literal(DIRECTORY_TREE_DIGEST_ALGORITHM),
+        version: z.literal(DIRECTORY_TREE_DIGEST_VERSION),
+      })
+      .optional(),
   }),
   vsix_identity: z
     .strictObject({
