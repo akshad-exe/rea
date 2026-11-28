@@ -53,7 +53,7 @@ it("applies the shared absolute local-path policy to the public input", () => {
   const { description: _pathDescription, ...pathPolicy } = path ?? {};
   expect(pathPolicy).toEqual(sharedPolicy);
   expect(path?.description).toBe(
-    "Absolute filesystem path to a VS Code .vsix package",
+    "Absolute filesystem path to a VS Code .vsix package or an installed extension folder",
   );
 });
 

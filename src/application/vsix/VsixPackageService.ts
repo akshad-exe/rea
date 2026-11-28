@@ -45,6 +45,10 @@ export class VsixPackageService {
             identity,
             OPERATION,
             selectedParameters(parameters),
+            [],
+            value.artifact.tree === undefined
+              ? undefined
+              : { format: "directory", tree: value.artifact.tree },
           ),
       },
       rawInput,

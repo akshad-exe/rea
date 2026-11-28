@@ -18,11 +18,16 @@ export const registerVsixPackageCommands = (
     contractNamed(VSIX_PACKAGE_TOOL_CONTRACTS, "inspect_vsix_package"),
     {
       description:
-        "Inspect VS Code .vsix identity, activation, contributes and ZIP contents without install or network",
+        "Inspect VS Code .vsix or installed extension identity, activation, contributes and contents without install or network",
       positionals: ["path"],
       callerPaths: ["path"],
       evidenceDelivery: true,
-      fields: { path: { description: "Local VS Code .vsix package" } },
+      fields: {
+        path: {
+          description:
+            "Local VS Code .vsix package or installed extension folder",
+        },
+      },
     },
     deliverWithService(createVsixPackageService, "rea-vsix-package"),
   );

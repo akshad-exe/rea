@@ -19,7 +19,7 @@ export const observedFileEvidence = (
   operation: string,
   parameters: unknown,
   additionalLocations: readonly EvidenceLocation[] = [],
-  subject: Pick<EvidenceSubjectTarget, "format" | "architecture"> = {
+  subject: Pick<EvidenceSubjectTarget, "format" | "architecture" | "tree"> = {
     format: "file",
   },
 ): Evidence =>
