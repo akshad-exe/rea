@@ -146,3 +146,7 @@ The criterion "map 100% of declared contribution points to handlers" cannot be m
 | debuggers                  | fork [#4](https://github.com/akshad-exe/rea/pull/4) only | Unit tested only    |
 
 Review fixes to an earlier part must be merged into the later branches.
+
+## Review round 1 (2026-11-28)
+
+Greptile scored #14977 1/5, #14978 0/5, #14979 2/5. Fixed in part 1 and merged upward (`f109e079f`, `0166b2c1b`, `65549484c`; fork debugger branch too): value ambiguity no longer accepted as a vscode callee; graphs record `callee_fact_modules`; skipped sources prevent absence claims; incomplete declarations give `undetermined`; menus grouped by name; single-pass counts. All threads answered and resolved. Waiting for re-review.
