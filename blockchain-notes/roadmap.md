@@ -18,12 +18,12 @@ At that date, no open tier 1 issue other than #2389 had an assignee, claim or op
 
 ## Parked
 
-| Issue                                                                                                                                           | Why                                                                          |
-| ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| [#2395](https://github.com/morluto/rea/issues/2395) disassembly and CFG                                                                         | Design issue; needs an engine choice and likely a maintainer decision        |
-| [#3736](https://github.com/morluto/rea/issues/3736) decompiler                                                                                  | Needs #2395; overlaps #3716                                                  |
-| [#3734](https://github.com/morluto/rea/issues/3734) deployment lineage, [#3733](https://github.com/morluto/rea/issues/3733) account abstraction | Very broad; split first                                                      |
-| [#2388](https://github.com/morluto/rea/issues/2388) metadata                                                                                    | [#2790](https://github.com/morluto/rea/pull/2790) merged; check what remains |
+| Issue                                                                                                                                           | Why                                                                                             |
+| ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| [#2395](https://github.com/morluto/rea/issues/2395) disassembly and CFG                                                                         | Design issue; needs an engine choice and likely a maintainer decision                           |
+| [#3736](https://github.com/morluto/rea/issues/3736) decompiler                                                                                  | Needs #2395; overlaps #3716                                                                     |
+| [#3734](https://github.com/morluto/rea/issues/3734) deployment lineage, [#3733](https://github.com/morluto/rea/issues/3733) account abstraction | Very broad; split first                                                                         |
+| [#2388](https://github.com/morluto/rea/issues/2388) metadata                                                                                    | Remaining part built on `feat/evm-metadata-binding`; see [our work](../other-notes/our-work.md) |
 
 ## Rules for every step
 

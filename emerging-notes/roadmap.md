@@ -13,6 +13,10 @@ Offline parsing with no new engine. By my reading of `CONTRIBUTING.md` this is f
 | 3     | [#3653](https://github.com/morluto/rea/issues/3653) tokenizers          | `tokenizer.json`: algorithm, vocabulary size, special tokens      | Small and exact                                              | SentencePiece and chat templates are later slices                                                   |
 | 4     | [#3637](https://github.com/morluto/rea/issues/3637) model graphs        | ONNX inputs, outputs, operators                                   | Builds on `inspect_model_artifact`                           | [#8255](https://github.com/morluto/rea/pull/8255) is open for the sibling `.ort` format; coordinate |
 
+## Added outside the tracker
+
+[#3672](../other-notes/3672-agent-protocols.md) agent protocols (MCP, A2A, tool calling): we intend to work on it. Settle the overlap with #3721 and #3651 first.
+
 ## Claimed
 
 | Issue                                                                      | Why leave it                                                                                                                 |
