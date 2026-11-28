@@ -113,3 +113,9 @@ Checks: `check:fast`, `format:check`, `docs:check`, schema summary; 140 selected
 Nothing opened upstream. Part 2 real trials: three extensions matched; flowrelay's chat participant and MCP provider were missed (APIs obtained through helper functions, IDs as constants). Still open in part 2's area: prompt handling, run-time MCP server definitions.
 
 Remaining parts: 3 detailed contributions, 4 installed folders, 5 webviews, 6 language and debug servers.
+
+### Part 3
+
+[akshad-exe/rea#3](https://github.com/akshad-exe/rea/pull/3), on the part 2 branch. Views and custom editors correlated; settings listed. Part 2 fields renamed to `contributions` and `contributes.declarations`. Real trials: views registered in two extensions, one undetermined; custom editors only unit tested.
+
+Not covered by parts 1 to 3: setting reads, languages, debuggers, other contribution points. Remaining: 4 installed folders, 5 webview messaging, 6 language and debug servers.
