@@ -1,3 +1,4 @@
+import { semanticModuleCallees } from "../../domain/javascript/javascriptSemanticModuleCallee.js";
 import { appendToMapList } from "../../domain/appendToMapList.js";
 import type { AnalysisParameterLimit } from "../../domain/analysisSettings.js";
 import {
@@ -331,6 +332,7 @@ export const createJavaScriptSemanticGraphProjection = (
     ];
     const graph = factory({
       schema: "JavaScriptSemanticRelationGraph",
+      callee_fact_modules: [CALLEE_FACT_MODULE],
       root_artifact_sha256: rootArtifactSha256,
       application_graph_id: applicationGraph.graph_id,
       root_node_ids: [...state.roots],
@@ -794,6 +796,9 @@ function* createReturnSiteNodes(
   return result;
 }
 
+/** Only the VS Code extension host API is published as a callee fact. */
+const CALLEE_FACT_MODULE = "vscode";
+
 function* createCallSiteNodes(
   file: JavaScriptArtifactFile,
   ir: JavaScriptSemanticIr,
@@ -801,6 +806,7 @@ function* createCallSiteNodes(
   state: BuilderState,
 ): Generator<void, Map<string, JavaScriptSemanticGraphNode>> {
   const result = new Map<string, JavaScriptSemanticGraphNode>();
+  const moduleCallees = semanticModuleCallees(ir);
   for (const [index, call] of ir.callSites.entries()) {
     if (index % 64 === 0) yield;
     const owner =
@@ -814,6 +820,11 @@ function* createCallSiteNodes(
       label: call.kind,
       functionNodeId: owner,
     };
+    const callee = moduleCallees.get(call.callSiteId);
+    const calleeProperties =
+      callee?.specifier === CALLEE_FACT_MODULE
+        ? { module_callee: { ...callee, path: [...callee.path] } }
+        : {};
     // Include the complete node and worker JSON envelope before retaining any
     // arguments. Each entry is charged by its encoded size and comma, so even
     // worst-case escaping cannot overflow the worker's single-record ceiling.
@@ -821,7 +832,7 @@ function* createCallSiteNodes(
     if (call.arguments.some((argument) => Object.hasOwn(argument, "literal"))) {
       const baseline = constructSemanticGraphNode(file, nodeInput, state);
       recordBytes = Buffer.byteLength(
-        `${JSON.stringify({ kind: "node", value: { ...baseline, properties: { arguments: [] } } })}\n`,
+        `${JSON.stringify({ kind: "node", value: { ...baseline, properties: { ...calleeProperties, arguments: [] } } })}\n`,
       );
     }
     const argumentsValue: JsonValue[] = [];
@@ -851,9 +862,16 @@ function* createCallSiteNodes(
     }
     const node = retainNode(state, file, {
       ...nodeInput,
-      ...(argumentsValue.length === 0
+      ...(argumentsValue.length === 0 && !("module_callee" in calleeProperties)
         ? {}
-        : { properties: { arguments: argumentsValue } }),
+        : {
+            properties: {
+              ...calleeProperties,
+              ...(argumentsValue.length === 0
+                ? {}
+                : { arguments: argumentsValue }),
+            },
+          }),
     });
     if (node !== null) {
       result.set(call.callSiteId, node);
