@@ -83,3 +83,6 @@ Open decision: extend that proof per compiler helper, or label any `helper(requi
 - Done: resolver, including wrappers; call-site graph nodes carry `module_callee` for `vscode` only. All 12 real outputs resolved (esbuild plain and minified, rolldown, tsc; namespace, default and named imports). webpack real output untested.
 - Checks: `check:fast`; 112 semantic and graph test files, 3833 tests. Uncommitted.
 - Remaining: full declared command list in the VSIX report; correlation operation with CLI and MCP; docs, schema records, boundary tests; a real extension trial.
+
+- Done: the VSIX report keeps every declared command (`commands_omitted` is now always 0) and records `menus` and `keybindings` (null when `package.json` was not read or in older Evidence). 110 VSIX tests, `check:fast`, `docs:check` passed. Uncommitted.
+- Next: the correlation operation (domain result, CLI, MCP, docs, boundary tests), then a real extension trial.
