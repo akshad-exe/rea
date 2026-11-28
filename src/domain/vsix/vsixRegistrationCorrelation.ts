@@ -26,8 +26,6 @@ const REGISTRATION_KINDS = {
   "window.createTreeView": "view",
   "window.registerWebviewViewProvider": "view",
   "window.registerCustomEditorProvider": "custom_editor",
-  "debug.registerDebugAdapterDescriptorFactory": "debugger",
-  "debug.registerDebugConfigurationProvider": "debugger",
 } as const;
 const REGISTRATIONS = [
   "registerCommand",
@@ -39,8 +37,6 @@ const REGISTRATIONS = [
   "createTreeView",
   "registerWebviewViewProvider",
   "registerCustomEditorProvider",
-  "registerDebugAdapterDescriptorFactory",
-  "registerDebugConfigurationProvider",
 ] as const;
 const STATUSES = [
   "registered",
@@ -142,7 +138,6 @@ const registrationsOf = (graph: JavaScriptSemanticGraph) => {
     mcp_server_provider: new Map(),
     view: new Map(),
     custom_editor: new Map(),
-    debugger: new Map(),
   };
   const unresolved: Registration[] = [];
   for (const node of graph.nodes) {

@@ -641,7 +641,6 @@ const CONTRIBUTION_POINTS = [
   ["mcp_server_provider", "mcpServerDefinitionProviders", "id", "label"],
   ["view", "views", "id", "name"],
   ["custom_editor", "customEditors", "viewType", "displayName"],
-  ["debugger", "debuggers", "type", "label"],
 ] as const;
 
 /** `contributes.views` groups its rows by view container. */
